@@ -1,0 +1,26 @@
+---
+import InsightCard from "../../components/cards/InsightCard.astro";
+
+const { posts } = Astro.props;
+---
+
+<section class="insights-grid">
+  <div class="insights-grid__container">
+    {posts.map((post) => <InsightCard post={post} />)}
+  </div>
+</section>
+
+<style>
+  .insights-grid {
+    padding: 4rem 2rem;
+  }
+
+  .insights-grid__container {
+    max-width: 1200px;
+    margin: 0 auto;
+
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 2rem;
+  }
+</style>

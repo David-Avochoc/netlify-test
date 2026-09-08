@@ -1,0 +1,11 @@
+---
+import { getPosts } from "../api/wordpress/posts.js";
+
+const posts = await getPosts();
+---
+
+<h1>WordPress Posts</h1>
+
+<ul>
+  {posts.map((post) => <li>{post.title}</li>)}
+</ul>

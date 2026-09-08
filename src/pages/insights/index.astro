@@ -1,0 +1,32 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import InsightsGrid from "../../sections/insights/InsightsGrid.astro";
+import { getPosts } from "../../api/wordpress/posts.js";
+
+const posts = await getPosts();
+---
+
+<BaseLayout title="Insights">
+  <main>
+    <section class="insights-page-header">
+      <div class="insights-page-header__container">
+        <h1>Insights</h1>
+
+        <p>Explore our latest articles, news and ideas.</p>
+      </div>
+    </section>
+
+    <InsightsGrid posts={posts} />
+  </main>
+</BaseLayout>
+
+<style>
+  .insights-page-header {
+    padding: 6rem 2rem 2rem;
+  }
+
+  .insights-page-header__container {
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+</style>

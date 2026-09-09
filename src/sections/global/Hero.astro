@@ -1,0 +1,44 @@
+---
+const { title, description, backgroundImage } = Astro.props;
+---
+
+<section class="hero" style={`background-image: url('${backgroundImage}')`}>
+  <div class="hero__container">
+    <div class="hero__content">
+      <h1>{title}</h1>
+
+      {description && <p>{description}</p>}
+
+      <div class="hero__actions">
+        <slot name="actions" />
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .hero {
+    width: 100%;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+  }
+
+  .hero__container {
+    width: 100%;
+    max-width: 1440px;
+    min-height: 600px;
+
+    margin: 0 auto;
+    padding: 0 50px;
+
+    display: flex;
+    align-items: center;
+
+    box-sizing: border-box;
+  }
+
+  .hero__content {
+    max-width: 700px;
+  }
+</style>

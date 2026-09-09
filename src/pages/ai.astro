@@ -1,10 +1,12 @@
 ---
-import BaseLayout from '../layouts/BaseLayout.astro';
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Hero from "../sections/global/Hero.astro";
 ---
 
-<BaseLayout
-	title="AI"
-	description="Progress Done Properly"
->
-	
+<BaseLayout title="AI" description="Progress Done Properly">
+  <Hero
+    title="AI"
+    description="Learn more about AvoChoc and what we do."
+    backgroundImage="/images/home-hero.webp"
+  />
 </BaseLayout>

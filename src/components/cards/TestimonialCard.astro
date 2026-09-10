@@ -1,0 +1,162 @@
+---
+interface Props {
+  logo?: string;
+  logoAlt?: string;
+  quote: string;
+  name: string;
+  role: string;
+  company: string;
+  ctaText?: string;
+  ctaLink?: string;
+}
+
+const {
+  logo,
+  logoAlt = "",
+  quote,
+  name,
+  role,
+  company,
+  ctaText,
+  ctaLink,
+} = Astro.props;
+---
+
+<article class="testimonial-card">
+  {
+    logo && (
+      <div class="testimonial-card__logo">
+        <img src={logo} alt={logoAlt} />
+      </div>
+    )
+  }
+
+  <div class="testimonial-card__content">
+    <blockquote class="testimonial-card__quote">
+      {quote}
+    </blockquote>
+  </div>
+
+  <div class="testimonial-card__footer">
+    <div class="testimonial-card__author">
+      <strong>{name}</strong>
+      <span>|</span>
+      <span>{role}, {company}</span>
+    </div>
+
+    <div class="testimonial-card__divider"></div>
+
+    <a href={ctaLink} class="testimonial-card__cta">
+      <span>{ctaText}</span>
+      <span class="testimonial-card__arrow">↗</span>
+    </a>
+  </div>
+</article>
+
+<style>
+  .testimonial-card {
+    display: flex;
+    flex-direction: column;
+    min-height: 600px;
+    padding: 36px 32px;
+    background: var(--white);
+    border-radius: var(--border-radius-small);
+    color: var(--Navy);
+  }
+
+  /* Logo */
+
+  .testimonial-card__logo {
+    margin-bottom: 48px;
+  }
+
+  .testimonial-card__logo img {
+    display: block;
+    max-width: 180px;
+    height: auto;
+  }
+
+  /* Quote */
+
+  .testimonial-card__content {
+    flex-grow: 1;
+  }
+
+  .testimonial-card__quote {
+    margin: 0;
+
+    font-size: 20px;
+    line-height: 1.45;
+    font-weight: 400;
+  }
+
+  /* Footer */
+
+  .testimonial-card__footer {
+    margin-top: 40px;
+  }
+
+  .testimonial-card__author {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+
+    font-size: 14px;
+    line-height: 1.5;
+
+    margin-bottom: 30px;
+  }
+
+  .testimonial-card__author strong {
+    font-weight: 700;
+  }
+
+  .testimonial-card__divider {
+    width: 100%;
+    height: 1px;
+    background: var(--Grey-300);
+    margin-bottom: 16px;
+  }
+
+  /* CTA */
+
+  .testimonial-card__cta {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    text-decoration: none;
+    color: inherit;
+
+    font-size: 14px;
+    font-weight: 500;
+
+    letter-spacing: 0.02em;
+  }
+
+  .testimonial-card__arrow {
+    font-size: 24px;
+    line-height: 1;
+
+    transition: transform 0.3s ease;
+  }
+
+  .testimonial-card__cta:hover .testimonial-card__arrow {
+    transform: translate(4px, -4px);
+  }
+
+  @media (max-width: 768px) {
+    .testimonial-card {
+      min-height: auto;
+      padding: 32px 24px;
+    }
+
+    .testimonial-card__logo {
+      margin-bottom: 40px;
+    }
+
+    .testimonial-card__quote {
+      font-size: 18px;
+    }
+  }
+</style>

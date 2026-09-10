@@ -32,61 +32,50 @@
 <style>
   .nav-bar {
     display: flex;
-    height: 32px;
+    height: 36px;
+    gap: 2px;
   }
 
   .nav-icon {
     display: flex;
     align-items: center;
     justify-content: center;
-
-    background-color: #1f2244;
-
-    width: 40px;
+    background-color: var(--navy);
+    width: 41px;
     height: 100%;
-
     text-decoration: none;
   }
 
   .nav-icon img {
     width: 15px;
     height: auto;
-    display: block;
   }
 
   .nav-menu {
     display: flex;
-    background-color: rgba(255, 255, 255, 0.25);
-    backdrop-filter: blur(4px);
+    gap: 2px;
   }
 
   .nav-menu a {
     display: flex;
     align-items: center;
     justify-content: center;
-
-    padding: 0 24px;
-
-    color: #ffffff;
+    padding: 8px 16px;
+    color: var(--white);
+    background-color: var(--white-50)
     text-decoration: none;
-
-    font-size: 16px;
-
-    border-right: 1px solid rgba(255, 255, 255, 0.4);
-
+    font-size: 1rem;
     transition: background-color 0.2s ease;
   }
 
   .nav-menu a:hover {
-    background-color: rgba(255, 255, 255, 0.15);
+    background-color: var(--white-15);
   }
 
   .nav-action {
     display: flex;
     align-items: center;
-
     height: 100%;
-
     text-decoration: none;
     overflow: hidden;
   }
@@ -95,36 +84,27 @@
     display: flex;
     align-items: center;
     justify-content: center;
-
-    background-color: #1f2244;
-
+    background-color: var(--navy);
     width: 60px;
     height: 100%;
-
     position: relative;
     z-index: 2;
-
     transition: background-color 0.2s ease;
   }
 
   .nav-action:hover .action-icon-box {
-    background-color: #151833;
+    background-color: var(--navy);
   }
 
   .action-icon-box svg {
     width: 20px;
     height: 20px;
-
-    stroke: #ffffff;
+    stroke: var(--white);
     stroke-width: 1.5;
-
     stroke-linecap: round;
     stroke-linejoin: round;
-
     fill: none;
-
     position: absolute;
-
     transition:
       opacity 0.3s ease,
       transform 0.3s ease;
@@ -153,29 +133,21 @@
   .action-text {
     display: flex;
     align-items: center;
-
     height: 100%;
-
-    background-color: #ffffff;
-    color: #1f2244;
-
+    background-color: var(--white);
+    color: var(--navy);
     font-weight: 500;
-    font-size: 16px;
-
+    font-size: 1rem;
     white-space: nowrap;
-
     max-width: 0;
     padding: 0;
-
     opacity: 0;
-
     transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
   }
 
   .nav-action:hover .action-text {
     max-width: 150px;
     padding: 0 24px;
-
     opacity: 1;
   }
 </style>

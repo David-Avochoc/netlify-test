@@ -1,4 +1,17 @@
 body {
     font-family: var(--font-family-primary);
+    font-size: var(--font-size-14);
     font-weight: var(--font-weight-regular);
+}
+h1 {
+    font-size: var(--font-size-48);
+    font-weight: var(--font-weight-bold);
+}
+h2 {
+    font-size: var(--font-size-36);
+    font-weight: var(--font-weight-bold);
+}
+h3 {
+    font-size: var(--font-size-30);
+    font-weight: var(--font-weight-bold);
 }

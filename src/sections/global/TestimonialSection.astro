@@ -1,0 +1,51 @@
+---
+import Container from "@/components/global/Container.astro";
+import TestimonialCard from "@/components/cards/TestimonialCard.astro";
+---
+
+<div class="testimonial-section">
+  <div class="testimonial-section__content">
+    <div class="testimonial-section__grid">
+      <TestimonialCard
+        logo="/images/logos/Firedart_Logo.svg"
+        logoAlt="Firedart"
+        quote="Working with AvoChoc has been consistently reassuring. Their team is dependable, professional, and focused on delivering outcomes that matter. From day one, they demonstrated a clear understanding of our needs and followed through with solutions that support our long-term goals. They've become a steady partner we know we can count on."
+        name="Prisha Boolah"
+        role="CEO"
+        company="Firedart"
+        ctaText="WORK WITH US"
+        ctaLink="/contact"
+      />
+
+      <TestimonialCard
+        logo="/images/logos/BERYLLS.svg"
+        logoAlt="Berylls"
+        quote="AvoChoc couples a quality-first mindset with proactive execution, ensuring projects run smoothly from start to finish. I trust Jaco Bruwer to deliver, every time."
+        name="Dr Oliver Weis"
+        role="Managing Director"
+        company="Berylls"
+        ctaText="WORK WITH US"
+        ctaLink="/contact"
+      />
+
+      <TestimonialCard
+        logo="/images/logos/GRITCARGO.svg"
+        logoAlt="GritCargo"
+        quote="At GritCargo, we have the pleasure of working with an exceptional team at AvoChoc. Their developers and managers are extremely competent and trustworthy and they take extra care to ensure that what they deliver is of the highest quality. AvoChoc, as a strategic partner, has played an essential role in enabling our business, always being proactive and focused on execution."
+        name="Nick Kulenkampff"
+        role="CTO"
+        company="GritCargo"
+        ctaText="WORK WITH US"
+        ctaLink="/contact"
+      />
+    </div>
+  </div>
+</div>
+
+<style>
+  .testimonial-section__grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+  }
+</style>

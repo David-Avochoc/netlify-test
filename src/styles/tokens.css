@@ -2,5 +2,35 @@
     --font-family-primary: 'Outfit', sans-serif;
     --font-weight-regular: 400;
     --font-weight-medium: 500;
+    --font-weight-semibold: 600;
     --font-weight-bold: 700;
+    
+    --navy: #1D2247;
+    --black: #000000;
+    --charcoal: #344054;
+    --white: #ffffff;
+    --white-15: rgba(255, 255, 255, 0.15);
+    --white-50: rgba(255, 255, 255, 0.5);
+    --grey: #EAECF0;
+    --grey-100: #F2F4F7;
+    --grey-300: #D0D5DD;
+    --grey-400: #98A2B3;
+    --grey-500: #667085;
+    --lime: #D2EF6A;
+    --olive: #006662;
+
+    --border-radius-small: 8px;
+
+    --container-max-width: 1440px;
+
+    --font-size-60: 3.75rem;
+    --font-size-48: 3rem;
+    --font-size-36: 2.25rem;
+    --font-size-30: 1.875rem;
+    --font-size-24: 1.5rem;
+    --font-size-20: 1.25rem;
+    --font-size-18: 1.125rem;
+    --font-size-16: 1rem;
+    --font-size-14: 0.875rem;
+    --font-size-12: 0.75rem;
 }

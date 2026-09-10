@@ -1,0 +1,26 @@
+---
+import Container from "@/components/global/Container.astro";
+import SectionTitle from "@/components/ui/SectionTitle.astro";
+import TestimonialSection from "@/sections/global/TestimonialSection.astro";
+---
+
+<section class="home-testimonials">
+  <Container>
+    <div class="home-testimonials__inner">
+      <SectionTitle title="What Clients Say" />
+      <TestimonialSection />
+    </div>
+  </Container>
+</section>
+
+<style>
+  .home-testimonials {
+    background-color: var(--grey);
+  }
+  .home-testimonials__inner {
+    display: flex;
+    flex-direction: column;
+    padding: 80px 64px;
+    gap: 64px;
+  }
+</style>

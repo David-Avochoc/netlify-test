@@ -1,0 +1,118 @@
+---
+const {
+  titlePart1,
+  titlePart2,
+  backgroundImage,
+  descriptionParagraph1,
+  descriptionParagraph2,
+} = Astro.props;
+---
+
+<section class="split-feature">
+  <div class="split-feature__container">
+    <div class="col-text-left">
+      <h2>
+        <span class="part1">{titlePart1}</span>
+        <span class="part2">{titlePart2}</span>
+      </h2>
+    </div>
+
+    <div
+      class="col-image-center"
+      style={`background-image: url('${backgroundImage}')`}
+    >
+    </div>
+
+    <div class="col-content-right">
+      <div class="content-wrapper">
+        <p>{descriptionParagraph1}</p>
+        <p set:html={descriptionParagraph2}></p>
+        
+        <div class="split-feature__actions">
+          <slot name="actions" />
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .split-feature {
+    width: 100%;
+    min-height: 876px;
+    background-color: #f7f8f9; 
+    display: flex;
+    justify-content: center;
+    overflow: hidden; 
+  }
+
+  .split-feature__container {
+    width: 100%;
+    max-width: 100%;
+    margin: 0 auto;
+    display: flex; 
+    box-sizing: border-box;
+  }
+
+  .col-text-left,
+  .col-image-center,
+  .col-content-right {
+    flex: 1 1 33.333%; 
+    display: flex;
+    box-sizing: border-box;
+    align-items: center; 
+  }
+
+  .col-text-left {
+    background-color: #F9FAFB;
+    color: #0d1217;
+    padding: 64px;
+  }
+
+  .col-text-left h2 {
+    font-size: 56px;
+    line-height: 1.1;
+    font-weight: normal;
+    display: flex;
+    flex-direction: column;
+    margin: 0;
+  }
+
+  .col-text-left h2 .part1 {
+    font-weight: 700;
+  }
+
+  .col-text-left h2 .part2 {
+    font-weight: 400;
+    color: #8c9096;
+  }
+
+  .col-image-center {
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+  }
+
+  .col-content-right {
+    background-color: #025752;
+    color: #ffffff;
+    padding: 80px;
+  }
+
+  .content-wrapper {
+  
+    display: flex;
+    flex-direction: column;
+    gap: 30px; 
+  }
+
+  .col-content-right p {
+    font-size: 18px;
+    line-height: 1.6;
+    margin: 0;
+  }
+
+  .split-feature__actions {
+    margin-top: 20px;
+  }
+</style>

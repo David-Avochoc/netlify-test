@@ -1,6 +1,12 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
 import Hero from "../sections/global/Hero.astro";
+import Map from "../sections/homepage/Map.astro"; 
+import SplitFeature from "../sections/global/Threecolumns.astro";
+import ServiceCards from "../sections/homepage/ServiceCards.astro";
+
+
+
 ---
 
 <BaseLayout title="AvoChoc" description="Progress Done Properly">
@@ -17,4 +23,40 @@ import Hero from "../sections/global/Hero.astro";
       View Our Work
     </a>
   </Hero>
+
+  <Map
+  title="AvoChoc builds solutions that work in the real world, not only the slide deck."
+  description="Lorem ipsum dolor sit amet, consectetur adipiscing elit."
+  backgroundImage="/images/AvoChoc-Map.svg" 
+>
+
+ </Map>
+
+
+   <SplitFeature Provide backgroundImage="/images/Avochoc_middle_column.svg" 
+   blurred descriptionParagraph1="Most organisations don’t struggle because they lack ambition. 
+   They struggle because their systems carry too much. Old platforms. 
+   Daily operations that depend on each other. Rules they have to follow. 
+   Every component relies on the next. Change one thing, and you risk breaking something else." 
+   descriptionParagraph2="Most partners only work one way. Some push new ideas without understanding your limits.
+    Others protect what you have, but don’t help you move forward. Neither works when your systems can't afford to fail.<br" 
+    here image pattern the titlePart1="Move fast and introduce risk." titlePart2="Or stay stable and fall behind."><br><b>We take a new approach.</b><br><br>We deliver secure modernisation for large organisations, without disrupting day-to-day operations. We build systems for the real world, not the ideal one."
+
+    <a slot="actions" href="/work-with-us" class="work-with-us-btn">
+      <span class="text">WORK WITH US</span>
+      <span class="icon-wrapper">
+        <!-- Add your arrow SVG icon here -->
+        <svg xmlns="[http://www.w3.org/2000/svg](http://www.w3.org/2000/svg)" width="16" height="16" fill="currentColor" class="bi bi-arrow-up-right" viewBox="0 0 16 16">
+          <path fill-rule="evenodd" d="M14 2.5a.5.5 0 0 0-.5-.5h-6a.5.5 0 0 0 0 1h4.793L2.146 13.146a.5.5 0 0 0 .708.708L13 3.707V8.5a.5.5 0 0 0 1 0v-6z"/>
+        </svg>
+      </span>
+    </a>
+  </SplitFeature>
+
+
+  <ServiceCards 
+    eyebrow="WHAT WE BUILD"
+    titlePart1="From legacy system modernisation to production-ready AI development. "
+    titlePart2="Everything built for the environments your business actually runs in."
+  />
 </BaseLayout>

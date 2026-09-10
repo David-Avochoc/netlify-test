@@ -1,0 +1,236 @@
+---
+const { eyebrow, titlePart1, titlePart2 } = Astro.props;
+
+const cards = [
+  {
+    title: "Custom Software Development",
+    description: "Enterprise-grade software built around how your business actually works. Not around what a framework says it should do. We map constraints before we write a line of code.",
+    linkText: "SEE OUR APPROACH",
+    linkUrl: "/approach"
+  },
+  {
+    title: "AI & Machine Learning",
+    description: "AI that earns its place in real workflows, not only boardroom demos. We use AI where it can prove its value. Not where it only looks impressive.",
+    linkText: "SEE AI SERVICES",
+    linkUrl: "/ai-services"
+  },
+  {
+    title: "System Integration & Modernisation",
+    description: "Legacy infrastructure carrying years of decisions doesn't get replaced overnight. We modernise it in a way that respects what's already working.",
+    linkText: "SEE OUR WORK",
+    linkUrl: "/our-work"
+  },
+  {
+    title: "Product Development",
+    description: "From post-MVP chaos to production-ready software. We turn prototypes into systems that last. Built for real users, real scale, real pressure.",
+    linkText: "HOW WE WORK",
+    linkUrl: "/how-we-work"
+  }
+];
+---
+
+<section class="services-section">
+  <div class="services-section__container">
+    
+    <div class="services-section__header">
+      <span class="eyebrow">{eyebrow}</span>
+      <h2>
+        <span class="part1">{titlePart1}</span>
+        <span class="part2">{titlePart2}</span>
+      </h2>
+      
+      <div class="services-section__tabs">
+        <button class="tab active">Custom Software Development</button>
+        <button class="tab">AI & Machine Learning</button>
+        <button class="tab">System Integration & Modernisation</button>
+        <button class="tab">Product Development</button>
+      </div>
+    </div>
+
+    <div class="services-section__carousel">
+      {cards.map((card) => (
+        <div class="service-card">
+          <div class="service-card__image-wrapper">
+            <!-- Replace this placeholder with your actual image path later -->
+            <img src="/images/Local-styles.svg" alt={card.title} loading="lazy" />
+          </div>
+          <div class="service-card__content">
+            <h3>{card.title}</h3>
+            <p>{card.description}</p>
+            <div class="service-card__footer">
+              <a href={card.linkUrl} class="service-card__link">
+                {card.linkText}
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                  <path fill-rule="evenodd" d="M14 2.5a.5.5 0 0 0-.5-.5h-6a.5.5 0 0 0 0 1h4.793L2.146 13.146a.5.5 0 0 0 .708.708L13 3.707V8.5a.5.5 0 0 0 1 0v-6z"/>
+                </svg>
+              </a>
+            </div>
+          </div>
+        </div>
+      ))}
+    </div>
+
+  </div>
+</section>
+
+<style>
+ 
+  .services-section {
+    width: 100%;
+    padding: 100px 0;
+    background-color: #ffffff;
+    overflow: hidden; 
+  }
+
+  .services-section__container {
+    max-width: 100%;
+    margin: 0 auto;
+    padding-left: 50px; 
+    box-sizing: border-box;
+  }
+
+  .services-section__header {
+    max-width: 900px;
+    margin-bottom: 50px;
+    padding-right: 50px;
+  }
+
+  .eyebrow {
+    display: block;
+    font-size: 14px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: #1a1e23;
+    margin-bottom: 24px;
+  }
+
+  .services-section__header h2 {
+    font-size: 42px;
+    line-height: 1.2;
+    margin: 0 0 40px 0;
+    font-weight: normal;
+  }
+
+  .services-section__header .part1 {
+    font-weight: 600;
+    color: #1a1e23;
+  }
+
+  .services-section__header .part2 {
+    font-weight: 400;
+    color: #5c6066;
+  }
+
+  .services-section__tabs {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+
+  .tab {
+    padding: 10px 20px;
+    border-radius: 50px;
+    border: 1px solid #d1d5da;
+    background: transparent;
+    color: #5c6066;
+    font-size: 14px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+
+  .tab.active, .tab:hover {
+    background-color: #e5e7ea;
+    border-color: #e5e7ea;
+    color: #1a1e23;
+  }
+
+  .services-section__carousel {
+    display: flex;
+    gap: 30px;
+    padding-bottom: 40px; 
+    padding-right: 50px;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scroll-behavior: smooth;
+    -ms-overflow-style: none;  
+    scrollbar-width: none;  
+  }
+
+  .services-section__carousel::-webkit-scrollbar { 
+    display: none; 
+  }
+
+
+  .service-card {
+    flex: 0 0 645px; 
+    min-height:700px;
+    display: flex;
+    flex-direction: column;
+    background: #ffffff;
+    border-radius: 12px;
+    overflow: hidden;
+    scroll-snap-align: start;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.05); 
+  }
+
+  .service-card__image-wrapper {
+    background-color: #f0f2f5;
+    padding: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 220px;
+  }
+
+  .service-card__image-wrapper img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 8px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+  }
+
+  .service-card__content {
+    padding: 30px;
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+  }
+
+  .service-card__content h3 {
+    font-size: 22px;
+    color: #1a1e23;
+    margin: 0 0 12px 0;
+    font-weight: 500;
+  }
+
+  .service-card__content p {
+    font-size: 14px;
+    color: #5c6066;
+    line-height: 1.6;
+    margin: 0 0 30px 0;
+    flex-grow: 1;
+  }
+
+  .service-card__footer {
+    border-top: 1px solid #e1e3e5;
+    padding-top: 20px;
+  }
+
+  .service-card__link {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    text-decoration: none;
+    color: #8c9096;
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    transition: color 0.3s ease;
+  }
+
+  .service-card__link:hover {
+    color: #1a1e23;
+  }
+</style>

@@ -1,0 +1,193 @@
+---
+const { title = "AvoChoc builds solutions that work in the real world, not only the slide deck." } = Astro.props;
+
+
+const logos = [
+  "/images/logos/elyvate_logo.svg",
+  "/images/logos/Engen.svg",
+   "/images/logos/Firedart_Logo.svg",
+   "/images/logos/gritcargo_Logo.svg",
+    "/images/logos/BERYLLS.svg",
+];
+---
+
+<section class="map-section">
+  <!-- Map Background -->
+  <div class="map-background" style="background-image: url('/images/AvoChoc-Map.svg')"></div>
+
+  <div class="map-content">
+    <h2>{title}</h2>
+    
+    <div class="pills-container">
+      <div class="pill">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+        Based in South Africa.
+      </div>
+      <div class="pill">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="2" y1="12" x2="22" y2="12"></line><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path></svg>
+        Working globally.
+      </div>
+    </div>
+  </div>
+
+
+  <div class="sa-glow-overlay">
+    <div class="ring ring-1"></div>
+    <div class="ring ring-2"></div>
+    <div class="ring ring-3"></div>
+  </div>
+
+ 
+  <div class="logo-carousel-wrapper">
+    <div class="logo-track">
+    
+      {logos.map((logo) => (
+        <img src={logo} alt="Partner Logo" class="carousel-logo" loading="lazy" />
+      ))}
+     
+      {logos.map((logo) => (
+        <img src={logo} alt="Partner Logo" class="carousel-logo" loading="lazy" />
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  .map-section {
+    position: relative;
+    width: 100%;
+    min-height: 820px;
+    
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    overflow: hidden;
+   padding-top:262px;
+   padding-bottom:262px;
+  
+  }
+
+  .map-background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+  
+    z-index: 1;
+  }
+
+  .map-content {
+    position: relative;
+    z-index: 2;
+    max-width: 900px;
+    text-align: center;
+    padding: 0 20px;
+  }
+
+  .map-content h2 {
+    font-size: 48px;
+    line-height: 1.2;
+    color: #025752; /* Assuming teal based on your previous branding */
+    font-weight: 500;
+    margin: 0 0 64px 0;
+  }
+
+  .pills-container {
+    display: flex;
+    justify-content: center;
+    gap: 16px;
+  }
+
+  .pill {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 20px;
+    background-color: #f7f8f9;
+    border: 1px solid #e1e3e5;
+    border-radius: 50px;
+    font-size: 14px;
+    color: #1a1e23;
+    font-weight: 500;
+  }
+
+  
+
+  .logo-carousel-wrapper {
+  position: absolute;
+  bottom: 120px;
+  width: 100%;
+  max-width: 1200px;
+  overflow: hidden;
+  z-index: 2;
+
+}
+
+.logo-track {
+  display: flex;
+  align-items: center;
+  width: max-content;
+  gap: 100px; 
+  animation: scroll 20s linear infinite;
+}
+
+.carousel-logo {
+  flex-shrink: 0; 
+  height: 40px;
+  width: auto;
+  object-fit: contain;
+  opacity: 0.6;
+
+  transition: opacity 0.3s;
+}
+
+
+
+@keyframes scroll {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+
+
+  .sa-glow-overlay {
+    position: absolute;
+    bottom: 40px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 500px;
+    height: 250px;
+    z-index: 10; /* Placed ABOVE the carousel */
+    pointer-events: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    
+    
+    background: radial-gradient(
+      ellipse at center, 
+      rgba(255, 255, 255, 1) 0%, 
+      rgba(240, 235, 255, 0.95) 30%, 
+      rgba(255, 255, 255, 0) 70%
+    );
+  }
+
+ 
+  .ring {
+    position: absolute;
+    border: 1px dashed rgba(150, 130, 200, 0.3);
+    border-radius: 50%;
+  }
+
+  .ring-1 { width: 40px; height: 40px; }
+  .ring-2 { width: 80px; height: 80px; }
+  .ring-3 { width: 120px; height: 120px; }
+</style>

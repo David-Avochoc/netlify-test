@@ -1,0 +1,207 @@
+---
+const {
+  image = "/images/Ai-Page/Human_First.svg",
+  buttonLink = "/ai-integration",
+} = Astro.props;
+---
+
+<section class="human-first">
+  <div class="human-first__container">
+    
+    <!-- Top Row: Intersecting Borders -->
+    <div class="header-block">
+      <div class="header-left">
+        <div class="title-top">
+          <h2>Human-first</h2>
+        </div>
+        <div class="title-bottom">
+          <h2 class="accent-text">Not AI-First</h2>
+        </div>
+      </div>
+      
+      <div class="header-right">
+        <p class="intro-text">
+          A lot of AI-first companies start with the AI. Brainstorm with AI, architect with AI, build with AI, and check the output with a human at the end.
+        </p>
+      </div>
+    </div>
+
+    <!-- Bottom Row: Image and Content -->
+    <div class="bottom-grid">
+      <div class="bottom-image-wrapper">
+        <img src={image} alt="Office workspace" loading="lazy" />
+      </div>
+      
+      <div class="bottom-content">
+        <p>We work the other way. Our people lead the thinking. AI is a tool inside that process, not a replacement for it.</p>
+        <p>That means the humans making decisions about your systems understand your business first, and reach for AI because it earns its place, not because it's trendy.</p>
+        <p>Effective business AI integration. Not AI for its own sake.</p>
+        
+        <a href={buttonLink} class="learn-more-btn">
+          <span class="text">LEARN MORE ABOUT AI INTEGRATION</span>
+          <span class="icon">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+              <path fill-rule="evenodd" d="M14 2.5a.5.5 0 0 0-.5-.5h-6a.5.5 0 0 0 0 1h4.793L2.146 13.146a.5.5 0 0 0 .708.708L13 3.707V8.5a.5.5 0 0 0 1 0v-6z"/>
+            </svg>
+          </span>
+        </a>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<style>
+  .human-first {
+    width: 100%;
+    background-color: #0d6b61; 
+    color: #ffffff;
+    padding: 100px 0;
+  }
+
+  .human-first__container {
+    max-width: 1440px;
+    margin: 0 auto;
+    padding: 0 40px;
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* --- Top Grid & Borders --- */
+  .header-block {
+    display: grid;
+    grid-template-columns: 1fr 1fr; /* Forces exactly 50/50 split */
+    border-bottom: 1px solid rgba(255, 255, 255, 0.4); /* The long continuous bottom line */
+    margin-bottom: 60px;
+  }
+
+  .header-left {
+    border-right: 1px solid rgba(255, 255, 255, 0.4); /* The center vertical line */
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+  }
+
+  .title-top {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.4); /* The horizontal line that stops in the middle */
+    padding: 0 30px 20px 0;
+  }
+
+  .title-bottom {
+    padding: 20px 30px 20px 0;
+    text-align: right; 
+  }
+
+  .header-left h2 {
+    font-size: 32px;
+    font-weight: 500;
+    margin: 0;
+  }
+
+  .accent-text {
+    color: #c6f147; 
+  }
+
+  .header-right {
+    padding: 0 0 20px 40px;
+    display: flex;
+    align-items: center; 
+  }
+
+  .intro-text {
+    font-size: 20px;
+    line-height: 1.5;
+    margin: 0;
+    font-weight: 400;
+  }
+
+  /* --- Bottom Grid --- */
+  .bottom-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 60px;
+    align-items: start;
+  }
+
+  .bottom-image-wrapper {
+    width: 100%;
+    background: #d9d9d9; 
+    min-height: 350px;
+    display: flex;
+  }
+
+  .bottom-image-wrapper img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .bottom-content {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    padding-top: 10px;
+  }
+
+  .bottom-content p {
+    font-size: 16px;
+    line-height: 1.6;
+    margin: 0;
+    color: #e2e8f0;
+  }
+
+  /* --- Button Styling --- */
+  .learn-more-btn {
+    display: inline-flex;
+    align-items: center;
+    background-color: #ffffff;
+    color: #1e293b;
+    text-decoration: none;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    margin-top: 16px;
+    align-self: flex-start;
+    transition: opacity 0.3s ease;
+  }
+
+  .learn-more-btn:hover {
+    opacity: 0.9;
+  }
+
+  .learn-more-btn .text {
+    padding: 12px 20px;
+  }
+
+  .learn-more-btn .icon {
+    background-color: #c6f147; 
+    color: #1e293b;
+    padding: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  /* --- Responsive Adjustments --- */
+  @media (max-width: 900px) {
+    .header-block {
+      grid-template-columns: 1fr;
+      border-bottom: none;
+    }
+    .header-left {
+      border-right: none;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.4);
+    }
+    .title-bottom {
+      text-align: left; 
+      padding-right: 0;
+    }
+    .header-right {
+      padding: 30px 0;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.4);
+    }
+    .bottom-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

@@ -1,0 +1,293 @@
+---
+
+
+const dataCards = [
+  {
+    tag: "THE UPSIDE",
+    headline: "14–34%",
+    description: "Increase in worker productivity from generative AI tools — rising to 34% for newer or less experienced staff.",
+    bgImage: "/images/Ai-Page/bg-upside.jpg", // Update with your actual image path
+    source: "Quarterly Journal<br/>of Economics",
+    isQuote: false
+  },
+  {
+    tag: "THE REALITY",
+    headline: "40%+",
+    description: "Of agentic AI projects expected to be cancelled before the end of 2027, largely due to unclear business value and weak governance.",
+    bgImage: "/images/Ai-Page/bg-reality.jpg", // Update with your actual image path
+    source: "Gartner",
+    isQuote: false
+  },
+  {
+    tag: "THE TRUST GAP",
+    headline: "\"Unreliable AI outputs make buyers less confident in their decisions, not more.\"",
+    description: "Vague AI claims don't build trust. Evidence does.",
+    bgImage: "/images/Ai-Page/bg-trust.jpg", // Update with your actual image path
+    source: "Forrester",
+    isQuote: true
+  }
+];
+---
+
+<section class="data-backups">
+  <div class="data-backups__container">
+    
+    <h2 class="section-title">The data backs up why we work this way.</h2>
+
+   
+    <div class="cards-grid">
+      {dataCards.map((card) => (
+        <div class="data-card">
+          
+          <!-- Top Section (Colored Background) -->
+          <div class="card-top" style={`background-image: url('${card.bgImage}');`}>
+            <span class="card-tag">{card.tag}</span>
+            
+            <div class="card-content-main">
+              {card.isQuote ? (
+                <h3 class="card-quote">{card.headline}</h3>
+              ) : (
+                <h3 class="card-stat">{card.headline}</h3>
+              )}
+              <p class="card-desc">{card.description}</p>
+            </div>
+          </div>
+
+
+          <div class="card-bottom">
+            <div class="source-icon-box">
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" viewBox="0 0 16 16">
+                <path d="M2 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V2zm10-1H4a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1z"/>
+                <path d="M6 5a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v3.5l-2-1.5-2 1.5V5z"/>
+              </svg>
+            </div>
+            <span class="source-text" set:html={card.source} />
+          </div>
+
+        </div>
+      ))}
+    </div>
+
+   
+    <div class="footer-content">
+      <p class="conclusion-text">
+        This is exactly why we lead with mapping, governance, and honesty about fit <span class="muted">— instead of hype.</span>
+      </p>
+      
+      <div class="button-group">
+        <a href="/principles" class="action-btn">
+          <span class="text">SEE PRINCIPLES</span>
+          <span class="icon">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+              <path fill-rule="evenodd" d="M14 2.5a.5.5 0 0 0-.5-.5h-6a.5.5 0 0 0 0 1h4.793L2.146 13.146a.5.5 0 0 0 .708.708L13 3.707V8.5a.5.5 0 0 0 1 0v-6z"/>
+            </svg>
+          </span>
+        </a>
+        <a href="/insights" class="action-btn">
+          <span class="text">SEE INSIGHTS</span>
+          <span class="icon">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+              <path fill-rule="evenodd" d="M14 2.5a.5.5 0 0 0-.5-.5h-6a.5.5 0 0 0 0 1h4.793L2.146 13.146a.5.5 0 0 0 .708.708L13 3.707V8.5a.5.5 0 0 0 1 0v-6z"/>
+            </svg>
+          </span>
+        </a>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<style>
+  .data-backups {
+    width: 100%;
+    background-color: var(--white);
+    padding: 100px 0;
+    font-family: var(--font-family-primary);
+  }
+
+  .data-backups__container {
+    max-width: var(--container-max-width);
+    margin: 0 auto;
+    padding: 0 40px;
+  }
+
+  .section-title {
+    font-size: var(--font-size-36);
+    font-weight: var(--font-weight-medium);
+    color: var(--navy);
+    margin-bottom: 60px;
+    letter-spacing: -0.5px;
+  }
+
+  
+  .cards-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 30px;
+    margin-bottom: 80px;
+  }
+
+  .data-card {
+    display: flex;
+    flex-direction: column;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+  }
+
+
+  .card-top {
+    flex-grow: 1;
+    background-color: var(--grey-300); /* Fallback color */
+    background-size: cover;
+    background-position: center;
+    padding: 40px 30px;
+    display: flex;
+    flex-direction: column;
+    color: var(--white);
+    min-height: 400px;
+  }
+
+  .card-tag {
+    align-self: flex-start;
+    background: rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(4px);
+    padding: 6px 16px;
+    border-radius: 20px;
+    font-size: var(--font-size-12);
+    font-weight: var(--font-weight-bold);
+    letter-spacing: 0.5px;
+    margin-bottom: 40px;
+    text-transform: uppercase;
+  }
+
+  .card-content-main {
+    margin-top: auto;
+  }
+
+  .card-stat {
+    font-size: 80px; /* Specific large size for the stats */
+    font-weight: var(--font-weight-bold);
+    line-height: 1;
+    margin: 0 0 20px 0;
+    letter-spacing: -2px;
+  }
+
+  .card-quote {
+    font-size: var(--font-size-30);
+    font-weight: var(--font-weight-medium);
+    line-height: 1.3;
+    margin: 0 0 20px 0;
+    letter-spacing: -0.5px;
+  }
+
+  .card-desc {
+    font-size: var(--font-size-16);
+    line-height: 1.5;
+    margin: 0;
+    font-weight: var(--font-weight-regular);
+    opacity: 0.9;
+  }
+
+
+  .card-bottom {
+    background-color: #0b1120; 
+    padding: 24px 30px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+
+  .source-icon-box {
+    width: 48px;
+    height: 48px;
+    background-color: var(--white);
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #0b1120;
+    flex-shrink: 0;
+  }
+
+  .source-text {
+    color: var(--white);
+    font-size: var(--font-size-16);
+    font-weight: var(--font-weight-bold);
+    line-height: 1.3;
+  }
+
+
+  .footer-content {
+    text-align: center;
+    max-width: 800px;
+    margin: 0 auto;
+  }
+
+  .conclusion-text {
+    font-size: var(--font-size-24);
+    line-height: 1.5;
+    color: var(--navy);
+    font-weight: var(--font-weight-medium);
+    margin-bottom: 40px;
+  }
+
+  .conclusion-text .muted {
+    color: var(--grey-400);
+  }
+
+
+  .button-group {
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  .action-btn {
+    display: inline-flex;
+    align-items: stretch;
+    background-color: var(--grey-100);
+    color: var(--navy);
+    text-decoration: none;
+    font-size: var(--font-size-12);
+    font-weight: var(--font-weight-bold);
+    letter-spacing: 0.5px;
+    transition: opacity 0.3s ease;
+  }
+
+  .action-btn:hover {
+    opacity: 0.8;
+  }
+
+  .action-btn .text {
+    padding: 12px 20px;
+    display: flex;
+    align-items: center;
+  }
+
+  .action-btn .icon {
+    background-color: var(--lime); 
+    color: var(--navy);
+    padding: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+
+  @media (max-width: 1024px) {
+    .cards-grid {
+      grid-template-columns: 1fr;
+      gap: 40px;
+    }
+    
+    .card-top {
+      min-height: 300px;
+    }
+
+    .conclusion-text {
+      font-size: var(--font-size-20);
+    }
+  }
+</style>

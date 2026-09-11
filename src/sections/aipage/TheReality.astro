@@ -1,4 +1,8 @@
 ---
+// Import your global styles if they aren't already imported in your BaseLayout
+// import "../styles/fonts.css";
+// import "../styles/tokens.css";
+// import "../styles/typography.css";
 ---
 
 <section class="the-reality">
@@ -40,23 +44,23 @@
 <style>
   .the-reality {
     width: 100%;
-    background-color: #ffffff;
-    color: #1e293b;
+    background-color: var(--white);
     position: relative;
+    font-family: var(--font-family-primary); /* Ensures Outfit is applied if not inherited */
   }
 
   .the-reality__gradient-bar {
     width: 100%;
     height: 3px;
-    background: linear-gradient(90deg, #2563eb 0%, #7c3aed 50%, #db2777 100%); /* Blue to purple gradient */
+    background: linear-gradient(90deg, #2563eb 0%, #7c3aed 50%, #db2777 100%); 
   }
 
   .the-reality__container {
-    max-width: 1440px;
+    max-width: var(--container-max-width);
     margin: 0 auto;
     padding: 100px 50px;
     display: grid;
-    grid-template-columns: 1fr 1.5fr 1.5fr; /* Matches the proportions in the design */
+    grid-template-columns: 1fr 1.5fr 1.5fr; 
   }
 
   /* --- Columns & Borders --- */
@@ -70,55 +74,54 @@
   }
 
   .col-2 {
-    border-left: 1px solid #cbd5e1; /* The vertical line */
+    border-left: 1px solid var(--grey-300);
     padding: 0 40px;
   }
 
   .col-3 {
-    border-left: 1px solid #cbd5e1; /* The vertical line */
+    border-left: 1px solid var(--grey-300);
     padding-left: 40px;
   }
 
-  /* --- Typography --- */
   .col-1 h2 {
-    font-size: 20px;
-    font-weight: 700;
-    color: #1e293b;
+    font-size: var(--font-size-36);
+    font-weight: var(--font-weight-bold);
+    color: var(--navy);
     margin: 0;
     letter-spacing: 0.5px;
     text-transform: uppercase;
   }
 
   .col-2 h3 {
-    font-size: 40px;
+    font-size: var(--font-size-36); 
     line-height: 1.3;
-    font-weight: 500;
-    color: #1e293b;
+    font-weight: var(--font-weight-medium);
+    color: var(--navy);
     margin: 0;
     letter-spacing: -0.5px;
   }
 
   .col-3 p {
-    font-size: 16px;
+    font-size: var(--font-size-16);
     line-height: 1.6;
-    color: #475569;
+    color: var(--charcoal);
     margin: 0 0 24px 0;
   }
 
+
   /* --- Highlight Box --- */
   .highlight-box {
-    background-color: #f1f5f9; /* Light grey background */
+    background-color: var(--grey-100); 
     padding: 16px 24px;
-    font-size: 20px;
-    font-weight: 500;
-    color: #1e293b;
+    font-size: var(--font-size-20);
+    font-weight: var(--font-weight-medium);
+    color: var(--navy);
     display: inline-block;
     margin-top: 16px;
     position: relative;
-    border: 1px dashed rgba(74, 222, 128, 0.6); /* Dashed green border */
   }
 
-  /* Creating the green corner dots using pseudo-elements */
+  /* Creating the lime corner dots using pseudo-elements */
   .highlight-box::before,
   .highlight-box::after {
     content: "";
@@ -130,32 +133,32 @@
     pointer-events: none;
   }
 
-  /* Top-left and Top-right dots */
+  /* Top-left and Top-right dots mapped to --lime */
   .highlight-box::before {
     background: 
-      linear-gradient(#4ade80, #4ade80) top left / 4px 4px no-repeat,
-      linear-gradient(#4ade80, #4ade80) top right / 4px 4px no-repeat;
+      linear-gradient(var(--lime), var(--lime)) top left / 4px 4px no-repeat,
+      linear-gradient(var(--lime), var(--lime)) top right / 4px 4px no-repeat;
   }
 
-  /* Bottom-left and Bottom-right dots */
+  /* Bottom-left and Bottom-right dots mapped to --lime */
   .highlight-box::after {
     background: 
-      linear-gradient(#4ade80, #4ade80) bottom left / 4px 4px no-repeat,
-      linear-gradient(#4ade80, #4ade80) bottom right / 4px 4px no-repeat;
+      linear-gradient(var(--lime), var(--lime)) bottom left / 4px 4px no-repeat,
+      linear-gradient(var(--lime), var(--lime)) bottom right / 4px 4px no-repeat;
   }
 
   /* --- Responsive Adjustments --- */
   @media (max-width: 1024px) {
     .the-reality__container {
-      grid-template-columns: 1fr; /* Stack columns on smaller screens */
+      grid-template-columns: 1fr; 
       gap: 40px;
       padding: 60px 40px;
     }
 
     .col-2, .col-3 {
       border-left: none;
-      border-top: 1px solid #cbd5e1;
-      padding: 40px 0 0 0; /* Move padding to top */
+      border-top: 1px solid var(--grey-300);
+      padding: 40px 0 0 0; 
     }
     
     .col-1 {

@@ -4,6 +4,7 @@
     --font-weight-medium: 500;
     --font-weight-semibold: 600;
     --font-weight-bold: 700;
+    --font-weight-extrabold: 800;
     
     --navy: #1D2247;
     --black: #000000;
@@ -23,6 +24,7 @@
 
     --container-max-width: 1440px;
 
+    --font-size-294: 18.375rem;
     --font-size-60: 3.75rem;
     --font-size-48: 3rem;
     --font-size-36: 2.25rem;

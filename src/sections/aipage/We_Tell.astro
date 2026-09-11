@@ -1,4 +1,6 @@
 ---
+
+
 const tabsData = [
   {
     id: "readiness",
@@ -55,7 +57,7 @@ const tabsData = [
     <div class="we-tell__tabs" role="tablist">
       {tabsData.map((tab, index) => (
         <button 
-          class={`tab-btn ${index === 0 ? 'active' : ''}`} 
+          class:list={['tab-btn', { active: index === 0 }]} 
           data-target={tab.id}
           role="tab"
         >
@@ -68,7 +70,7 @@ const tabsData = [
     <div class="we-tell__content-wrapper">
       {tabsData.map((tab, index) => (
         <div 
-          class={`tab-panel ${index === 0 ? 'active' : ''}`} 
+          class:list={['tab-panel', { active: index === 0 }]} 
           id={tab.id}
           role="tabpanel"
         >
@@ -99,13 +101,14 @@ const tabsData = [
   .we-tell {
     width: 100%;
     padding: 100px 0 60px;
-    background: linear-gradient(180deg, #f7f9fa 0%, #68a9a4 100%);
-    color: #1a2332;
+    background: linear-gradient(180deg, var(--grey-100) 0%, #68a9a4 100%);
+    color: var(--charcoal);
     overflow: hidden;
+    font-family: var(--font-family-primary);
   }
 
   .we-tell__container {
-    max-width: 1440px;
+    max-width: var(--container-max-width);
     margin: 0 auto;
     padding: 0 64px;
     display: flex;
@@ -114,13 +117,13 @@ const tabsData = [
   }
 
   h2 {
-    font-size: 42px;
-    font-weight: 500;
+    font-size: var(--font-size-48);
+    font-weight: var(--font-weight-medium);
+    color: var(--navy);
     margin-bottom: 40px;
     text-align: center;
   }
 
-  
   .we-tell__tabs {
     display: flex;
     gap: 16px;
@@ -132,22 +135,21 @@ const tabsData = [
   .tab-btn {
     padding: 12px 30px;
     border-radius: 50px;
-    border: 1px solid #7c8694;
+    border: 1px solid var(--grey-400);
     background: transparent;
-    color: #4a5568;
-    font-size: 14px;
-    font-weight: 600;
+    color: var(--grey-500);
+    font-size: var(--font-size-14);
+    font-weight: var(--font-weight-semibold);
     letter-spacing: 0.5px;
     cursor: pointer;
     transition: all 0.3s ease;
   }
 
   .tab-btn.active, .tab-btn:hover {
-    background: #1e293b;
-    border-color: #1e293b;
-    color: #ffffff;
+    background: var(--navy);
+    border-color: var(--navy);
+    color: var(--white);
   }
-
 
   .we-tell__content-wrapper {
     position: relative;
@@ -166,7 +168,6 @@ const tabsData = [
     gap: 40px;
     align-items: center;
     
-   
     opacity: 0;
     visibility: hidden;
     transform: translateY(20px);
@@ -181,26 +182,25 @@ const tabsData = [
     z-index: 2;
   }
 
-  
   .panel-left h3 {
-    font-size: 48px;
-    font-weight: 700;
+    font-size: var(--font-size-48);
+    font-weight: var(--font-weight-bold);
     margin: 0 0 8px 0;
-    color: #1e293b;
+    color: var(--navy);
   }
 
   .phonetic {
     display: block;
     font-family: monospace;
-    color: #4a5568;
+    color: var(--grey-500);
     margin-bottom: 20px;
-    font-size: 16px;
+    font-size: var(--font-size-16);
   }
 
   .definition {
-    font-size: 16px;
+    font-size: var(--font-size-16);
     line-height: 1.6;
-    color: #1e293b;
+    color: var(--charcoal);
   }
 
   /* Center Column */
@@ -219,30 +219,30 @@ const tabsData = [
   /* Right Column */
   .step {
     display: block;
-    font-size: 16px;
-    color: #7c8694;
+    font-size: var(--font-size-16);
+    color: var(--grey-400);
     margin-bottom: 16px;
-    font-weight: 500;
+    font-weight: var(--font-weight-medium);
   }
 
   .panel-right h4 {
-    font-size: 28px;
-    font-weight: 700;
+    font-size: var(--font-size-30);
+    font-weight: var(--font-weight-bold);
     margin: 0 0 16px 0;
-    color: #1e293b;
+    color: var(--navy);
   }
 
   .description {
-    font-size: 20px;
+    font-size: var(--font-size-20);
     line-height: 1.5;
-    color: #1e293b;
+    color: var(--charcoal);
   }
 
   /* Footer */
   .we-tell__footer {
-    font-size: 14px;
-    font-weight: 700;
-    color: #1e293b;
+    font-size: var(--font-size-14);
+    font-weight: var(--font-weight-bold);
+    color: var(--navy);
     letter-spacing: 1px;
     text-align: center;
     margin: 0;
@@ -262,18 +262,15 @@ const tabsData = [
 </style>
 
 <script>
-  // This runs on the client to handle the tab switching
   function initTabs() {
     const buttons = document.querySelectorAll('.tab-btn');
     const panels = document.querySelectorAll('.tab-panel');
 
     buttons.forEach(button => {
       button.addEventListener('click', () => {
-        // Remove active class from all buttons and panels
         buttons.forEach(btn => btn.classList.remove('active'));
         panels.forEach(panel => panel.classList.remove('active'));
 
-        // Add active class to clicked button and corresponding panel
         button.classList.add('active');
         const targetId = button.getAttribute('data-target');
         document.getElementById(targetId).classList.add('active');
@@ -281,6 +278,5 @@ const tabsData = [
     });
   }
 
-  // Initialize on load
   document.addEventListener('DOMContentLoaded', initTabs);
 </script>

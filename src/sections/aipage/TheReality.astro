@@ -1,8 +1,9 @@
 ---
-
+import Container from "@/components/global/Container.astro";
 ---
 
 <section class="the-reality">
+<Container>
   <!-- Top Gradient Line -->
   <div class="the-reality__gradient-bar"></div>
   
@@ -28,11 +29,13 @@
     </div>
 
   </div>
+  </Container>
 </section>
 
 <style>
   .the-reality {
-    width: 100%;
+    padding-top:64px;
+    padding-bottom:64px;
     background-color: var(--white);
     position: relative;
     font-family: var(--font-family-primary); 
@@ -45,9 +48,10 @@
   }
 
   .the-reality__container {
-    max-width: var(--container-max-width);
+   
     margin: 0 auto;
-    padding: 100px 50px;
+  padding-top:64px;
+  padding-bottom:64px;
     display: grid;
     grid-template-columns: 1fr 1fr; /* Changed to 2 columns (50/50 split) */
   }

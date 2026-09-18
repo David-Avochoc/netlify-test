@@ -1,6 +1,4 @@
 ---
-
-
 const tabsData = [
   {
     id: "readiness",
@@ -49,58 +47,72 @@ const tabsData = [
 ];
 ---
 
-<section class="we-tell">
-  <div class="we-tell__container">
-    <h2>We'll tell you when AI is not the answer.</h2>
+<!-- Added a tall pin wrapper to handle the scroll depth -->
+<div class="we-tell-pin-wrapper">
+  <section class="we-tell">
+    <div class="we-tell__container">
+      <h2>We'll tell you when AI is not the answer.</h2>
 
-    <!-- Tab Buttons -->
-    <div class="we-tell__tabs" role="tablist">
-      {tabsData.map((tab, index) => (
-        <button 
-          class:list={['tab-btn', { active: index === 0 }]} 
-          data-target={tab.id}
-          role="tab"
-        >
-          {tab.label}
-        </button>
-      ))}
+      <!-- Tab Buttons -->
+      <div class="we-tell__tabs" role="tablist">
+        {tabsData.map((tab, index) => (
+          <button 
+            class:list={['tab-btn', { active: index === 0 }]} 
+            data-target={tab.id}
+            role="tab"
+          >
+            {tab.label}
+          </button>
+        ))}
+      </div>
+
+      
+      <div class="we-tell__content-wrapper">
+        {tabsData.map((tab, index) => (
+          <div 
+            class:list={['tab-panel', { active: index === 0 }]} 
+            id={tab.id}
+            role="tabpanel"
+          >
+            <div class="panel-left">
+              <h3>{tab.word}</h3>
+              <span class="phonetic">{tab.phonetic}</span>
+              <p class="definition">{tab.definition}</p>
+            </div>
+
+            <div class="panel-center">
+              <img src={tab.image} alt={tab.word} loading="lazy" />
+            </div>
+
+            <div class="panel-right">
+              <span class="step">{tab.step}</span>
+              <h4>{tab.title}</h4>
+              <p class="description">{tab.description}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+
+      <p class="we-tell__footer">FOUR CHECKS. NO GUESSWORK. NOTHING ELSE.</p>
     </div>
-
-    
-    <div class="we-tell__content-wrapper">
-      {tabsData.map((tab, index) => (
-        <div 
-          class:list={['tab-panel', { active: index === 0 }]} 
-          id={tab.id}
-          role="tabpanel"
-        >
-          <div class="panel-left">
-            <h3>{tab.word}</h3>
-            <span class="phonetic">{tab.phonetic}</span>
-            <p class="definition">{tab.definition}</p>
-          </div>
-
-          <div class="panel-center">
-            <img src={tab.image} alt={tab.word} loading="lazy" />
-          </div>
-
-          <div class="panel-right">
-            <span class="step">{tab.step}</span>
-            <h4>{tab.title}</h4>
-            <p class="description">{tab.description}</p>
-          </div>
-        </div>
-      ))}
-    </div>
-
-    <p class="we-tell__footer">FOUR CHECKS. NO GUESSWORK. NOTHING ELSE.</p>
-  </div>
-</section>
+  </section>
+</div>
 
 <style>
+
+  .we-tell-pin-wrapper {
+    height: 400vh;
+    position: relative;
+  }
+
   .we-tell {
-    width: 100%;
-    padding: 100px 0 60px;
+    position: sticky;
+    top: 0;
+    height: 100vh; 
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 0;
     background: linear-gradient(180deg, var(--grey-100) 0%, #68a9a4 100%);
     color: var(--charcoal);
     overflow: hidden;
@@ -114,6 +126,7 @@ const tabsData = [
     display: flex;
     flex-direction: column;
     align-items: center;
+    width: 100%;
   }
 
   h2 {
@@ -141,11 +154,12 @@ const tabsData = [
     font-size: var(--font-size-14);
     font-weight: var(--font-weight-semibold);
     letter-spacing: 0.5px;
-    cursor: pointer;
+    /* Disable clicking */
+    pointer-events: none;
     transition: all 0.3s ease;
   }
 
-  .tab-btn.active, .tab-btn:hover {
+  .tab-btn.active {
     background: var(--navy);
     border-color: var(--navy);
     color: var(--white);
@@ -154,7 +168,8 @@ const tabsData = [
   .we-tell__content-wrapper {
     position: relative;
     width: 100%;
-    padding-bottom: 64px;
+    /* Keep space reserved for the panels so layout doesn't jump */
+    min-height: 350px; 
     margin-bottom: 60px;
   }
 
@@ -203,7 +218,6 @@ const tabsData = [
     color: var(--charcoal);
   }
 
- 
   .panel-center {
     display: flex;
     justify-content: center;
@@ -216,7 +230,6 @@ const tabsData = [
     object-fit: contain;
   }
 
-  
   .step {
     display: block;
     font-size: var(--font-size-16);
@@ -238,7 +251,6 @@ const tabsData = [
     color: var(--charcoal);
   }
 
-  
   .we-tell__footer {
     font-size: var(--font-size-14);
     font-weight: var(--font-weight-bold);
@@ -248,7 +260,6 @@ const tabsData = [
     margin: 0;
   }
 
-  /* Responsive Adjustments */
   @media (max-width: 900px) {
     .tab-panel {
       grid-template-columns: 1fr;
@@ -262,21 +273,48 @@ const tabsData = [
 </style>
 
 <script>
-  function initTabs() {
+  function initScrollTabs() {
+    const wrapper = document.querySelector('.we-tell-pin-wrapper');
     const buttons = document.querySelectorAll('.tab-btn');
     const panels = document.querySelectorAll('.tab-panel');
+    const totalTabs = panels.length;
+    let currentIndex = 0;
 
-    buttons.forEach(button => {
-      button.addEventListener('click', () => {
-        buttons.forEach(btn => btn.classList.remove('active'));
-        panels.forEach(panel => panel.classList.remove('active'));
+    if (!wrapper || totalTabs === 0) return;
 
-        button.classList.add('active');
-        const targetId = button.getAttribute('data-target');
-        document.getElementById(targetId).classList.add('active');
-      });
-    });
+    window.addEventListener('scroll', () => {
+      const rect = wrapper.getBoundingClientRect();
+      
+
+      const scrollableDistance = rect.height - window.innerHeight;
+      const scrolled = -rect.top;
+      
+      let progress = scrolled / scrollableDistance;
+
+      if (progress < 0) progress = 0;
+      if (progress > 1) progress = 1;
+
+      let activeIndex = Math.floor(progress * totalTabs);
+      
+      if (activeIndex >= totalTabs) {
+        activeIndex = totalTabs - 1;
+      }
+
+      if (activeIndex !== currentIndex) {
+        currentIndex = activeIndex;
+
+        buttons.forEach((btn, i) => {
+          if (i === currentIndex) btn.classList.add('active');
+          else btn.classList.remove('active');
+        });
+
+        panels.forEach((panel, i) => {
+          if (i === currentIndex) panel.classList.add('active');
+          else panel.classList.remove('active');
+        });
+      }
+    }, { passive: true });
   }
 
-  document.addEventListener('DOMContentLoaded', initTabs);
+  document.addEventListener('DOMContentLoaded', initScrollTabs);
 </script>

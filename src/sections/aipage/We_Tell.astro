@@ -1,4 +1,6 @@
 ---
+import Container from "@/components/global/Container.astro";
+
 const tabsData = [
   {
     id: "readiness",
@@ -47,54 +49,55 @@ const tabsData = [
 ];
 ---
 
-<!-- Added a tall pin wrapper to handle the scroll depth -->
 <div class="we-tell-pin-wrapper">
   <section class="we-tell">
-    <div class="we-tell__container">
-      <h2>We'll tell you when AI is not the answer.</h2>
+    <Container>
+      <div class="we-tell__container">
+        <h2>We'll tell you when AI is not the answer.</h2>
 
-      <!-- Tab Buttons -->
-      <div class="we-tell__tabs" role="tablist">
-        {tabsData.map((tab, index) => (
-          <button 
-            class:list={['tab-btn', { active: index === 0 }]} 
-            data-target={tab.id}
-            role="tab"
-          >
-            {tab.label}
-          </button>
-        ))}
+        <!-- Tab Buttons -->
+        <div class="we-tell__tabs" role="tablist">
+          {tabsData.map((tab, index) => (
+            <button 
+              class:list={['tab-btn', { active: index === 0 }]} 
+              data-target={tab.id}
+              role="tab"
+            >
+              {tab.label}
+            </button>
+          ))}
+        </div>
+
+        
+        <div class="we-tell__content-wrapper">
+          {tabsData.map((tab, index) => (
+            <div 
+              class:list={['tab-panel', { active: index === 0 }]} 
+              id={tab.id}
+              role="tabpanel"
+            >
+              <div class="panel-left">
+                <h3>{tab.word}</h3>
+                <span class="phonetic">{tab.phonetic}</span>
+                <p class="definition">{tab.definition}</p>
+              </div>
+
+              <div class="panel-center">
+                <img src={tab.image} alt={tab.word} loading="lazy" />
+              </div>
+
+              <div class="panel-right">
+                <span class="step">{tab.step}</span>
+                <h4>{tab.title}</h4>
+                <p class="description">{tab.description}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        <p class="we-tell__footer">FOUR CHECKS. NO GUESSWORK. NOTHING ELSE.</p>
       </div>
-
-      
-      <div class="we-tell__content-wrapper">
-        {tabsData.map((tab, index) => (
-          <div 
-            class:list={['tab-panel', { active: index === 0 }]} 
-            id={tab.id}
-            role="tabpanel"
-          >
-            <div class="panel-left">
-              <h3>{tab.word}</h3>
-              <span class="phonetic">{tab.phonetic}</span>
-              <p class="definition">{tab.definition}</p>
-            </div>
-
-            <div class="panel-center">
-              <img src={tab.image} alt={tab.word} loading="lazy" />
-            </div>
-
-            <div class="panel-right">
-              <span class="step">{tab.step}</span>
-              <h4>{tab.title}</h4>
-              <p class="description">{tab.description}</p>
-            </div>
-          </div>
-        ))}
-      </div>
-
-      <p class="we-tell__footer">FOUR CHECKS. NO GUESSWORK. NOTHING ELSE.</p>
-    </div>
+    </Container>
   </section>
 </div>
 
@@ -120,7 +123,6 @@ const tabsData = [
   }
 
   .we-tell__container {
-    max-width: var(--container-max-width);
     margin: 0 auto;
     padding: 0 64px;
     display: flex;
@@ -228,6 +230,24 @@ const tabsData = [
     height: auto;
     max-height: 350px;
     object-fit: contain;
+    /* Applied animation directly to the image so it bobs continuously */
+    animation: bob 3s ease-in-out infinite;
+  }
+
+  /* Continuous bobbing animation */
+  @keyframes bob {
+    0% {
+      transform: translateY(0);
+      filter: drop-shadow(0 5px 5px rgba(0, 0, 0, 0.05));
+    }
+    50% {
+      transform: translateY(-15px);
+      filter: drop-shadow(0 15px 10px rgba(0, 0, 0, 0.15));
+    }
+    100% {
+      transform: translateY(0);
+      filter: drop-shadow(0 5px 5px rgba(0, 0, 0, 0.05));
+    }
   }
 
   .step {

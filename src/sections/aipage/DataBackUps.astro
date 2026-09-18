@@ -1,5 +1,5 @@
 ---
-
+import Container from "@/components/global/Container.astro";
 
 const dataCards = [
   {
@@ -30,71 +30,73 @@ const dataCards = [
 ---
 
 <section class="data-backups">
-  <div class="data-backups__container">
-    
-    <h2 class="section-title">The data backs up why we work this way.</h2>
-
-   
-    <div class="cards-grid">
-      {dataCards.map((card) => (
-        <div class="data-card">
-          
-          <!-- Top Section (Colored Background) -->
-          <div class="card-top" style={`background-image: url('${card.bgImage}');`}>
-            <span class="card-tag">{card.tag}</span>
-            
-            <div class="card-content-main">
-              {card.isQuote ? (
-                <h3 class="card-quote">{card.headline}</h3>
-              ) : (
-                <h3 class="card-stat">{card.headline}</h3>
-              )}
-              <p class="card-desc">{card.description}</p>
-            </div>
-          </div>
-
-
-          <div class="card-bottom">
-            <div class="source-icon-box">
-              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" viewBox="0 0 16 16">
-                <path d="M2 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V2zm10-1H4a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1z"/>
-                <path d="M6 5a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v3.5l-2-1.5-2 1.5V5z"/>
-              </svg>
-            </div>
-            <span class="source-text" set:html={card.source} />
-          </div>
-
-        </div>
-      ))}
-    </div>
-
-   
-    <div class="footer-content">
-      <p class="conclusion-text">
-        This is exactly why we lead with mapping, governance, and honesty about fit <span class="muted">— instead of hype.</span>
-      </p>
+  <Container>
+    <div class="data-backups__container">
       
-      <div class="button-group">
-        <a href="/principles" class="action-btn">
-          <span class="text">SEE PRINCIPLES</span>
-          <span class="icon">
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
-              <path fill-rule="evenodd" d="M14 2.5a.5.5 0 0 0-.5-.5h-6a.5.5 0 0 0 0 1h4.793L2.146 13.146a.5.5 0 0 0 .708.708L13 3.707V8.5a.5.5 0 0 0 1 0v-6z"/>
-            </svg>
-          </span>
-        </a>
-        <a href="/insights" class="action-btn">
-          <span class="text">SEE INSIGHTS</span>
-          <span class="icon">
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
-              <path fill-rule="evenodd" d="M14 2.5a.5.5 0 0 0-.5-.5h-6a.5.5 0 0 0 0 1h4.793L2.146 13.146a.5.5 0 0 0 .708.708L13 3.707V8.5a.5.5 0 0 0 1 0v-6z"/>
-            </svg>
-          </span>
-        </a>
-      </div>
-    </div>
+      <h2 class="section-title">The data backs up why we work this way.</h2>
 
-  </div>
+    
+      <div class="cards-grid">
+        {dataCards.map((card) => (
+          <div class="data-card">
+            
+          
+            <div class="card-top" style={`background-image: url('${card.bgImage}');`}>
+              <span class="card-tag">{card.tag}</span>
+              
+              <div class="card-content-main">
+                {card.isQuote ? (
+                  <h3 class="card-quote">{card.headline}</h3>
+                ) : (
+                  <h3 class="card-stat">{card.headline}</h3>
+                )}
+                <p class="card-desc">{card.description}</p>
+              </div>
+            </div>
+
+
+            <div class="card-bottom">
+              <div class="source-icon-box">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" viewBox="0 0 16 16">
+                  <path d="M2 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V2zm10-1H4a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1z"/>
+                  <path d="M6 5a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v3.5l-2-1.5-2 1.5V5z"/>
+                </svg>
+              </div>
+              <span class="source-text" set:html={card.source} />
+            </div>
+
+          </div>
+        ))}
+      </div>
+
+    
+      <div class="footer-content">
+        <p class="conclusion-text">
+          This is exactly why we lead with mapping, governance, and honesty about fit <span class="muted">— instead of hype.</span>
+        </p>
+        
+        <div class="button-group">
+          <a href="/principles" class="action-btn">
+            <span class="text">SEE PRINCIPLES</span>
+            <span class="icon">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                <path fill-rule="evenodd" d="M14 2.5a.5.5 0 0 0-.5-.5h-6a.5.5 0 0 0 0 1h4.793L2.146 13.146a.5.5 0 0 0 .708.708L13 3.707V8.5a.5.5 0 0 0 1 0v-6z"/>
+              </svg>
+            </span>
+          </a>
+          <a href="/insights" class="action-btn">
+            <span class="text">SEE INSIGHTS</span>
+            <span class="icon">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                <path fill-rule="evenodd" d="M14 2.5a.5.5 0 0 0-.5-.5h-6a.5.5 0 0 0 0 1h4.793L2.146 13.146a.5.5 0 0 0 .708.708L13 3.707V8.5a.5.5 0 0 0 1 0v-6z"/>
+              </svg>
+            </span>
+          </a>
+        </div>
+      </div>
+
+    </div>
+  </Container>
 </section>
 
 <style>
@@ -103,12 +105,6 @@ const dataCards = [
     background-color: var(--white);
     padding: 100px 0;
     font-family: var(--font-family-primary);
-  }
-
-  .data-backups__container {
-    max-width: var(--container-max-width);
-    margin: 0 auto;
-    padding: 0 40px;
   }
 
   .section-title {

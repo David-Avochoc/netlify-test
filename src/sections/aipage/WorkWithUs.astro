@@ -42,57 +42,55 @@ const stepsData = [
 ---
 
 <section class="work-with-us">
-  <div class="work-with-us__container">
-    
-    <div class="intro-column">
-      <h2>Here's what working with us actually looks like.</h2>
+  <Container>
+    <div class="work-with-us__container">
       
-      <a href="/services" class="services-btn">
-        <span class="text">SEE ALL SERVICES</span>
-        <span class="icon">
-          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
-            <path fill-rule="evenodd" d="M14 2.5a.5.5 0 0 0-.5-.5h-6a.5.5 0 0 0 0 1h4.793L2.146 13.146a.5.5 0 0 0 .708.708L13 3.707V8.5a.5.5 0 0 0 1 0v-6z"/>
-          </svg>
-        </span>
-      </a>
-    </div>
+      <div class="intro-column">
+        <h2>Here's what working with us actually looks like.</h2>
+        
+        <a href="/services" class="services-btn">
+          <span class="text">SEE ALL SERVICES</span>
+          <span class="icon">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+              <path fill-rule="evenodd" d="M14 2.5a.5.5 0 0 0-.5-.5h-6a.5.5 0 0 0 0 1h4.793L2.146 13.146a.5.5 0 0 0 .708.708L13 3.707V8.5a.5.5 0 0 0 1 0v-6z"/>
+            </svg>
+          </span>
+        </a>
+      </div>
 
-    <div class="cards-grid">
-      {stepsData.map((card) => (
-        <div class="step-card">
-          <div class="card-icon-wrapper">
-            <img src={card.icon} alt={`Step ${card.step} icon`} loading="lazy" />
-          </div>
-          
-          <div class="card-header">
-            <span class="step-number">{card.step}</span>
-            <h3 class="step-title">{card.title}</h3>
-          </div>
+      <div class="cards-grid">
+        {stepsData.map((card) => (
+          <div class="step-card">
+            <div class="card-icon-wrapper">
+              <img src={card.icon} alt={`Step ${card.step} icon`} loading="lazy" />
+            </div>
+            
+            <div class="card-header">
+              <span class="step-number">{card.step}</span>
+              <h3 class="step-title">{card.title}</h3>
+            </div>
 
-          <div class="card-body-wrapper">
-            <div class="card-body">
-              <p>{card.description}</p>
+            <div class="card-body-wrapper">
+              <div class="card-body">
+                <p>{card.description}</p>
+              </div>
             </div>
           </div>
-        </div>
-      ))}
-    </div>
+        ))}
+      </div>
 
-  </div>
+    </div>
+  </Container>
 </section>
 
 <style>
   .work-with-us {
-    width: 100%;
     background-color: var(--white);
     padding: 120px 0;
     font-family: var(--font-family-primary);
   }
 
   .work-with-us__container {
-    max-width: var(--container-max-width);
-    margin: 0 auto;
-    padding: 0 40px;
     display: grid;
     grid-template-columns: 1fr 2.5fr; 
     gap: 60px;

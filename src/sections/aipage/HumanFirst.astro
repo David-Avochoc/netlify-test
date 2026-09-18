@@ -5,53 +5,53 @@ const {
 } = Astro.props;
 
 import Container from "@/components/global/Container.astro";
-
 ---
 
 <section class="human-first">
-  <div class="human-first__container">
-    
-    <!-- Top Row: Intersecting Borders -->
-    <div class="header-block">
-      <div class="header-left">
-        <div class="title-top">
-          <h2>Human-first</h2>
-        </div>
-        <div class="title-bottom">
-          <h2 class="accent-text">Not AI-First</h2>
-        </div>
-      </div>
+  <Container>
+    <div class="human-first__container">
       
-      <div class="header-right">
-        <p class="intro-text">
-          A lot of AI-first companies start with the AI. Brainstorm with AI, architect with AI, build with AI, and check the output with a human at the end.
-        </p>
-      </div>
-    </div>
-
-   
-    <div class="bottom-grid">
-      <div class="bottom-image-wrapper">
-        <img src={image} alt="Office workspace" loading="lazy" />
-      </div>
-      
-      <div class="bottom-content">
-        <p>We work the other way. Our people lead the thinking. AI is a tool inside that process, not a replacement for it.</p>
-        <p>That means the humans making decisions about your systems understand your business first, and reach for AI because it earns its place, not because it's trendy.</p>
-        <p>Effective business AI integration. Not AI for its own sake.</p>
+      <div class="header-block">
+        <div class="header-left">
+          <div class="title-top">
+            <h2>Human-first</h2>
+          </div>
+          <div class="title-bottom">
+            <h2 class="accent-text">Not AI-First</h2>
+          </div>
+        </div>
         
-        <a href={buttonLink} class="learn-more-btn">
-          <span class="text">LEARN MORE ABOUT AI INTEGRATION</span>
-          <span class="icon">
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
-              <path fill-rule="evenodd" d="M14 2.5a.5.5 0 0 0-.5-.5h-6a.5.5 0 0 0 0 1h4.793L2.146 13.146a.5.5 0 0 0 .708.708L13 3.707V8.5a.5.5 0 0 0 1 0v-6z"/>
-            </svg>
-          </span>
-        </a>
+        <div class="header-right">
+          <p class="intro-text">
+            A lot of AI-first companies start with the AI. Brainstorm with AI, architect with AI, build with AI, and check the output with a human at the end.
+          </p>
+        </div>
       </div>
-    </div>
 
-  </div>
+     
+      <div class="bottom-grid">
+        <div class="bottom-image-wrapper">
+          <img src={image} alt="Office workspace" loading="lazy" />
+        </div>
+        
+        <div class="bottom-content">
+          <p>We work the other way. Our people lead the thinking. AI is a tool inside that process, not a replacement for it.</p>
+          <p>That means the humans making decisions about your systems understand your business first, and reach for AI because it earns its place, not because it's trendy.</p>
+          <p>Effective business AI integration. Not AI for its own sake.</p>
+          
+          <a href={buttonLink} class="learn-more-btn">
+            <span class="text">LEARN MORE ABOUT AI INTEGRATION</span>
+            <span class="icon">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                <path fill-rule="evenodd" d="M14 2.5a.5.5 0 0 0-.5-.5h-6a.5.5 0 0 0 0 1h4.793L2.146 13.146a.5.5 0 0 0 .708.708L13 3.707V8.5a.5.5 0 0 0 1 0v-6z"/>
+              </svg>
+            </span>
+          </a>
+        </div>
+      </div>
+
+    </div>
+  </Container>
 </section>
 
 <style>
@@ -64,9 +64,6 @@ import Container from "@/components/global/Container.astro";
   }
 
   .human-first__container {
-    max-width: var(--container-max-width);
-    margin: 0 auto;
-    padding: 0 40px;
     display: flex;
     flex-direction: column;
   }

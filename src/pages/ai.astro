@@ -1,31 +1,23 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
 import Hero from "../sections/global/Hero.astro";
-import We_Tell from "../sections/aipage/We_Tell.astro"; 
-import HumanFirst from "../sections/aipage/HumanFirst.astro"; 
-import TheReality from "../sections/aipage/TheReality.astro"; 
+import We_Tell from "../sections/aipage/We_Tell.astro";
+import HumanFirst from "../sections/aipage/HumanFirst.astro";
+import TheReality from "../sections/aipage/TheReality.astro";
 import WorkWithUs from "../sections/aipage/WorkWithUs.astro";
 import DataBackUps from "../sections/aipage/DataBackUps.astro";
-
-
-
-
-
-
 ---
 
 <BaseLayout title="AI" description="Progress Done Properly">
   <Hero
-    title="AI"
-    description="Learn more about AvoChoc and what we do."
+    title="[AI] that"
+    description="earns its place"
     backgroundImage="/images/home-hero.webp"
+    titleColor="var(--navy)"
   />
   <TheReality />
   <We_Tell />
   <HumanFirst />
   <WorkWithUs />
   <DataBackUps />
-
-    
-
 </BaseLayout>

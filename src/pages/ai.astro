@@ -1,6 +1,6 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
-import Hero from "../sections/global/Hero.astro";
+import AiHero from "../sections/aipage/AiHero.astro";
 import We_Tell from "../sections/aipage/We_Tell.astro";
 import HumanFirst from "../sections/aipage/HumanFirst.astro";
 import TheReality from "../sections/aipage/TheReality.astro";
@@ -9,12 +9,7 @@ import DataBackUps from "../sections/aipage/DataBackUps.astro";
 ---
 
 <BaseLayout title="AI" description="Progress Done Properly">
-  <Hero
-    title="[AI] that"
-    description="earns its place"
-    backgroundImage="/images/home-hero.webp"
-    titleColor="var(--navy)"
-  />
+  <AiHero />
   <TheReality />
   <We_Tell />
   <HumanFirst />

@@ -1,0 +1,31 @@
+---
+import Container from "@/components/global/Container.astro";
+---
+
+<footer class="footer">
+  <div class="footer__content">
+    <img src="/images/logos/AVOCHOC.svg" />
+  </div>
+</footer>
+
+<style>
+  .footer {
+    background-image: url("/images/Fractal_glass_footer.webp");
+    background-position: center bottom;
+    background-repeat: no-repeat;
+    background-size: cover;
+    padding: 100px 0px;
+  }
+  .footer__content {
+    width: 100%;
+    margin: 0 auto;
+  }
+  .footer__text {
+    color: var(--white);
+    font-size: var(--font-size-294);
+    font-weight: var(--font-weight-extrabold);
+    letter-spacing: -5.88px;
+    text-align: center;
+    text-transform: uppercase;
+  }
+</style>

@@ -1,13 +1,16 @@
 ---
-const { title, description, backgroundImage } = Astro.props;
+const { title, description, backgroundImage, titleColor, descriptionColor } =
+  Astro.props;
 ---
 
 <section class="hero" style={`background-image: url('${backgroundImage}')`}>
   <div class="hero__container">
     <div class="hero__content">
-      <h1>{title}</h1>
+      <h1 style={`color: ${titleColor}`}>
+        {title}
+      </h1>
 
-      {description && <p>{description}</p>}
+      {description && <p style={`color: ${descriptionColor}`}>{description}</p>}
 
       <div class="hero__actions">
         <slot name="actions" />

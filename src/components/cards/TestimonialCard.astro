@@ -58,7 +58,8 @@ const {
     display: flex;
     flex-direction: column;
     min-height: 600px;
-    padding: 36px 32px;
+    padding-block: var(--space-36);
+    padding-inline: var(--space-32);
     background: var(--white);
     border-radius: var(--border-radius-small);
     color: var(--navy);
@@ -94,14 +95,14 @@ const {
     align-items: center;
     gap: 6px;
 
-    font-size: 14px;
+    font-size: var(--font-size-14);
     line-height: 1.5;
 
     margin-bottom: 30px;
   }
 
   .testimonial-card__author strong {
-    font-weight: 700;
+    font-weight: var(--font-weight-bold);
   }
 
   .testimonial-card__divider {
@@ -121,8 +122,8 @@ const {
     text-decoration: none;
     color: inherit;
 
-    font-size: 14px;
-    font-weight: 500;
+    font-size: var(--font-size-14);
+    font-weight: var(--font-weight-medium);
 
     letter-spacing: 0.02em;
   }

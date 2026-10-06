@@ -13,16 +13,13 @@
 
   <a href="/contact" class="nav-action">
     <div class="action-icon-box">
-      <svg class="icon-arrow" viewBox="0 0 24 24" aria-hidden="true">
-        <path d="M5 12H19M19 12L12 5M19 12L12 19"></path>
-      </svg>
-
-      <svg class="icon-envelope" viewBox="0 0 24 24" aria-hidden="true">
-        <path
-          d="M4 7.00005L10.2 11.65C11.2667 12.45 12.7333 12.45 13.8 11.65L20 7"
-        ></path>
-        <rect x="3" y="5" width="18" height="14" rx="2"></rect>
-      </svg>
+      <img class="icon-arrow" src="/icons/arrow-right.svg" alt="arrow right" />
+      <img
+        class="icon-envelope"
+        src="/icons/envelope-light.svg"
+        aria-hidden="true"
+        alt="envelope"
+      />
     </div>
 
     <span class="action-text"> Contact Us </span>
@@ -30,9 +27,9 @@
 </div>
 
 <style>
-  .nav-bar {
+  .nav-bar,
+  .nav-menu {
     display: flex;
-    height: 36px;
     gap: 2px;
   }
 
@@ -41,30 +38,27 @@
     align-items: center;
     justify-content: center;
     background-color: var(--navy);
-    width: 41px;
-    height: 100%;
+    padding-block: var(--std-btn-padding-y);
+    padding-inline: var(--std-btn-padding-x);
     text-decoration: none;
   }
 
   .nav-icon img {
-    width: 15px;
-    height: auto;
-  }
-
-  .nav-menu {
-    display: flex;
-    gap: 2px;
+    height: var(--nav-logo-height);
+    width: auto;
   }
 
   .nav-menu a {
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 8px 16px;
+    padding-block: var(--std-btn-padding-y);
+    padding-inline: var(--std-btn-padding-x);
     color: var(--white);
     background-color: var(--white-50);
     text-decoration: none;
-    font-size: clamp(16px, 1.1111vw, 42.67px);
+    font-size: var(--font-size-16);
+    line-height: 1;
     transition: background-color 0.2s ease;
   }
 
@@ -73,9 +67,11 @@
   }
 
   .nav-action {
+    --nav-action-duration: 600ms;
+    --nav-action-easing: cubic-bezier(0.65, 0, 0.35, 1);
+
     display: flex;
     align-items: center;
-    height: 100%;
     text-decoration: none;
     overflow: hidden;
   }
@@ -84,9 +80,10 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    height: calc(var(--font-size-16) + (var(--std-btn-padding-x) * 2));
+    width: calc(var(--nav-icon-height) + (var(--std-btn-padding-x) * 2));
+    box-sizing: border-box;
     background-color: var(--navy);
-    width: 40px;
-    height: 100%;
     position: relative;
     z-index: 2;
     transition: background-color 0.2s ease;
@@ -96,18 +93,13 @@
     background-color: var(--navy);
   }
 
-  .action-icon-box svg {
-    width: 20px;
-    height: 20px;
-    stroke: var(--white);
-    stroke-width: 1.5;
-    stroke-linecap: round;
-    stroke-linejoin: round;
-    fill: none;
+  .action-icon-box img {
+    height: var(--nav-icon-height);
+    width: auto;
     position: absolute;
     transition:
-      opacity 0.3s ease,
-      transform 0.3s ease;
+      opacity var(--mav-action-duration) var(--mav-action-easing),
+      transform var(--nav-action-duration) var(--nav-action-easing);
   }
 
   .icon-arrow {
@@ -136,18 +128,22 @@
     height: 100%;
     background-color: var(--white);
     color: var(--navy);
-    font-weight: 500;
-    font-size: 1rem;
+    font-weight: var(--font-weight-medium);
+    font-size: var(--font-size-16);
     white-space: nowrap;
     max-width: 0;
     padding: 0;
     opacity: 0;
-    transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+    transition:
+      max-width var(--nav-action-duration) var(--nav-action-easing),
+      padding var(--nav-action-duration) var(--nav-action-easing),
+      opacity var(--nav-action-duration) var(--nav-action-easing);
   }
 
   .nav-action:hover .action-text {
-    max-width: 150px;
-    padding: 0 24px;
+    max-width: 10rem;
+    padding-block: var(--std-btn-padding-y);
+    padding-inline: var(--std-btn-padding-x);
     opacity: 1;
   }
 </style>

@@ -1,0 +1,76 @@
+---
+interface Props {
+  layout?:
+    | "50-50"
+    | "30-70"
+    | "70-30"
+    | "40-60"
+    | "60-40"
+    | "25-75"
+    | "75-25"
+    | "33-33-33"
+    | "25-25-25-25"
+    | "custom";
+  customColumns?: string;
+  gap?: string;
+  align?: "start" | "center" | "end" | "stretch";
+  mobileStack?: boolean;
+  class?: string;
+}
+
+const {
+  layout = "50-50",
+  customColumns = "1fr 1fr",
+  gap = "2rem",
+  align = "start",
+  mobileStack = true,
+  class: customClass = "",
+} = Astro.props;
+
+const layouts: Record<string, string> = {
+  "50-50": "1fr 1fr",
+
+  "30-70": "3fr 7fr",
+  "70-30": "7fr 3fr",
+
+  "40-60": "4fr 6fr",
+  "60-40": "6fr 4fr",
+
+  "25-75": "1fr 3fr",
+  "75-25": "3fr 1fr",
+
+  "33-33-33": "repeat(3, 1fr)",
+
+  "25-25-25-25": "repeat(4, 1fr)",
+};
+
+const columnTemplate =
+  layout === "custom" ? customColumns : (layouts[layout] ?? "1fr 1fr");
+---
+
+<div
+  class:list={["columns", { "columns--stack": mobileStack }, customClass]}
+  style={`
+        --columns-template: ${columnTemplate};
+        --columns-gap: ${gap};
+        --columns-align: ${align};
+    `}
+>
+  <slot />
+</div>
+
+<style>
+  .columns {
+    display: grid;
+    grid-template-columns: var(--columns-template);
+    gap: var(--columns-gap);
+    align-items: var(--columns-align);
+    width: 100%;
+  }
+
+  @media screen and (max-width: 800px) {
+    .columns--stack {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

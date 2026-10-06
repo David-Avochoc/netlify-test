@@ -3,36 +3,44 @@ import "../../styles/fonts.css";
 import "../../styles/tokens.css";
 import "../../styles/typography.css";
 
-const { 
-  backgroundImage = "/images/home-hero.webp" 
-} = Astro.props;
+const { backgroundImage = "/images/backgrounds/ai_header.webp" } = Astro.props;
 ---
 
-<section 
-  class="ai-hero" 
+<section
+  class="ai-hero"
   id="ai-hero-section"
   style={`--bg-image: url('${backgroundImage}'); background-image: var(--bg-image);`}
 >
   <div class="ai-hero__container" id="hero-content">
-    
     <div class="column left-col">
       <h2>
-        [AI] that<br/>
+        [AI] that<br />
         <span class="highlight">earns its place.</span>
       </h2>
     </div>
 
     <div class="column right-col">
       <p>
-        We build custom software, AI, and integrated systems for organisations operating under conditions where failure is expensive, visible, and hard to undo.
+        We build custom software, AI, and integrated systems for organisations
+        operating under conditions where failure is expensive, visible, and hard
+        to undo.
       </p>
 
       <div class="button-group">
         <a href="/contact" class="action-btn btn-outlined">
           <span class="text">TALK TO OUR TEAM</span>
           <span class="icon">
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
-              <path fill-rule="evenodd" d="M14 2.5a.5.5 0 0 0-.5-.5h-6a.5.5 0 0 0 0 1h4.793L2.146 13.146a.5.5 0 0 0 .708.708L13 3.707V8.5a.5.5 0 0 0 1 0v-6z"/>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="16"
+              height="16"
+              fill="currentColor"
+              viewBox="0 0 16 16"
+            >
+              <path
+                fill-rule="evenodd"
+                d="M14 2.5a.5.5 0 0 0-.5-.5h-6a.5.5 0 0 0 0 1h4.793L2.146 13.146a.5.5 0 0 0 .708.708L13 3.707V8.5a.5.5 0 0 0 1 0v-6z"
+              ></path>
             </svg>
           </span>
         </a>
@@ -40,14 +48,22 @@ const {
         <a href="/assessment" class="action-btn btn-solid">
           <span class="text">TAKE OUR AI MATURITY ASSESSMENT</span>
           <span class="icon">
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
-              <path fill-rule="evenodd" d="M14 2.5a.5.5 0 0 0-.5-.5h-6a.5.5 0 0 0 0 1h4.793L2.146 13.146a.5.5 0 0 0 .708.708L13 3.707V8.5a.5.5 0 0 0 1 0v-6z"/>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="16"
+              height="16"
+              fill="currentColor"
+              viewBox="0 0 16 16"
+            >
+              <path
+                fill-rule="evenodd"
+                d="M14 2.5a.5.5 0 0 0-.5-.5h-6a.5.5 0 0 0 0 1h4.793L2.146 13.146a.5.5 0 0 0 .708.708L13 3.707V8.5a.5.5 0 0 0 1 0v-6z"
+              ></path>
             </svg>
           </span>
         </a>
       </div>
     </div>
-
   </div>
 
   <div class="glass-bobble" id="glass-bobble">
@@ -59,23 +75,23 @@ const {
 <style>
   .ai-hero {
     width: 100%;
-    height: 100vh; 
-    min-height: 700px; 
-    background-color: var(--navy); 
+    height: 100vh;
+    min-height: 700px;
+    background-color: var(--navy);
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
     position: relative;
     font-family: var(--font-family-primary);
-    overflow: hidden; 
-    cursor: none; 
+    overflow: hidden;
+    cursor: none;
     display: flex;
-    align-items: center; 
+    align-items: center;
   }
 
   .ai-hero__container {
     width: 100%;
-    max-width: var(--container-max-width, 1440px); 
+    max-width: var(--container-max-width, 1440px);
     margin: 0 auto;
     padding: 0 40px;
     display: grid;
@@ -89,14 +105,14 @@ const {
     position: fixed;
     top: 0;
     left: 0;
-    width: 250px; 
+    width: 250px;
     height: 250px;
     border-radius: 50%;
-    pointer-events: none; 
-    z-index: 9999; 
-    overflow: hidden; 
+    pointer-events: none;
+    z-index: 9999;
+    overflow: hidden;
     opacity: 0;
-    transition: opacity 0.3s ease; 
+    transition: opacity 0.3s ease;
   }
 
   .glass-content {
@@ -122,27 +138,34 @@ const {
     width: 100%;
     height: 100%;
     border-radius: 50%;
-    
-  
-    box-shadow: 
-      inset 0 0 8px rgba(255, 255, 255, 0.9),       
-      inset 10px 0 25px rgba(255, 0, 255, 0.4),     
-      inset -10px 0 25px rgba(0, 255, 255, 0.5),     
-      inset 0 10px 25px rgba(0, 255, 120, 0.4),    
-      inset 0 -10px 25px rgba(50, 100, 255, 0.4),    
-      0 15px 30px rgba(0, 0, 0, 0.3);                
-      
+
+    box-shadow:
+      inset 0 0 8px rgba(255, 255, 255, 0.9),
+      inset 10px 0 25px rgba(255, 0, 255, 0.4),
+      inset -10px 0 25px rgba(0, 255, 255, 0.5),
+      inset 0 10px 25px rgba(0, 255, 120, 0.4),
+      inset 0 -10px 25px rgba(50, 100, 255, 0.4),
+      0 15px 30px rgba(0, 0, 0, 0.3);
+
     /* Extremely thin, crisp outer skin */
     border: 1px solid rgba(255, 255, 255, 0.9);
-    
+
     /* Dual glares: a sharp, intense pinpoint (top-left) and a soft, diffuse ambient sheen */
-    background: 
-      radial-gradient(ellipse at 25% 25%, rgba(255, 255, 255, 0.6) 0%, rgba(255, 255, 255, 0) 10%),
-      radial-gradient(ellipse at 75% 75%, rgba(255, 255, 255, 0.15) 0%, rgba(255, 255, 255, 0) 30%);
+    background:
+      radial-gradient(
+        ellipse at 25% 25%,
+        rgba(255, 255, 255, 0.6) 0%,
+        rgba(255, 255, 255, 0) 10%
+      ),
+      radial-gradient(
+        ellipse at 75% 75%,
+        rgba(255, 255, 255, 0.15) 0%,
+        rgba(255, 255, 255, 0) 30%
+      );
   }
 
   .left-col h2 {
-    font-size: var(--font-size-60); 
+    font-size: var(--font-size-60);
     font-weight: var(--font-weight-bold);
     color: var(--white);
     line-height: 1.1;
@@ -151,7 +174,7 @@ const {
   }
 
   .highlight {
-    color: #00f0ff; 
+    color: #00f0ff;
   }
 
   .right-col {
@@ -161,7 +184,7 @@ const {
   }
 
   .right-col p {
-    font-size: var(--font-size-18); 
+    font-size: var(--font-size-18);
     line-height: 1.6;
     color: var(--white);
     margin: 0;
@@ -182,7 +205,7 @@ const {
     font-size: var(--font-size-12);
     font-weight: var(--font-weight-bold);
     letter-spacing: 0.5px;
-    cursor: pointer; 
+    cursor: pointer;
   }
 
   .action-btn .text {
@@ -192,7 +215,7 @@ const {
   }
 
   .action-btn .icon {
-    background-color: var(--lime); 
+    background-color: var(--lime);
     color: var(--navy);
     padding: 14px;
     display: flex;
@@ -212,13 +235,13 @@ const {
 
   @media (max-width: 1024px) {
     .ai-hero {
-      height: auto; 
+      height: auto;
       padding: 120px 0;
-      cursor: auto; 
+      cursor: auto;
     }
-    
+
     .glass-bobble {
-      display: none; 
+      display: none;
     }
 
     .ai-hero__container {
@@ -230,19 +253,20 @@ const {
 
 <script>
   function initTrueMagnifier() {
-    const section = document.getElementById('ai-hero-section');
-    const bobble = document.getElementById('glass-bobble');
-    const glassContent = document.getElementById('glass-content');
-    const heroContent = document.getElementById('hero-content');
+    const section = document.getElementById("ai-hero-section");
+    const bobble = document.getElementById("glass-bobble");
+    const glassContent = document.getElementById("glass-content");
+    const heroContent = document.getElementById("hero-content");
 
     if (!section || !bobble || !glassContent || !heroContent) return;
 
     glassContent.appendChild(heroContent.cloneNode(true));
 
-    const scale = 1.7; 
+    const scale = 1.7;
     const bobbleSize = 250;
     const radius = bobbleSize / 2;
 
+<<<<<<< Updated upstream
     let mouseX = 0;
     let mouseY = 0;
     let isHovering = false;
@@ -295,6 +319,26 @@ const {
       mouseX = e.clientX;
       mouseY = e.clientY;
       updateMagnifier();
+=======
+    section.addEventListener("mouseenter", () => {
+      bobble.style.opacity = "1";
+    });
+
+    section.addEventListener("mouseleave", () => {
+      bobble.style.opacity = "0";
+    });
+
+    section.addEventListener("mousemove", (e) => {
+      const x = e.clientX;
+      const y = e.clientY;
+
+      bobble.style.transform = `translate(${x - radius}px, ${y - radius}px)`;
+
+      const innerX = -x * scale + radius;
+      const innerY = -y * scale + radius;
+
+      glassContent.style.transform = `translate(${innerX}px, ${innerY}px) scale(${scale})`;
+>>>>>>> Stashed changes
     });
 
     window.addEventListener('scroll', () => {
@@ -304,6 +348,6 @@ const {
     }, { passive: true });
   }
 
-  document.addEventListener('DOMContentLoaded', initTrueMagnifier);
+  document.addEventListener("DOMContentLoaded", initTrueMagnifier);
 </script>
 

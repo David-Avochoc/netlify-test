@@ -1,0 +1,58 @@
+---
+interface Props {
+  background?: string;
+  textColor?: string;
+  accentColor?: string;
+  fontSize?: string;
+}
+
+const {
+  background = "var(--grey)",
+  textColor = "var(--navy)",
+  accentColor = "var(--green)",
+  fontSize = "var(--font-size-32)",
+} = Astro.props;
+---
+
+<div
+  class="highlight-box"
+  style={`--highlight-background: ${background}; --highlight-text: ${textColor}; --highlight-accent: ${accentColor}; --highlight-font-size: ${fontSize};`}
+>
+  <slot />
+</div>
+
+<style>
+  .highlight-box {
+    position: relative;
+    display: flex;
+    width: fit-content;
+    max-width: 100%;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 0.125rem;
+    padding-block: var(--std-btn-padding-y);
+    padding-inline: var(--std-btn-padding-x);
+    background: var(--highlight-background);
+    color: var(--highlight-text);
+    font-size: var(--highlight-font-size);
+    box-sizing: border-box;
+  }
+
+  .highlight-box::before,
+  .highlight-box::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background:
+      linear-gradient(var(--highlight-accent), var(--highlight-accent)) left
+        top / 0.25rem 0.25rem no-repeat,
+      linear-gradient(var(--highlight-accent), var(--highlight-accent)) right
+        top / 0.25rem 0.25rem no-repeat,
+      linear-gradient(var(--highlight-accent), var(--highlight-accent)) left
+        bottom / 0.25rem 0.25rem no-repeat,
+      linear-gradient(var(--highlight-accent), var(--highlight-accent)) right
+        bottom / 0.25rem 0.25rem no-repeat;
+  }
+</style>

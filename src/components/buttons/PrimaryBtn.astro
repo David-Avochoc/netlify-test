@@ -1,0 +1,163 @@
+---
+interface Props {
+  href: string;
+  text: string;
+  background?: string;
+  textColor?: string;
+}
+
+const {
+  href,
+  text,
+  background = "var(--navy)",
+  textColor = "var(--white)",
+} = Astro.props;
+---
+
+<a
+  href={href}
+  class="primary-btn"
+  style={`--button-background: ${background}; --button-text-color: ${textColor}`}
+>
+  <span class="primary-btn__sizer" aria-hidden="true">
+    {text}
+  </span>
+
+  <span class="primary-btn__label">
+    {text}
+  </span>
+
+  <span class="primary-btn__arrow" aria-hidden="true">
+    <img src="/icons/arrow-up-right-drk.svg" alt="" />
+  </span>
+</a>
+
+<style>
+  .primary-btn {
+    --button-height: calc(var(--font-size-16) + (2 * var(--std-btn-padding-y)));
+    --button-arrow-size: var(--button-height);
+    --button-icon-size: var(--font-size-16);
+    --button-duration: 600ms;
+    --button-easing: cubic-bezier(0.65, 0, 0.35, 1);
+
+    position: relative;
+    display: inline-block;
+    height: var(--button-height);
+    overflow: hidden;
+    isolation: isolate;
+    cursor: pointer;
+    text-decoration: none;
+  }
+  .primary-btn__sizer {
+    height: var(--button-height);
+    padding-block: var(--std-btn-padding-y);
+    padding-inline: var(--std-btn-padding-x);
+    padding-right: calc(var(--std-btn-padding-x) + var(--button-arrow-size));
+    font-size: var(--font-size-16);
+    font-weight: var(--font-weight-regular);
+    line-height: 1;
+    white-space: nowrap;
+    text-transform: uppercase;
+    visibility: hidden;
+  }
+  .primary-btn__label {
+    position: absolute;
+    top: 0;
+    left: 0;
+    display: flex;
+    align-items: center;
+    z-index: 2;
+    width: calc(100% - var(--button-arrow-size));
+    height: var(--button-height);
+    padding-block: var(--std-btn-padding-y);
+    padding-inline: var(--std-btn-padding-x);
+    font-size: var(--font-size-16);
+    font-weight: var(--font-weight-regular);
+    line-height: 1;
+    white-space: nowrap;
+    text-transform: uppercase;
+    color: var(--button-text-color);
+    background: var(--button-background);
+    transform: translate3d(0, 0, 0);
+    transition: transform var(--button-duration) var(--button-easing);
+    will-change: transform;
+  }
+  .primary-btn__arrow {
+    position: absolute;
+    top: 0;
+    right: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 3;
+    width: var(--button-arrow-size);
+    height: var(--button-height);
+    background: var(--lime);
+    transform: translate3d(0, 0, 0);
+    transition: transform var(--button-duration) var(--button-easing);
+    will-change: transform;
+  }
+  .primary-btn__arrow img {
+    display: block;
+    width: var(--button-icon-size);
+    height: var(--button-icon-size);
+    object-fit: contain;
+  }
+  .primary-btn:hover .primary-btn__label,
+  .primary-btn:focus-visible .primary-btn__label {
+    transform: translate3d(var(--button-arrow-size), 0, 0);
+  }
+  .primary-btn:hover .primary-btn__arrow,
+  .primary-btn:focus-visible .primary-btn__arrow {
+    transform: translate3d(calc(-1 * var(--button-label-width)), 0, 0);
+  }
+  .primary-btn__arrow.is-behind {
+    z-index: 1;
+  }
+  .primary-btn__arrow.is-returning {
+    z-index: 3;
+  }
+</style>
+
+<script>
+  const buttons = document.querySelectorAll<HTMLElement>(".primary-btn");
+
+  buttons.forEach((button) => {
+    const label = button.querySelector<HTMLElement>(".primary-btn__label");
+    const arrow = button.querySelector<HTMLElement>(".primary-btn__arrow");
+
+    if (!label || !arrow) return;
+
+    const updateLabelWidth = () => {
+      button.style.setProperty(
+        "--button-label-width",
+        `${label.offsetWidth}px`,
+      );
+    };
+
+    updateLabelWidth();
+
+    const resizeObserver = new ResizeObserver(updateLabelWidth);
+
+    resizeObserver.observe(label);
+
+    button.addEventListener("pointerenter", () => {
+      arrow.classList.remove("is-returning");
+      arrow.classList.add("is-behind");
+    });
+
+    button.addEventListener("pointerleave", () => {
+      arrow.classList.remove("is-behind");
+      arrow.classList.add("is-returning");
+    });
+
+    arrow.addEventListener("transitionend", (event) => {
+      if (
+        event.propertyName === "transform" &&
+        arrow.classList.contains("is-returning")
+      ) {
+        arrow.classList.remove("is-returning");
+      }
+    });
+  });
+</script>

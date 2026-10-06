@@ -1,0 +1,78 @@
+---
+import Container from "@/components/global/Container.astro";
+import Columns from "@/components/global/Columns.astro";
+import SectionTitle from "@/components/ui/SectionTitle.astro";
+import HighlightBox from "@/components/ui/HighlightBox.astro";
+---
+
+<section class="the-reality-section">
+  <Container>
+    <Columns
+      class="the-reality-container"
+      layout="50-50"
+      align="stretch"
+      gap="2rem"
+    >
+      <div class="the-reality-left">
+        <SectionTitle title="The Reality" fontSize="var(--font-size:36)" />
+        Everyone says they do AI. Most of it never leaves the prototype stage.
+      </div>
+      <div class="the-reality-right">
+        <p class="reality-light-txt">
+          AI is not short on promises. It is short on production.
+        </p>
+        <p class="reality-dark-txt">
+          The problem is rarely the model. It is usually the workflow nobody
+          mapped, the data nobody prepared, or the AI first build nobody
+          validated against how the business actually runs.
+        </p>
+        <HighlightBox fontSize="var(--font-size-24)">
+          That gap is where we work
+        </HighlightBox>
+      </div>
+    </Columns>
+  </Container>
+</section>
+
+<style>
+  .the-reality-section {
+    padding-block: var(--space-64);
+  }
+  :global(.the-reality-container.columns--stack) {
+    min-height: 27.75rem;
+  }
+  .the-reality-left {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    padding-right: 2rem;
+  }
+  .the-reality-left {
+    border-right: 1px solid var(--grey-500);
+  }
+  .the-reality-left h3 {
+    color: var(--navy);
+    font-weight: var(--font-weight-regular);
+    letter-spacing: -0.045rem;
+    max-width: 39rem;
+  }
+  .the-reality-right {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    gap: 1.5rem;
+  }
+  .the-reality-right p {
+    font-size: var(--font-size-18);
+    line-height: 1.5;
+    margin-bottom: var(--space-8);
+  }
+  .reality-light-txt {
+    font-weight: var(--font-weight-medium);
+    color: var(--grey-500);
+  }
+  .reality-dark-txt {
+    font-weight: var(--font-weight-semibold);
+    color: var(--grey-700);
+  }
+</style>

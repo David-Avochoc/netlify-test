@@ -1,0 +1,43 @@
+---
+interface Props {
+  backgroundImage?: string;
+  minHeight?: string;
+}
+
+const { backgroundImage, minHeight = "var(--section-min-height-screen)" } =
+  Astro.props;
+---
+
+<section
+  class="hero"
+  style={`
+    ${backgroundImage ? `background-image: url('${backgroundImage}');` : ""}
+    --hero-min-height: ${minHeight};
+  `}
+>
+  <div class="hero__container">
+    <div class="hero__content">
+      <slot />
+    </div>
+  </div>
+</section>
+
+<style>
+  .hero {
+    width: 100%;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+  }
+  .hero__container {
+    width: 100%;
+    min-height: var(--hero-min-height);
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    box-sizing: border-box;
+  }
+  .hero__content {
+    width: 100%;
+  }
+</style>

@@ -1,13 +1,36 @@
+html {
+    /* Base root size */
+    font-size: 16px;
+}
+
+/* ============================================================
+    Responsive Root Scaling
+=============================================================== */
+@media screen and (min-width: 800px) {
+    html {
+        font-size: clamp(16px, 1.1111vw, 42.67px);
+    }
+}
+
+
+/* ============================================================
+    Design Tokens
+=============================================================== */
 :root {
-    /* Font */
+    /* ============================================================
+        Font
+    ============================================================ */    
     --font-family-primary: 'Outfit', sans-serif;
+
     --font-weight-regular: 400;
     --font-weight-medium: 500;
     --font-weight-semibold: 600;
     --font-weight-bold: 700;
     --font-weight-extrabold: 800;
 
-    /* Colours */
+    /* ============================================================
+        Colours
+    ============================================================ */    
     --navy: #1D2247;
     --black: #000000;
     --charcoal: #344054;
@@ -19,140 +42,165 @@
     --grey-300: #D0D5DD;
     --grey-400: #98A2B3;
     --grey-500: #667085;
+    --grey-600: #475467;
+    --grey-700: #344054;
     --lime: #D2EF6A;
     --olive: #006662;
+    --green: #53BA84;
 
-    /* Border Radius */
+    --gradient-cyan-lime: linear-gradient(27deg, #00FEFC 8.33%, #D2EF6A 91.67%);
+    --gradient-green-lime: linear-gradient(90deg, #00BD7F 0%, #CCF04F 100%);
+    --gradient-green-white: linear-gradient(180deg, rgba(255, 255, 255, 0.00) 35%, #006662 100%);
+
+
+    /* ============================================================
+        Typography
+    ============================================================ */    
+    --font-size-12: 0.75rem;
+    --font-size-14: 0.875rem;
+    --font-size-16: 1rem;
+    --font-size-18: 1.125rem;
+    --font-size-20: 1.25rem;
+    --font-size-24: 1.5rem;
+    --font-size-30: 1.875rem;
+    --font-size-36: 2.25rem;
+    --font-size-48: 3rem;
+    --font-size-60: 3.75rem;
+    --font-size-294: 18.375rem;
+
+    /* ============================================================
+        Border Radius
+    ============================================================ */   
     --border-radius-small: 8px;
 
-    /* Container */
-    /*--container-max-width: 1440px;*/
+    /* ============================================================
+        Button
+    ============================================================ */   
+    --std-btn-padding-y: 0.5rem;
+    --std-btn-padding-x: 1rem;
+    --l-btn-padding-y: 0.679rem;
+    --l-btn-padding-x: 1.358rem;
+
+    /* ============================================================
+        Spacing Scale
+    ============================================================ */
+    --space-8: 0.5rem;
+    --space-12: 0.75rem;
+    --space-16: 1rem;
+    --space-20: 1.25rem;
+    --space-22: 1.375rem;
+    --space-24: 1.5rem;
+    --space-26: 1.625rem;
+    --space-32: 2rem;
+    --space-34: 2.125rem;
+    --space-36: 2.25rem;
+    --space-40: 2.5rem;
+    --space-44: 2.75rem;
+    --space-48: 3rem;
+    --space-64: 4rem;
+    --space-80: 5rem;
+    --space-100: 6.25rem;
+    
+    /* ============================================================
+        Navigation
+    ============================================================ */
+    --nav-padding-x: var(--space-64);
+    --nav-padding-y: 2rem;
+    --nav-logo-height: 1.813rem;
+    --nav-icon-height: 0.75rem;
+
+    /* ============================================================
+        Section
+    ============================================================ */
+    --section-min-height-screen: 100dvh;
+    --section-padding-x: var(--space-64);
 }
 
 
-/* Typography - Mobile */
-@media screen and (max-width: 799px) {
-:root {
-    --font-size-294: 18.375rem;
-    --font-size-60: 3.75rem;
-    --font-size-48: 3rem;
-    --font-size-36: 2.25rem;
-    --font-size-30: 1.875rem;
-    --font-size-24: 1.5rem;
-    --font-size-20: 1.25rem;
-    --font-size-18: 1.125rem;
-    --font-size-16: 1rem;
-    --font-size-14: 0.875rem;
-    --font-size-12: 0.75rem;  
-    }
-}
+/* ============================================================
+    DEVELOPER NOTES
+===============================================================
 
-/* Typography - Desktop */
-@media screen and (min-width: 800px) {
-:root {
-    --font-size-294: clamp(18.375rem, 20.4167vw, 49rem);
-    --font-size-60: clamp(3.75rem, 4.1667vw, 10rem);
-    --font-size-48: clamp(3rem, 3.3333vw, 8rem);
-    --font-size-36: clamp(2.25rem, 2.5vw, 6rem);
-    --font-size-30: clamp(1.875rem, 2.0833vw, 5rem);
-    --font-size-24: clamp(1.5rem, 1.6667vw, 4rem);
-    --font-size-20: clamp(1.25rem, 1.3889vw, 3.3333rem);
-    --font-size-18: clamp(1.125rem, 1.25vw, 3rem);
-    --font-size-16: clamp(1rem, 1.1111vw, 2.6667rem);
-    --font-size-14: clamp(0.875rem, 0.9722vw, 2.3333rem);
-    --font-size-12: clamp(0.75rem, 0.8333vw, 2rem);  
-    }
-}
+    1. ROOT FONT SIZE
+    -----------------------------------------------------------
+    The root font size provides the base unit for the responsive
+    scaling system. It is not the default body text size.
 
+    1440px viewport - 16px root
+    1920px viewport - 21.33px root
+    3840px viewport - 42.67px root
 
-/* Typography Scale Calculations 
------------------------------------
-Desktop typography is based on 1440px viewport. 
-Mobile typography uses fixed values and doesn't use the desktop fluid scaling.
+    This allows rem based typography and spacing to scale 
+    proportionally on larger desktop screens.
 
-1. Calculate the font size at different viewports
-----------------------------------------------------
-Font size = base font size * (viewport width / 1440)
+    2. REM USAGE
+    -----------------------------------------------------------
+    Typography and spacing tokens use rem rather than px.
 
-Eg using 16px
+    Example:
+        --space-80: 5rem;
+    
+    At a 16px root:
+        5rem = 80px
+    At 21.33px root:
+        5rem = 106.65px
 
-1440:
-16 * (1440 / 1440) = 16px
+    Use the existing rem based tokens rather than converting
+    them back to px values.
 
-1920:
-16 * (1920 / 1440) = 21.33px
+    3. MOBILE
+    -----------------------------------------------------------
+    Below 800px the root remains at 16px.
 
-3840:
-16 * (3840 / 1440) = 42.67px
+    Mobile typography and spacing therefore remain based on the 
+    fixed 16px root unless a component defines its own responsive 
+    value.
 
-2. Calculate the VW value for clamp()
----------------------------------------
-(Font size / 1440) * 100 = VW
+    4. PRIMATIVE TOKENS
+    -----------------------------------------------------------
+    Tokens such as --font-size-30 and --space-80 are primitive
+    design values. They describe a size rather than a specific
+    component.
 
-Eg using 16px
+    Use component/semantic tokens when a componenet requires
+    different values at different breakpoints.
 
-(16 / 1440) * 100 = 1.1111vw
+    Example:
+        --font-size-section-title: var(--font-size-30);
 
-Therefore
-1440 = 16px
-1920 = 21.33px
-3840 = 42.67px
+    5. FLUID SCALING
+    -----------------------------------------------------------
+    Do not add additional clamp() or vw calculations to every typography or spacing token.
 
-3. Convert PX to REM
------------------------
-The root font size is 16px
+    The root font-size is responsible for desktop fluid scaling, so rem based tokens inherit
+    that scaling automatically.
 
-PX / 16 = REM
+    6. FIXED VALUES
+    -----------------------------------------------------------
+    Not everything should use rem.
 
-Eg 20 / 16 = 1.24rem
+    Fixed values such as borders, very small UI details or values that need to remain physically
+    consistent may use px values where appropriate.
 
-4. Clamp() structure
-----------------------
-clamp(MIN, FLUID, MAX)
+    7. TOKEN NAMING
+    -----------------------------------------------------------
+    Primitive tokens should describe the value:
 
-MIN = 1440px design font size
-FLUID = calculated VW value
-MAX = 3840px design font size
+        --font-size-30
+        --space-80
 
-Eg using 20px
+    Semantic tokens should describe the purpose:
 
---font-size-20: clamp(1.25rem, 1.3889vw, 3.3333rem);
+        --font-size-section-title
+        --section-padding-y
+        --card-gap
 
-Calculation = (20 / 1440) * 100 = 1.3889vw
+    8. ADDING NEW TOKENS
+    -----------------------------------------------------------
+    Before adding new tokens, check whether an existing token already provides the required value.
 
-Therefore
-1440 = 1.3889vw = 20px
-1920 = 1.3889vw = 26.67px
-3840 = 1.3889vw = 53.33px
+    Keep primitive design token values centralised in this file and avoid duplicating values accross
+    individual componenets.
 
-4. Quick VW calculation
---------------------------
-Because the reference viewport is 1440px:
-1440 / 100 = 14.4
-
-Therefore
-VW = Font size / 14.4
-
-Eg:
-20 / 14.4 = 1.3889vw
-24 / 14.4 = 1.6667vw
-30 / 14.4 = 2.0833vw
-
-5. Responsive implementation
--------------------------------
-0 - 799px
-Use the fixed mobile REM
-
-800px +:
-Use the fluid desktop clamp() value
-
-Eg:
-Mobile:
---font-size-20: 1.25rem;
-
-Desktop:
---font-size-20: clamp(1.25rem, 1.3889vw , 3.3333rem);
-
-This allows the same variable to be used throughout the site while keeping mobile typography fixed and desktop fluid
-*/
+=============================================================== */
 

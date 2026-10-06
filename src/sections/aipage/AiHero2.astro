@@ -1,0 +1,75 @@
+---
+import Hero from "@/sections/shared-sections/Hero.astro";
+import Container from "@/components/global/Container.astro";
+import Columns from "@/components/global/Columns.astro";
+import SecondaryBtn from "@/components/buttons/SecondaryBtn.astro";
+import PrimaryBtn from "@/components/buttons/PrimaryBtn.astro";
+---
+
+<section class="ai-hero-section">
+  <Hero backgroundImage="/images/backgrounds/ai_header.webp">
+    <Container>
+      <Columns class="ai-hero-container" layout="50-50" align="stretch">
+        <div class="ai-hero-left">
+          <h1>
+            [AI] that<br /><span class="gradient-text">earns its place</span>
+          </h1>
+        </div>
+        <div class="ai-hero-right">
+          <p>
+            We build custom software, AI, and integrated systems for
+            organisations operating under conditions where failure is expensive,
+            visible, and hard to undo.
+          </p>
+          <div class="hero__actions">
+            <SecondaryBtn href="/contact" text="Talk to our team" />
+            <PrimaryBtn
+              href="#"
+              text="Take our AI maturity assessment"
+              background="var(--white)"
+              textColor="var(--navy)"
+            />
+          </div>
+        </div>
+      </Columns>
+    </Container>
+  </Hero>
+</section>
+
+<style>
+  :global(.ai-hero-container.columns--stack) {
+    padding-top: 7.75rem;
+    min-height: 22.813rem;
+  }
+  .ai-hero-left h1 {
+    font-size: var(--font-size-60);
+    font-weight: var(--font-weight-semibold);
+    color: var(--white);
+    letter-spacing: -0.075rem;
+  }
+  .ai-hero-left .gradient-text {
+    background: var(--gradient-cyan-lime);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    display: inline;
+  }
+  .ai-hero-right {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+  }
+  .ai-hero-right p {
+    font-size: var(--font-size-20);
+    font-weight: var(--font-weight-medium);
+    color: var(--white);
+    padding-bottom: var(--space-24);
+    max-width: 36.68rem;
+    margin-top: auto;
+    margin-bottom: 0px;
+  }
+  .hero__actions {
+    display: flex;
+    gap: var(--space-16);
+  }
+</style>

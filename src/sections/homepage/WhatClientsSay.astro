@@ -1,7 +1,7 @@
 ---
 import Container from "@/components/global/Container.astro";
 import SectionTitle from "@/components/ui/SectionTitle.astro";
-import TestimonialSection from "@/sections/global/TestimonialSection.astro";
+import TestimonialSection from "@/sections/shared-sections/TestimonialSection.astro";
 ---
 
 <section class="home-testimonials">
@@ -20,7 +20,7 @@ import TestimonialSection from "@/sections/global/TestimonialSection.astro";
   .home-testimonials__inner {
     display: flex;
     flex-direction: column;
-    padding: 80px 0px;
-    gap: 64px;
+    padding-block: var(--space-80);
+    gap: var(--space-64);
   }
 </style>

@@ -7,22 +7,26 @@ const tabsData = [
     label: "READINESS",
     word: "Readiness",
     phonetic: "/'rɛdɪnɪs/",
-    definition: "being fully prepared for action or showing a clear willingness to do something.",
-    image: "/images/Ai-Page/Ai_Page.Readiness.svg", 
+    definition:
+      "being fully prepared for action or showing a clear willingness to do something.",
+    image: "/images/Ai-Page/Ai_Page.Readiness.svg",
     step: "01/04",
     title: "Not everything needs AI",
-    description: "Some workflows are ready. Some aren't yet. Some never will be — and that's fine."
+    description:
+      "Some workflows are ready. Some aren't yet. Some never will be — and that's fine.",
   },
   {
     id: "discovery",
     label: "DISCOVERY",
     word: "Discovery",
     phonetic: "/dɪˈskʌv(ə)ri/",
-    definition: "the action or process of finding something or finding out about something for the first time.",
-    image: "/images/Ai-Page/Ai_Page_Discovery.svg", 
+    definition:
+      "the action or process of finding something or finding out about something for the first time.",
+    image: "/images/Ai-Page/Ai_Page_Discovery.svg",
     step: "02/04",
     title: "Finding the real problem",
-    description: "We don't start with solutions. We look at your current systems to find out where the friction actually lives."
+    description:
+      "We don't start with solutions. We look at your current systems to find out where the friction actually lives.",
   },
   {
     id: "honesty",
@@ -33,7 +37,8 @@ const tabsData = [
     image: "/images/Ai-Page/Ai_Page _Honesty.svg",
     step: "03/04",
     title: "No buzzwords allowed",
-    description: "If a simple database query does the job better than a language model, we will tell you to use the database."
+    description:
+      "If a simple database query does the job better than a language model, we will tell you to use the database.",
   },
   {
     id: "risk",
@@ -44,8 +49,9 @@ const tabsData = [
     image: "/images/Ai-Page/Ai_Paage_Risk.png",
     step: "04/04",
     title: "Protecting the core",
-    description: "Innovation shouldn't break daily operations. We assess the vulnerabilities before writing a single line of code."
-  }
+    description:
+      "Innovation shouldn't break daily operations. We assess the vulnerabilities before writing a single line of code.",
+  },
 ];
 ---
 
@@ -57,42 +63,45 @@ const tabsData = [
 
         <!-- Tab Buttons -->
         <div class="we-tell__tabs" role="tablist">
-          {tabsData.map((tab, index) => (
-            <button 
-              class:list={['tab-btn', { active: index === 0 }]} 
-              data-target={tab.id}
-              role="tab"
-            >
-              {tab.label}
-            </button>
-          ))}
+          {
+            tabsData.map((tab, index) => (
+              <button
+                class:list={["tab-btn", { active: index === 0 }]}
+                data-target={tab.id}
+                role="tab"
+              >
+                {tab.label}
+              </button>
+            ))
+          }
         </div>
 
-        
         <div class="we-tell__content-wrapper">
-          {tabsData.map((tab, index) => (
-            <div 
-              class:list={['tab-panel', { active: index === 0 }]} 
-              id={tab.id}
-              role="tabpanel"
-            >
-              <div class="panel-left">
-                <h3>{tab.word}</h3>
-                <span class="phonetic">{tab.phonetic}</span>
-                <p class="definition">{tab.definition}</p>
-              </div>
+          {
+            tabsData.map((tab, index) => (
+              <div
+                class:list={["tab-panel", { active: index === 0 }]}
+                id={tab.id}
+                role="tabpanel"
+              >
+                <div class="panel-left">
+                  <h3>{tab.word}</h3>
+                  <span class="phonetic">{tab.phonetic}</span>
+                  <p class="definition">{tab.definition}</p>
+                </div>
 
-              <div class="panel-center">
-                <img src={tab.image} alt={tab.word} loading="lazy" />
-              </div>
+                <div class="panel-center">
+                  <img src={tab.image} alt={tab.word} loading="lazy" />
+                </div>
 
-              <div class="panel-right">
-                <span class="step">{tab.step}</span>
-                <h4>{tab.title}</h4>
-                <p class="description">{tab.description}</p>
+                <div class="panel-right">
+                  <span class="step">{tab.step}</span>
+                  <h4>{tab.title}</h4>
+                  <p class="description">{tab.description}</p>
+                </div>
               </div>
-            </div>
-          ))}
+            ))
+          }
         </div>
 
         <p class="we-tell__footer">FOUR CHECKS. NO GUESSWORK. NOTHING ELSE.</p>
@@ -102,7 +111,6 @@ const tabsData = [
 </div>
 
 <style>
-
   .we-tell-pin-wrapper {
     height: 400vh;
     position: relative;
@@ -111,7 +119,7 @@ const tabsData = [
   .we-tell {
     position: sticky;
     top: 0;
-    height: 100vh; 
+    height: 100vh;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -124,7 +132,6 @@ const tabsData = [
 
   .we-tell__container {
     margin: 0 auto;
-    padding: 0 64px;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -171,7 +178,7 @@ const tabsData = [
     position: relative;
     width: 100%;
     /* Keep space reserved for the panels so layout doesn't jump */
-    min-height: 350px; 
+    min-height: 350px;
     margin-bottom: 60px;
   }
 
@@ -184,11 +191,14 @@ const tabsData = [
     grid-template-columns: 1fr 1fr 1fr;
     gap: 40px;
     align-items: center;
-    
+
     opacity: 0;
     visibility: hidden;
     transform: translateY(20px);
-    transition: opacity 0.5s ease, transform 0.5s ease, visibility 0.5s;
+    transition:
+      opacity 0.5s ease,
+      transform 0.5s ease,
+      visibility 0.5s;
   }
 
   .tab-panel.active {
@@ -294,47 +304,50 @@ const tabsData = [
 
 <script>
   function initScrollTabs() {
-    const wrapper = document.querySelector('.we-tell-pin-wrapper');
-    const buttons = document.querySelectorAll('.tab-btn');
-    const panels = document.querySelectorAll('.tab-panel');
+    const wrapper = document.querySelector(".we-tell-pin-wrapper");
+    const buttons = document.querySelectorAll(".tab-btn");
+    const panels = document.querySelectorAll(".tab-panel");
     const totalTabs = panels.length;
     let currentIndex = 0;
 
     if (!wrapper || totalTabs === 0) return;
 
-    window.addEventListener('scroll', () => {
-      const rect = wrapper.getBoundingClientRect();
-      
+    window.addEventListener(
+      "scroll",
+      () => {
+        const rect = wrapper.getBoundingClientRect();
 
-      const scrollableDistance = rect.height - window.innerHeight;
-      const scrolled = -rect.top;
-      
-      let progress = scrolled / scrollableDistance;
+        const scrollableDistance = rect.height - window.innerHeight;
+        const scrolled = -rect.top;
 
-      if (progress < 0) progress = 0;
-      if (progress > 1) progress = 1;
+        let progress = scrolled / scrollableDistance;
 
-      let activeIndex = Math.floor(progress * totalTabs);
-      
-      if (activeIndex >= totalTabs) {
-        activeIndex = totalTabs - 1;
-      }
+        if (progress < 0) progress = 0;
+        if (progress > 1) progress = 1;
 
-      if (activeIndex !== currentIndex) {
-        currentIndex = activeIndex;
+        let activeIndex = Math.floor(progress * totalTabs);
 
-        buttons.forEach((btn, i) => {
-          if (i === currentIndex) btn.classList.add('active');
-          else btn.classList.remove('active');
-        });
+        if (activeIndex >= totalTabs) {
+          activeIndex = totalTabs - 1;
+        }
 
-        panels.forEach((panel, i) => {
-          if (i === currentIndex) panel.classList.add('active');
-          else panel.classList.remove('active');
-        });
-      }
-    }, { passive: true });
+        if (activeIndex !== currentIndex) {
+          currentIndex = activeIndex;
+
+          buttons.forEach((btn, i) => {
+            if (i === currentIndex) btn.classList.add("active");
+            else btn.classList.remove("active");
+          });
+
+          panels.forEach((panel, i) => {
+            if (i === currentIndex) panel.classList.add("active");
+            else panel.classList.remove("active");
+          });
+        }
+      },
+      { passive: true },
+    );
   }
 
-  document.addEventListener('DOMContentLoaded', initScrollTabs);
+  document.addEventListener("DOMContentLoaded", initScrollTabs);
 </script>

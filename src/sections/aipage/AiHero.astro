@@ -243,26 +243,67 @@ const {
     const bobbleSize = 250;
     const radius = bobbleSize / 2;
 
+    let mouseX = 0;
+    let mouseY = 0;
+    let isHovering = false;
+
+    function updateMagnifier() {
+      if (!isHovering) {
+        bobble.style.opacity = '0';
+        return;
+      }
+
+      const rect = section.getBoundingClientRect();
+
+    
+      const hitLeft = (mouseX - radius) <= rect.left;
+      const hitRight = (mouseX + radius) >= rect.right;
+      const hitTop = (mouseY - radius) <= rect.top;
+      const hitBottom = (mouseY + radius) >= rect.bottom;
+
+      if (hitLeft || hitRight || hitTop || hitBottom) {
+        bobble.style.opacity = '0';
+      } else {
+        bobble.style.opacity = '1';
+      }
+
+      bobble.style.transform = `translate(${mouseX - radius}px, ${mouseY - radius}px)`;
+
+      glassContent.style.width = `${rect.width}px`;
+      glassContent.style.height = `${rect.height}px`;
+
+      const relX = mouseX - rect.left;
+      const relY = mouseY - rect.top;
+
+      const innerX = -relX * scale + radius;
+      const innerY = -relY * scale + radius;
+      
+      glassContent.style.transform = `translate(${innerX}px, ${innerY}px) scale(${scale})`;
+    }
+
     section.addEventListener('mouseenter', () => {
-      bobble.style.opacity = '1';
+      isHovering = true;
+      updateMagnifier();
     });
 
     section.addEventListener('mouseleave', () => {
+      isHovering = false;
       bobble.style.opacity = '0';
     });
 
     section.addEventListener('mousemove', (e) => {
-      const x = e.clientX;
-      const y = e.clientY;
-
-      bobble.style.transform = `translate(${x - radius}px, ${y - radius}px)`;
-
-      const innerX = -x * scale + radius;
-      const innerY = -y * scale + radius;
-      
-      glassContent.style.transform = `translate(${innerX}px, ${innerY}px) scale(${scale})`;
+      mouseX = e.clientX;
+      mouseY = e.clientY;
+      updateMagnifier();
     });
+
+    window.addEventListener('scroll', () => {
+      if (isHovering) {
+        updateMagnifier();
+      }
+    }, { passive: true });
   }
 
   document.addEventListener('DOMContentLoaded', initTrueMagnifier);
 </script>
+

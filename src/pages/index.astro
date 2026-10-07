@@ -7,18 +7,13 @@ import SplitFeature from "../sections/shared-sections/Threecolumns.astro";
 import ServiceCards from "../sections/homepage/ServiceCards.astro";
 import PrimaryBtn from "@/components/buttons/PrimaryBtn.astro";
 import SecondaryBtn from "@/components/buttons/SecondaryBtn.astro";
+import HomeHero from "../sections/homepage/HomeHero.astro";
 ---
 
 <BaseLayout title="AvoChoc" description="Progress Done Properly">
-  <Hero
-    title="AvoChoc Website Rebuild"
-    description="Lorem ipsum dolor sit amet, consectetur adipiscing elit."
-    backgroundImage="/images/backgrounds/hero_image.webp"
-  >
-    <PrimaryBtn slot="actions" href="/contact" text="Get Started" />
 
-    <SecondaryBtn slot="actions" href="/our-work" text="View Our Work" />
-  </Hero>
+  <!-- 2. Properly called HomeHero as a self-closing component -->
+  <HomeHero />
 
   <Map
     title="AvoChoc builds solutions that work in the real world, not only the slide deck."
@@ -26,25 +21,19 @@ import SecondaryBtn from "@/components/buttons/SecondaryBtn.astro";
     backgroundImage="/images/AvoChoc-Map.svg"
   />
 
+  <!-- 3. Cleaned up rogue broken props (Provide, here, image, pattern, the) and the broken <br" -->
   <SplitFeature
-    Provide
     backgroundImage="/images/Avochoc_middle_column.svg"
     blurred
-    descriptionParagraph1="Most organisations don’t struggle because they lack ambition. 
-   They struggle because their systems carry too much. Old platforms. 
-   Daily operations that depend on each other. Rules they have to follow. 
-   Every component relies on the next. Change one thing, and you risk breaking something else."
-    descriptionParagraph2="Most partners only work one way. Some push new ideas without understanding your limits.
-    Others protect what you have, but don’t help you move forward. Neither works when your systems can't afford to fail.<br"
-    here
-    image
-    pattern
-    the
+    descriptionParagraph1="Most organisations don’t struggle because they lack ambition. They struggle because their systems carry too much. Old platforms. Daily operations that depend on each other. Rules they have to follow. Every component relies on the next. Change one thing, and you risk breaking something else."
+    descriptionParagraph2="Most partners only work one way. Some push new ideas without understanding your limits. Others protect what you have, but don’t help you move forward. Neither works when your systems can't afford to fail."
     titlePart1="Move fast and introduce risk."
     titlePart2="Or stay stable and fall behind."
-    ><br /><b>We take a new approach.</b><br /><br />We deliver secure
-    modernisation for large organisations, without disrupting day-to-day
-    operations. We build systems for the real world, not the ideal one."
+  >
+    <br />
+    <b>We take a new approach.</b>
+    <br /><br />
+    We deliver secure modernisation for large organisations, without disrupting day-to-day operations. We build systems for the real world, not the ideal one.
     <SecondaryBtn slot="actions" href="/contact" text="Work With Us" />
   </SplitFeature>
 
@@ -53,6 +42,8 @@ import SecondaryBtn from "@/components/buttons/SecondaryBtn.astro";
     titlePart1="From legacy system modernisation to production-ready AI development. "
     titlePart2="Everything built for the environments your business actually runs in."
   />
+  
   <PrimaryBtn href="/contact" text="Work With Us" />
   <WhatClientsSay />
+  
 </BaseLayout>

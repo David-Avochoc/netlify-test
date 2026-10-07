@@ -38,7 +38,6 @@ import PrimaryBtn from "@/components/buttons/PrimaryBtn.astro";
     </Hero>
   </div>
 
-  <!-- Magnifier Bobble -->
   <div class="glass-bobble" id="glass-bobble">
     <div class="glass-content" id="glass-content"></div>
     <div class="glass-overlay"></div>
@@ -46,7 +45,6 @@ import PrimaryBtn from "@/components/buttons/PrimaryBtn.astro";
 </section>
 
 <style>
-  /* --- Original Layout Styles --- */
   .ai-hero-section {
     position: relative;
     cursor: none; /* Hides default cursor */
@@ -88,7 +86,6 @@ import PrimaryBtn from "@/components/buttons/PrimaryBtn.astro";
     gap: var(--space-16);
   }
 
-  /* --- Glass Magnifier Styles --- */
   .glass-bobble {
     position: fixed;
     top: 0;
@@ -111,7 +108,6 @@ import PrimaryBtn from "@/components/buttons/PrimaryBtn.astro";
     filter: contrast(1.1);
   }
   
-  /* Forces the cloned content to fill the tracking window properly */
   .glass-content > div {
     width: 100%;
     height: 100%;
@@ -164,7 +160,6 @@ import PrimaryBtn from "@/components/buttons/PrimaryBtn.astro";
 
     if (!section || !bobble || !glassContent || !heroContent) return;
 
-    // Clone the entire visual layout so the JS doesn't need to guess where the background is
     glassContent.appendChild(heroContent.cloneNode(true));
 
     const scale = 1.7;
@@ -183,7 +178,6 @@ import PrimaryBtn from "@/components/buttons/PrimaryBtn.astro";
 
       const rect = section.getBoundingClientRect();
 
-      // Invisible Perimeter Check
       const hitLeft = (mouseX - radius) <= rect.left;
       const hitRight = (mouseX + radius) >= rect.right;
       const hitTop = (mouseY - radius) <= rect.top;
@@ -195,14 +189,11 @@ import PrimaryBtn from "@/components/buttons/PrimaryBtn.astro";
         bobble.style.opacity = "1";
       }
 
-      // Position the bobble
       bobble.style.transform = `translate(${mouseX - radius}px, ${mouseY - radius}px)`;
 
-      // Match the glass container size exactly to the section size
       glassContent.style.width = `${rect.width}px`;
       glassContent.style.height = `${rect.height}px`;
 
-      // Calculate relative offset based on the section's current position (accounts for scrolling)
       const relX = mouseX - rect.left;
       const relY = mouseY - rect.top;
 
@@ -228,7 +219,6 @@ import PrimaryBtn from "@/components/buttons/PrimaryBtn.astro";
       updateMagnifier();
     });
 
-    // Fixes the scroll freezing issue
     window.addEventListener('scroll', () => {
       if (isHovering) {
         updateMagnifier();

@@ -31,10 +31,10 @@ const videoPath = "public/videos/Hero-Vid.mp4";
           </h1>
           
           <div class="hero__actions">
-            <SecondaryBtn href="/contact" text="Talk to our team" />
+           
             <PrimaryBtn
               href="#"
-              text="Take our AI maturity assessment"
+              text="START THE CONVERSATION"
               background="var(--white)"
               textColor="var(--navy)"
             />
@@ -65,7 +65,7 @@ const videoPath = "public/videos/Hero-Vid.mp4";
     width: 100%;
     height: 100%;
     object-fit: cover;
-    opacity: 0; /* Hidden by default */
+    opacity: 0; 
     transition: opacity 0.5s ease;
     z-index: 1;
   }
@@ -78,7 +78,8 @@ const videoPath = "public/videos/Hero-Vid.mp4";
   }
 
   .video-card {
-    width: 100%;
+    width: 427px;
+    height:240px;
     aspect-ratio: 16 / 9;
     border-radius: 12px;
     background: linear-gradient(145deg, #1d2f47, #3fa1a5); 
@@ -96,7 +97,7 @@ const videoPath = "public/videos/Hero-Vid.mp4";
     width: 100%;
     height: 100%;
     object-fit: cover;
-    opacity: 0; /* Hidden to show the gradient until hovered */
+    opacity: 0; 
     transition: opacity 0.4s ease;
   }
 
@@ -109,12 +110,12 @@ const videoPath = "public/videos/Hero-Vid.mp4";
 
   .text-column.fade-out {
     opacity: 0;
-    pointer-events: none; /* Prevents hidden buttons from being clickable */
+    pointer-events: none; 
   }
 
   .text-column h1 {
-    font-size: var(--font-size-60, 2.5rem);
-    font-weight: var(--font-weight-semibold, 600);
+    font-size: var(--font-size-24, 1.5rem);
+    font-weight: var(--font-weight-regular, 400);
     color: var(--white, #ffffff);
     line-height: 1.1;
     margin-bottom: 40px;

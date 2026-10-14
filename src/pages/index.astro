@@ -8,10 +8,10 @@ import ServiceCards from "../sections/homepage/ServiceCards.astro";
 import PrimaryBtn from "@/components/buttons/PrimaryBtn.astro";
 import SecondaryBtn from "@/components/buttons/SecondaryBtn.astro";
 import HomeHero from "../sections/homepage/HomeHero.astro";
+import StepRevealCard from "../components/cards/StepRevealCard.astro";
 ---
 
 <BaseLayout title="AvoChoc" description="Progress Done Properly">
-
   <HomeHero />
 
   <Map
@@ -31,7 +31,8 @@ import HomeHero from "../sections/homepage/HomeHero.astro";
     <br />
     <b>We take a new approach.</b>
     <br /><br />
-    We deliver secure modernisation for large organisations, without disrupting day-to-day operations. We build systems for the real world, not the ideal one.
+    We deliver secure modernisation for large organisations, without disrupting day-to-day
+    operations. We build systems for the real world, not the ideal one.
     <SecondaryBtn slot="actions" href="/contact" text="Work With Us" />
   </SplitFeature>
 
@@ -40,8 +41,7 @@ import HomeHero from "../sections/homepage/HomeHero.astro";
     titlePart1="From legacy system modernisation to production-ready AI development. "
     titlePart2="Everything built for the environments your business actually runs in."
   />
-  
+
   <PrimaryBtn href="/contact" text="Work With Us" />
   <WhatClientsSay />
-  
 </BaseLayout>

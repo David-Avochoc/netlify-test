@@ -1,0 +1,228 @@
+---
+interface Props {
+  number?: string;
+  title: string;
+  backgroundColor?: string;
+  backgroundOpenColor?: string;
+  textColor?: string;
+  textOpenColor?: string;
+  numberColor?: string;
+  iconColor?: string;
+  titleSize?: string;
+  contentSize?: string;
+  paddingY?: string;
+  paddingX?: string;
+  contentPaddingTop?: string;
+  contentPaddingBottom?: string;
+  contentPaddingLeft?: string;
+  contentPaddingRight?: string;
+  borderColor?: string;
+  borderWidth?: string;
+  transitionDuration?: string;
+  class?: string;
+}
+
+const {
+  number = "",
+  title,
+  backgroundColor = "transparent",
+  backgroundOpenColor = "transparent",
+  textColor = "var(--navy)",
+  textOpenColor = "var(--navy)",
+  numberColor = "var(--grey-400)",
+  iconColor = "var(--grey-600)",
+  titleSize = "var(--font-size-36)",
+  contentSize = "var(--font-size-20)",
+  paddingY = "0rem",
+  paddingX = "0rem",
+  contentPaddingTop = "var(--space-32)",
+  contentPaddingBottom = "var(--space-32)",
+  contentPaddingLeft = "var(--space-80)",
+  contentPaddingRight = "1rem",
+  borderColor = "transparent",
+  borderWidth = "0px",
+  transitionDuration = "var(--transition-duration-standard)",
+  class: additionalClass = "",
+} = Astro.props;
+
+const panelId = `accordion-panel-${crypto.randomUUID()}`;
+---
+
+<div
+  class:list={["accordion-item", additionalClass]}
+  style={`
+    --accordion-background: ${backgroundColor};
+    --accordion-background-open: ${backgroundOpenColor};
+    --accordion-text: ${textColor};
+    --accordion-text-open: ${textOpenColor};
+    --accordion-number: ${numberColor};
+    --accordion-icon: ${iconColor};
+    --accordion-title-size: ${titleSize};
+    --accordion-content-size: ${contentSize};
+    --accordion-padding-y: ${paddingY};
+    --accordion-padding-x: ${paddingX};
+    --accordion-content-padding-top: ${contentPaddingTop};
+    --accordion-content-padding-bottom: ${contentPaddingBottom};
+    --accordion-content-padding-left: ${contentPaddingLeft};
+    --accordion-content-padding-right: ${contentPaddingRight};
+    --accordion-border-color: ${borderColor};
+    --accordion-border-width: ${borderWidth};
+    --accordion-transition-duration: ${transitionDuration};
+  `}
+>
+  <button
+    class="accordion__trigger"
+    type="button"
+    aria-expanded="false"
+    aria-controls={panelId}
+  >
+    {number && <span class="accordion__number">{number}</span>}
+
+    <span class="accordion__title">
+      {title}
+    </span>
+
+    <span class="accordion__icon" aria-hidden="true"></span>
+  </button>
+
+  <div class="accordion__content" id={panelId} aria-hidden="true" inert>
+    <div class="accordion__content-clip">
+      <div class="accordion__content-inner">
+        <slot />
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+  .accordion-item {
+    width: 100%;
+    background: var(--accordion-background);
+    color: var(--accordion-text);
+    border: var(--accordion-border-width) solid var(--accordion-border-color);
+    transition:
+      background-color var(--accordion-transition-duration) ease,
+      color var(--accordion-transition-duration) ease;
+  }
+
+  .accordion-item.is-open {
+    background: var(--accordion-background-open);
+    color: var(--accordion-text-open);
+  }
+
+  .accordion__trigger {
+    display: flex;
+    align-items: center;
+    gap: var(--space-26);
+    width: 100%;
+    padding: var(--accordion-padding-y) var(--accordion-padding-x);
+    border: none;
+    background: transparent;
+    color: inherit;
+    font: inherit;
+    text-align: left;
+    transition: gap var(--accordion-transition-duration)
+      var(--transition-easing);
+    cursor: pointer;
+  }
+
+  .accordion__trigger:focus-visible {
+    outline: 2px solid currentColor;
+    outline-offset: 4px;
+  }
+
+  .accordion__number {
+    flex: 0 0 auto;
+    color: var(--accordion-number);
+    font-size: var(--font-size-48);
+    line-height: 1.5;
+    letter-spacing: -0.06rem;
+    min-width: 3.56rem;
+  }
+
+  .accordion__title {
+    flex: 1 1 auto;
+    min-width: 0;
+    font-size: var(--accordion-title-size);
+    color: inherit;
+  }
+
+  .accordion__icon {
+    position: relative;
+    flex: 0 0 auto;
+    width: 1.25rem;
+    height: 1.25rem;
+    margin-left: auto;
+    color: var(--accordion-icon);
+  }
+
+  .accordion__icon::before,
+  .accordion__icon::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 100%;
+    height: 3.5px;
+    background: currentColor;
+    transform: translate(-50%, -50%);
+    transition:
+      transform var(--accordion-transition-duration) ease,
+      opacity var(--accordion-transition-duration) ease;
+  }
+
+  .accordion__icon::after {
+    transform: translate(-50%, -50%) rotate(90deg);
+  }
+
+  .accordion-item.is-open .accordion__icon::after {
+    opacity: 0;
+  }
+
+  .accordion__content {
+    display: grid;
+    grid-template-rows: 0fr;
+    transition: grid-template-rows var(--accordion-transition-duration)
+      var(--transition-easing);
+  }
+
+  .accordion-item.is-open .accordion__trigger {
+    gap: var(--space-46);
+  }
+
+  .accordion-item.is-open .accordion__content {
+    grid-template-rows: 1fr;
+  }
+
+  .accordion__content-clip {
+    min-height: 0;
+    overflow: hidden;
+  }
+
+  .accordion__content-inner {
+    padding-top: var(--accordion-content-padding-top);
+    padding-bottom: var(--accordion-content-padding-bottom);
+    padding-left: var(--accordion-content-padding-left);
+    padding-right: var(--accordion-content-padding-right);
+    font-size: var(--accordion-content-size);
+    opacity: 0;
+    transform: translateY(-0.5rem);
+    transition:
+      opacity var(--accordion-transition-duration) var(--transition-easing),
+      transform var(--accordion-transition-duration) var(--transition-easing);
+  }
+
+  .accordion-item.is-open .accordion__content-inner {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .accordion__content-inner p {
+    margin-top: 0;
+    margin-bottom: var(--space-16);
+  }
+
+  .accordion__content-inner p:last-child {
+    margin-bottom: 0;
+  }
+</style>

@@ -1,155 +1,78 @@
 ---
 import Container from "@/components/global/Container.astro";
+import Columns from "@/components/global/Columns.astro";
+import SectionTitle from "@/components/ui/SectionTitle.astro";
+import HighlightBox from "@/components/ui/HighlightBox.astro";
 ---
 
-<section class="the-reality">
-<Container>
-  <div class="the-reality__gradient-bar"></div>
-  
-  <div class="the-reality__container">
-    
-    <div class="column left-col">
-      <span class="eyebrow">THE REALITY</span>
-      <h2>
-        Everyone says they do AI. Most of it<br/>
-        never leaves the prototype stage.
-      </h2>
-    </div>
-
-    <div class="column right-col">
-      <p>AI is not short on promises. It is short on production.</p>
-      
-      <p>The problem is rarely the model. It is usually the workflow nobody mapped, the data nobody prepared, or the AI first build nobody validated against how the business actually runs.</p>
-
-      <div class="highlight-box">
-        That gap is where we work.
+<section class="the-reality-section">
+  <Container>
+    <Columns
+      class="the-reality-container"
+      layout="50-50"
+      align="stretch"
+      gap="2rem"
+    >
+      <div class="the-reality-left">
+        <SectionTitle title="The Reality" fontSize="var(--font-size:36)" />
+        Everyone says they do AI. Most of it never leaves the prototype stage.
       </div>
-    </div>
-
-  </div>
+      <div class="the-reality-right">
+        <p class="reality-light-txt">
+          AI is not short on promises. It is short on production.
+        </p>
+        <p class="reality-dark-txt">
+          The problem is rarely the model. It is usually the workflow nobody
+          mapped, the data nobody prepared, or the AI first build nobody
+          validated against how the business actually runs.
+        </p>
+        <HighlightBox fontSize="var(--font-size-24)">
+          That gap is where we work
+        </HighlightBox>
+      </div>
+    </Columns>
   </Container>
 </section>
 
 <style>
-  .the-reality {
-    padding-top:64px;
-    padding-bottom:64px;
-    background-color: var(--white);
-    position: relative;
-    font-family: var(--font-family-primary); 
+  .the-reality-section {
+    padding-block: var(--space-64);
   }
-
-  .the-reality__gradient-bar {
-    width: 100%;
-    height: 3px;
-  
+  :global(.the-reality-container.columns--stack) {
+    min-height: 27.75rem;
   }
-
-  .the-reality__container {
-   
-    margin: 0 auto;
-  padding-top:64px;
-  padding-bottom:64px;
-    display: grid;
-    grid-template-columns: 1fr 1fr; /* Changed to 2 columns (50/50 split) */
-  }
-
-  .column {
+  .the-reality-left {
     display: flex;
     flex-direction: column;
+    gap: 2rem;
+    padding-right: 2rem;
   }
-
- 
-  .left-col {
-    padding-right: 60px;
+  .the-reality-left {
+    border-right: 1px solid var(--grey-500);
   }
-
-  .eyebrow {
-    font-size: var(--font-size-16);
-    font-weight: var(--font-weight-bold);
+  .the-reality-left h3 {
     color: var(--navy);
-    margin: 0 0 24px 0;
-    letter-spacing: 0.5px;
-    text-transform: uppercase;
-    display: block;
+    font-weight: var(--font-weight-regular);
+    letter-spacing: -0.045rem;
+    max-width: 39rem;
   }
-
-  .left-col h2 {
-    font-size: var(--font-size-36);
+  .the-reality-right {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    gap: 1.5rem;
+  }
+  .the-reality-right p {
+    font-size: var(--font-size-18);
+    line-height: 1.5;
+    margin-bottom: var(--space-8);
+  }
+  .reality-light-txt {
     font-weight: var(--font-weight-medium);
-    color: var(--navy);
-    line-height: 1.3;
-    margin: 0;
-    letter-spacing: -0.5px;
+    color: var(--grey-500);
   }
-
-  
-  .right-col {
-    border-left: 1px solid var(--grey-300);
-    padding-left: 60px;
-    padding-top: 120px; /* Pushes the text down to align visually with the screenshot */
-  }
-
-  .right-col p {
-    font-size: var(--font-size-16);
-    line-height: 1.6;
-    font-weight: var(--font-weight-medium); /* Slightly thicker weight to match the screenshot */
-    color: var(--charcoal);
-    margin: 0 0 24px 0;
-  }
-
-  .highlight-box {
-    background-color: var(--grey-100); 
-    padding: 16px 24px;
-    font-size: var(--font-size-20);
-    font-weight: var(--font-weight-medium);
-    color: var(--navy);
-    display: inline-block;
-    margin-top: 8px;
-    position: relative;
-    align-self: flex-start;
-  }
-  
-  .highlight-box::before,
-  .highlight-box::after {
-    content: "";
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    top: 0;
-    left: 0;
-    pointer-events: none;
-  }
-
-  .highlight-box::before {
-    background: 
-      linear-gradient(var(--lime), var(--lime)) top left / 4px 4px no-repeat,
-      linear-gradient(var(--lime), var(--lime)) top right / 4px 4px no-repeat;
-  }
-
-  .highlight-box::after {
-    background: 
-      linear-gradient(var(--lime), var(--lime)) bottom left / 4px 4px no-repeat,
-      linear-gradient(var(--lime), var(--lime)) bottom right / 4px 4px no-repeat;
-  }
-
-  
-  @media (max-width: 900px) {
-    .the-reality__container {
-      grid-template-columns: 1fr; 
-      gap: 40px;
-      padding: 60px 40px;
-    }
-
-    .left-col {
-      padding-right: 0;
-    }
-
-    .right-col {
-      border-left: none;
-      border-top: 1px solid var(--grey-300);
-      padding-left: 0;
-      padding-top: 40px; 
-    }
+  .reality-dark-txt {
+    font-weight: var(--font-weight-semibold);
+    color: var(--grey-700);
   }
 </style>

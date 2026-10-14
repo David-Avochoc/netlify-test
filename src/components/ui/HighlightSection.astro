@@ -1,0 +1,145 @@
+---
+interface Props {
+  columns?: 2 | 3;
+  customColumns?: string;
+  gap?: string;
+  background?: string;
+  textColor?: string;
+  accentColor?: string;
+  fontSize?: string;
+  padding?: string;
+  border?: string;
+  minHeight?: string;
+  class?: string;
+}
+
+const {
+  columns = 3,
+  customColumns = "",
+  gap = "2rem",
+  background = "transparent",
+  textColor = "var(--navy)",
+  accentColor = "var(--lime)",
+  fontSize = "var(--font-size-36)",
+  padding = "var(--space-16) var(--space-32)",
+  border = "1px solid transparent",
+  minHeight = "100%",
+  class: className = "",
+} = Astro.props;
+---
+
+<section
+  class:list={["highlight-section", className]}
+  style={`--highlight-columns: ${columns};
+          --highlight-custom-columns: ${customColumns || `repeat(${columns}, minmax(0, 1fr))`};
+          --highlight-gap: ${gap};
+          --highlight-background: ${background};
+          --highlight-text-color: ${textColor};
+          --highlight-accent-color: ${accentColor};
+          --highlight-font-size: ${fontSize};
+          --highlight-border: ${border};
+          --highlight-padding: ${padding};
+          --highlight-min-height: ${minHeight}`}
+>
+  <div class="highlight-section__inner">
+    <slot />
+  </div>
+</section>
+
+<style>
+  .highlight-section {
+    position: relative;
+    display: flex;
+    align-items: center;
+    border: var(--highlight-border);
+    padding: var(--highlight-padding);
+    background: var(--highlight-background);
+    color: var(--highlight-text-color);
+    min-height: var(--highlight-min-height);
+    z-index: 2;
+  }
+
+  .highlight-section::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: 1;
+
+    background:
+      repeating-linear-gradient(
+          to right,
+          var(--blue) 0 3px,
+          var(--navy) 3px 6px
+        )
+        top / 100% 2px no-repeat,
+      repeating-linear-gradient(
+          to right,
+          var(--blue) 0 3px,
+          var(--navy) 3px 6px
+        )
+        bottom / 100% 2px no-repeat,
+      repeating-linear-gradient(
+          to bottom,
+          var(--blue) 0 3px,
+          var(--navy) 3px 6px
+        )
+        left / 2px 100% no-repeat,
+      repeating-linear-gradient(
+          to bottom,
+          var(--blue) 0 3px,
+          var(--navy) 3px 6px
+        )
+        right / 2px 100% no-repeat;
+  }
+
+  .highlight-section::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background:
+      linear-gradient(
+          var(--highlight-accent-color),
+          var(--highlight-accent-color)
+        )
+        left top / 2rem 2rem no-repeat,
+      linear-gradient(
+          var(--highlight-accent-color),
+          var(--highlight-accent-color)
+        )
+        right top / 2rem 2rem no-repeat,
+      linear-gradient(
+          var(--highlight-accent-color),
+          var(--highlight-accent-color)
+        )
+        left bottom / 2rem 2rem no-repeat,
+      linear-gradient(
+          var(--highlight-accent-color),
+          var(--highlight-accent-color)
+        )
+        right bottom / 2rem 2rem no-repeat;
+    z-index: 2;
+  }
+
+  .highlight-section__inner {
+    display: grid;
+    grid-template-columns: var(--highlight-custom-columns);
+    gap: var(--highlight-gap);
+  }
+
+  @media (max-width: 800px) {
+    .highlight-section__inner {
+      grid-template-columns: repeat(
+        min(var(--highlight-columns), 2),
+        minmax(0, 1fr)
+      );
+    }
+  }
+
+  @media (max-width: 560px) {
+    .highlight-section__inner {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

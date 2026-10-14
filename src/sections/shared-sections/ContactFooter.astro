@@ -1,0 +1,89 @@
+---
+import Container from "@/components/global/Container.astro";
+import Columns from "@/components/global/Columns.astro";
+import SectionTitle from "@/components/ui/SectionTitle.astro";
+import Form from "@/components/forms/Form.astro";
+import { formFieldConfig } from "@/components/forms/formFields.js";
+
+const fields = [
+  { ...formFieldConfig.fullName, width: "full" as const },
+  { ...formFieldConfig.email, width: "full" as const },
+  { ...formFieldConfig.phone, width: "full" as const },
+  { ...formFieldConfig.message, width: "full" as const },
+];
+---
+
+<section class="contact-section">
+  <Container>
+    <Columns layout="40-60" gap="0" class="contact-section__columns">
+      <div class="contact-section__left">
+        <SectionTitle
+          title="Ready to move things forward?"
+          fontSize="var(--font-size-24)"
+          color="var(--white)"
+          class="contact-section-title"
+        />
+        <h3 class="contact-section-body">
+          Not a pitch. Not a proposal. Just a clear-eyed look at what you're
+          working with and whether we're the right fit to help you move it
+          forward.
+        </h3>
+        <p class="contact-section-footer">
+          No RFP required. No vendor shortlist performance. A straight
+          conversation about whether we're the right fit.
+        </p>
+      </div>
+      <div class="contact-section__right">
+        <div class="contact-section__right-inner">
+          <Form
+            title="Fill in your details"
+            fields={fields}
+            submitLabel="Start a conversation"
+            note="No pitch deck. No pressure."
+            layout="grid"
+            class="contact-section__form"
+          />
+        </div>
+      </div>
+    </Columns>
+  </Container>
+</section>
+
+<style>
+  .contact-section {
+    padding-block: var(--space-100);
+    background-image: url("/images/backgrounds/hero/fractal-glass.webp");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+  }
+  .contact-section__left {
+    padding-block: var(--space-64);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-self: stretch;
+  }
+  .contact-section-body {
+    font-weight: var(--font-weight-regular);
+    line-height: 1.2;
+    letter-spacing: -0.045rem;
+    max-width: 27rem;
+  }
+  .contact-section-footer {
+    color: var(--grey-600);
+    font-size: var(--font-size-20);
+    line-height: 1.5;
+  }
+  .contact-section__right {
+    display: flex;
+    justify-content: flex-end;
+  }
+  .contact-section__right-inner {
+    background-color: var(--white-10);
+    padding: var(--space-56);
+    border-radius: 1rem;
+    width: 100%;
+    max-width: 42.687rem;
+  }
+</style>

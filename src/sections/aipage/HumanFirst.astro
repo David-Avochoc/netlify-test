@@ -1,40 +1,47 @@
 ---
-const {
-  image = "/images/Ai-Page/Human_First.svg",
-  buttonLink = "/ai-integration",
-} = Astro.props;
-
 import Container from "@/components/global/Container.astro";
+import Columns from "@/components/global/Columns.astro";
+import SectionTitle from "@/components/ui/SectionTitle.astro";
+import PrimaryBtn from "@/components/buttons/PrimaryBtn.astro";
 ---
 
-<section class="human-first">
+<section class="human-first-section">
   <Container>
-    <div class="human-first__container">
-      <div class="header-block">
-        <div class="header-left">
-          <div class="title-top">
-            <h2>Human-first</h2>
-          </div>
-          <div class="title-bottom">
-            <h2 class="accent-text">Not AI-First</h2>
-          </div>
-        </div>
-
-        <div class="header-right">
-          <p class="intro-text">
-            A lot of AI-first companies start with the AI. Brainstorm with AI,
-            architect with AI, build with AI, and check the output with a human
-            at the end.
-          </p>
-        </div>
+    <Columns layout="40-60" gap="0" class="human-first__columns">
+      <div class="human-first__left">
+        <SectionTitle
+          title="Human-first"
+          fontSize="var(--font-size-36)"
+          color="var(--white)"
+          class="human-first__title"
+        />
+        <SectionTitle
+          title="Not AI-First"
+          fontSize="var(--font-size-36)"
+          color="transparent"
+          class="human-first__title2"
+        />
+      </div>
+      <div class="human-first__right">
+        <p class="into-txt">
+          A lot of AI-first companies start with the AI. Brainstorm with AI,
+          architect with AI, build with AI, and check the output with a human at
+          the end.
+        </p>
+      </div>
+    </Columns>
+  </Container>
+  <Container>
+    <Columns layout="40-60" gap="0" class="human-first__columns2">
+      <div class="human-first__left2">
+        <img
+          src="/images/content/staff/avo_humans_first.webp"
+          alt="Staff working"
+        />
       </div>
 
-      <div class="bottom-grid">
-        <div class="bottom-image-wrapper">
-          <img src={image} alt="Office workspace" loading="lazy" />
-        </div>
-
-        <div class="bottom-content">
+      <div class="human-first__right2">
+        <div class="into-txt2">
           <p>
             We work the other way. Our people lead the thinking. AI is a tool
             inside that process, not a replacement for it.
@@ -45,175 +52,87 @@ import Container from "@/components/global/Container.astro";
             not because it's trendy.
           </p>
           <p>Effective business AI integration. Not AI for its own sake.</p>
-
-          <a href={buttonLink} class="learn-more-btn">
-            <span class="text">LEARN MORE ABOUT AI INTEGRATION</span>
-            <span class="icon">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="16"
-                height="16"
-                fill="currentColor"
-                viewBox="0 0 16 16"
-              >
-                <path
-                  fill-rule="evenodd"
-                  d="M14 2.5a.5.5 0 0 0-.5-.5h-6a.5.5 0 0 0 0 1h4.793L2.146 13.146a.5.5 0 0 0 .708.708L13 3.707V8.5a.5.5 0 0 0 1 0v-6z"
-                ></path>
-              </svg>
-            </span>
-          </a>
         </div>
+        <PrimaryBtn
+          href="#"
+          text="Learn more about ai integration"
+          background="var(--white)"
+          textColor="var(--navy)"
+        />
       </div>
-    </div>
+    </Columns>
   </Container>
 </section>
 
 <style>
-  .human-first {
-    width: 100%;
-    background-color: var(--olive);
-    color: var(--white);
-    padding: 100px 0;
-    font-family: var(--font-family-primary);
+  .human-first-section {
+    padding-block: var(--space-80);
+    background-color: var(--olivegreen);
   }
-
-  .human-first__container {
-    display: flex;
-    flex-direction: column;
+  .human-first__left {
+    border-right: 1px solid var(--white);
   }
-
-  .header-block {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    border-bottom: 1px solid var(--white-50);
-    margin-bottom: 60px;
+  :global(.human-first__title) {
+    padding-block: var(--space-16);
+    border-bottom: 1px solid var(--white);
   }
-
-  .header-left {
-    border-right: 1px solid var(--white-50);
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-end;
-  }
-
-  .title-top {
-    border-bottom: 1px solid var(--white-50);
-    padding: 0 30px 20px 0;
-  }
-
-  .title-bottom {
-    padding: 20px 30px 20px 0;
+  :global(.human-first__title2 h2) {
+    background: var(--gradient-green-lime);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
     text-align: right;
+    padding-block: var(--space-16);
+    padding-inline: var(--space-16);
   }
-
-  .header-left h2 {
-    font-size: var(--font-size-36);
-    font-weight: var(--font-weight-medium);
-    margin: 0;
-  }
-
-  .accent-text {
-    color: var(--lime);
-  }
-
-  .header-right {
-    padding: 0 0 20px 40px;
-    display: flex;
-    align-items: center;
-  }
-
-  .intro-text {
-    font-size: var(--font-size-20);
-    line-height: 1.5;
-    margin: 0;
-    font-weight: var(--font-weight-regular);
-  }
-
-  .bottom-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 60px;
-    align-items: start;
-  }
-
-  .bottom-image-wrapper {
-    width: 100%;
-    background: var(--grey-300);
-    min-height: 350px;
-    display: flex;
-  }
-
-  .bottom-image-wrapper img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-  }
-
-  .bottom-content {
+  .human-first__right {
     display: flex;
     flex-direction: column;
-    gap: 24px;
-    padding-top: 10px;
+    align-self: flex-end;
+    padding: 0 0 var(--space-16) var(--space-32);
   }
-
-  .bottom-content p {
-    font-size: var(--font-size-16);
-    line-height: 1.6;
-    margin: 0;
-    color: var(--grey-100);
+  .human-first__right p {
+    font-size: var(--font-size-30);
+    line-height: 1.26;
+    color: var(--white);
+    max-width: 37rem;
   }
-
-  .learn-more-btn {
-    display: inline-flex;
-    align-items: center;
-    background-color: var(--white);
-    color: var(--navy);
-    text-decoration: none;
-    font-size: var(--font-size-12);
-    font-weight: var(--font-weight-bold);
-    letter-spacing: 0.5px;
-    margin-top: 16px;
-    align-self: flex-start;
-    transition: opacity 0.3s ease;
+  :global(.human-first__columns) {
+    border-bottom: 1px solid var(--white);
   }
-
-  .learn-more-btn:hover {
-    opacity: 0.9;
+  :global(.human-first__columns2) {
+    padding-top: var(--space-48);
   }
-
-  .learn-more-btn .text {
-    padding: 12px 20px;
+  .human-first__left2 {
+    padding-right: var(--space-16);
   }
-
-  .learn-more-btn .icon {
-    background-color: var(--lime);
-    color: var(--navy);
-    padding: 12px;
+  .human-first__left2 img {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+  .human-first__right2 {
     display: flex;
-    align-items: center;
-    justify-content: center;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--space-48);
+    padding-left: var(--space-32);
+    margin-block: auto;
   }
 
-  @media (max-width: 900px) {
-    .header-block {
-      grid-template-columns: 1fr;
-      border-bottom: none;
-    }
-    .header-left {
-      border-right: none;
-      border-bottom: 1px solid var(--white-50);
-    }
-    .title-bottom {
-      text-align: left;
-      padding-right: 0;
-    }
-    .header-right {
-      padding: 30px 0;
-      border-bottom: 1px solid var(--white-50);
-    }
-    .bottom-grid {
-      grid-template-columns: 1fr;
-    }
+  .human-first__right2 .into-txt2 {
+    max-width: 41.25rem;
+  }
+
+  .human-first__right2 p {
+    font-size: var(--font-size-20);
+    font-weight: var(--font-weight-medium);
+    line-height: 1.5;
+    color: var(--white);
+    margin: 0;
+  }
+
+  .human-first__right2 .into-txt2 p + p {
+    margin-top: var(--space-12);
   }
 </style>

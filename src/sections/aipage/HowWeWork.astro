@@ -1,0 +1,119 @@
+---
+import Container from "@/components/global/Container.astro";
+import SectionTitle from "@/components/ui/SectionTitle.astro";
+import Accordion from "@/components/ui/Accordion/Accordion.astro";
+import AccordionItem from "@/components/ui/Accordion/AccordionItem.astro";
+import PrimaryBtn from "@/components/buttons/PrimaryBtn.astro";
+---
+
+<section class="how-we-work-section">
+  <Container>
+    <div class="how-we-work-section__inner">
+      <div class="how-we-work-section__header">
+        <SectionTitle title="How We Work" fontSize="var(--font-size-24)" />
+      </div>
+
+      <Accordion class="how-we-work-section__accordion" gap="0">
+        <AccordionItem number="01" title="AI Business Integration">
+          <p>
+            Mapping how your business actually works, then integrating AI where
+            it fits your workflows, your data, and your people.
+          </p>
+        </AccordionItem>
+
+        <AccordionItem number="02" title="AI Maturity Audits">
+          <p>
+            An honest, structured look at where your AI adoption actually
+            stands: what's working, what's risky, and what to do next.
+          </p>
+        </AccordionItem>
+
+        <AccordionItem number="03" title="AI Agent Building">
+          <p>
+            Mapping how your business actually works, then integrating AI where
+            it fits your workflows, your data, and your people.
+          </p>
+        </AccordionItem>
+
+        <AccordionItem number="04" title="Legacy System Modernisation with AI">
+          <p>
+            AI performs best where the training data is most mature: legacy
+            code. We use it to help bring older systems forward without a full
+            rebuild.
+          </p>
+        </AccordionItem>
+
+        <AccordionItem number="05" title="From Prototype to Production">
+          <p>
+            Built something fast with AI and not sure it will hold up? We
+            validate it, flag the risks, and take it from a working prototype to
+            something production-ready.
+          </p>
+        </AccordionItem>
+
+        <AccordionItem number="06" title="AI Training">
+          <p>
+            We help your team, or your developers, follow AI best practice:
+            using it correctly, securely, and to a standard that holds up.
+          </p>
+        </AccordionItem>
+
+        <AccordionItem number="07" title="AI Governance and Compliance">
+          <p>
+            Setting up the right guardrails, data handling, and oversight so
+            your AI use meets GDPR, POPIA, and the standards your industry
+            expects. A live dashboard gives you visibility into how AI is being
+            used across your organisation, not just an audit trail once a year.
+          </p>
+        </AccordionItem>
+
+        <AccordionItem number="08" title="On-Site and Local AI Deployment">
+          <p>
+            For businesses that need their data to stay on their own
+            infrastructure, we deploy AI directly onto your servers rather than
+            hosting it on ours. This is still an early-access capability. If
+            that's where you're heading, talk to us early.
+          </p>
+        </AccordionItem>
+      </Accordion>
+      <div class="how-we-work-section__cta">
+        <PrimaryBtn
+          href="/contact"
+          text="Talk to our team"
+          background="var(--white)"
+          textColor="var(--navy)"
+        />
+        <PrimaryBtn
+          href="#"
+          text="See real references"
+          background="var(--white)"
+          textColor="var(--navy)"
+        />
+      </div>
+    </div>
+  </Container>
+</section>
+
+<style>
+  .how-we-work-section {
+    background-image: url("/images/backgrounds/section/background-orbs1.webp");
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+    padding-block: var(--space-80);
+  }
+
+  .how-we-work-section__inner {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-64);
+  }
+
+  .how-we-work-section__accordion {
+    width: 100%;
+  }
+  .how-we-work-section__cta {
+    display: flex;
+    gap: var(--space-16);
+  }
+</style>

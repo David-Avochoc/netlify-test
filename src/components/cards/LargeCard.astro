@@ -1,0 +1,106 @@
+---
+interface Props {
+  image: string;
+  imageAlt: string;
+  title: string;
+  description: string;
+  step?: string;
+  stepNumber?: string | number;
+  width?: string;
+  minWidth?: string;
+  height?: string;
+  gap?: string;
+  imageHeight?: string;
+  backgroundColor?: string;
+  textColor?: string;
+}
+---
+
+<article
+  class="large-card"
+  style={`--card-width: ${width}; --card-min-width: ${min - width}; --card-height: ${height} --card-gap: ${gap}; --card-image-height: ${imageHeight}; --card-background: ${backgroundColor}; --card-text-color: ${textColor}`}
+>
+  <img class="large-card__image" src="{image} alt={imageAlt} loading=" lazy" />
+  {
+    step || stepNumber !== undefined ? (
+      <div class="large-card__step">
+        {step && <span class="large-card__step-label">{step}</span>}
+        {stepNumber !== undefined && (
+          <span class="large-card__step-number">{stepNumber}</span>
+        )}
+      </div>
+    ) : null
+  }
+  <div class="large-card__content">
+    <h4 class="large-card__title">{title}</h4>
+    <p class="large-card__description">{description}</p>
+  </div>
+</article>
+
+<style>
+  .large-card {
+    display: flex;
+    flex-direction: column;
+    gap: var(--card-gap);
+    min-width: var(--card-min-width);
+    width: var(--card-width);
+    height: var(--card-height);
+    padding: var(--space-32);
+    background-color: var(--card-background);
+    color: var(--card-text-color);
+    border-radius: var(--border-radius-med);
+    overflow: hidden;
+  }
+
+  .large-card__image {
+    display: block;
+    width: 100%;
+    height: var(--card-image-height);
+    object-fit: cover;
+    object-position: center;
+    border-radius: var(--border-radius-med);
+  }
+
+  .large-card__step {
+    display: flex;
+    align-items: center;
+    align-self: flex-start;
+  }
+
+  .large-card__step-label {
+    display: inline-flex;
+    align-items: center;
+    padding-block: var(--space-4);
+    padding-inline: var(--space-16);
+    gap: var(--space-8);
+    border: 1px solid var(--navy);
+    font-size: var(--font-size-14);
+    font-weight: var(--font-weight-bold);
+    color: var(--navy);
+    text-transform: uppercase;
+    background-color: var(--white);
+  }
+
+  .large-card__step-number {
+    display: inline-flex;
+    align-items: center;
+    background-color: var(--lime);
+    font-size: var(--font-size-14);
+    font-weight: var(--font-weight-bold);
+    color: var(--navy);
+  }
+  .large-card__content {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-34);
+  }
+  .large-content__title {
+    font-size: var(--font-size-36);
+    font-weight: var(--font-weight-regular);
+  }
+
+  .large-content__description {
+    font-size: var(--font-size-18);
+    font-weight: var(--font-weight-regular);
+  }
+</style>

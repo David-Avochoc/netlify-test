@@ -4,7 +4,7 @@ import Columns from "@/components/global/Columns.astro";
 import SecondaryBtn from "@/components/buttons/SecondaryBtn.astro";
 import PrimaryBtn from "@/components/buttons/PrimaryBtn.astro";
 
-const videoPath = "public/videos/Hero-Vid.mp4"; 
+const videoPath = "/videos/Hero-Vid.mp4";
 ---
 
 <section class="hero-wrapper">
@@ -15,7 +15,6 @@ const videoPath = "public/videos/Hero-Vid.mp4";
   <div class="content-container">
     <Container>
       <Columns class="interactive-columns" layout="50-50" align="center">
-        
         <div class="interactive-column">
           <div class="video-card">
             <video class="card-video" muted loop playsinline>
@@ -26,12 +25,11 @@ const videoPath = "public/videos/Hero-Vid.mp4";
 
         <div class="text-column">
           <h1>
-            Custom software and AI built to work<br/>
+            Custom software and AI built to work<br />
             with your systems, <span class="dimmed">not replace them.</span>
           </h1>
-          
+
           <div class="hero__actions">
-           
             <PrimaryBtn
               href="#"
               text="START THE CONVERSATION"
@@ -40,7 +38,6 @@ const videoPath = "public/videos/Hero-Vid.mp4";
             />
           </div>
         </div>
-
       </Columns>
     </Container>
   </div>
@@ -51,7 +48,7 @@ const videoPath = "public/videos/Hero-Vid.mp4";
     position: relative;
     width: 100%;
     min-height: 100vh;
-    background: linear-gradient(135deg, #2b6b77, #66839d, #c5a3d6); 
+    background: linear-gradient(135deg, #2b6b77, #66839d, #c5a3d6);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -65,7 +62,7 @@ const videoPath = "public/videos/Hero-Vid.mp4";
     width: 100%;
     height: 100%;
     object-fit: cover;
-    opacity: 0; 
+    opacity: 0;
     transition: opacity 0.5s ease;
     z-index: 1;
   }
@@ -74,18 +71,18 @@ const videoPath = "public/videos/Hero-Vid.mp4";
     position: relative;
     z-index: 2;
     width: 100%;
-    padding: 120px 0; 
+    padding: 120px 0;
   }
 
   .video-card {
     width: 427px;
-    height:240px;
+    height: 240px;
     aspect-ratio: 16 / 9;
     border-radius: 12px;
-    background: linear-gradient(145deg, #1d2f47, #3fa1a5); 
+    background: linear-gradient(145deg, #1d2f47, #3fa1a5);
     overflow: hidden;
     cursor: pointer;
-    box-shadow: 0 15px 35px rgba(0,0,0,0.15);
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
     transition: transform 0.3s ease;
   }
 
@@ -97,7 +94,7 @@ const videoPath = "public/videos/Hero-Vid.mp4";
     width: 100%;
     height: 100%;
     object-fit: cover;
-    opacity: 0; 
+    opacity: 0;
     transition: opacity 0.4s ease;
   }
 
@@ -110,7 +107,7 @@ const videoPath = "public/videos/Hero-Vid.mp4";
 
   .text-column.fade-out {
     opacity: 0;
-    pointer-events: none; 
+    pointer-events: none;
   }
 
   .text-column h1 {
@@ -135,29 +132,29 @@ const videoPath = "public/videos/Hero-Vid.mp4";
 
 <script>
   function initInteractiveHero() {
-    const videoCard = document.querySelector('.video-card');
-    const bgVideo = document.querySelector('.bg-video') as HTMLVideoElement;
-    const cardVideo = document.querySelector('.card-video') as HTMLVideoElement;
-    const textColumn = document.querySelector('.text-column');
+    const videoCard = document.querySelector(".video-card");
+    const bgVideo = document.querySelector(".bg-video") as HTMLVideoElement;
+    const cardVideo = document.querySelector(".card-video") as HTMLVideoElement;
+    const textColumn = document.querySelector(".text-column");
 
     if (!videoCard || !bgVideo || !cardVideo || !textColumn) return;
 
-    videoCard.addEventListener('mouseenter', () => {
+    videoCard.addEventListener("mouseenter", () => {
       bgVideo.style.opacity = "1";
-      cardVideo.style.opacity = "1"; 
-      
-      textColumn.classList.add('fade-out');
-      
+      cardVideo.style.opacity = "1";
+
+      textColumn.classList.add("fade-out");
+
       bgVideo.play();
       cardVideo.play();
     });
 
-    videoCard.addEventListener('mouseleave', () => {
+    videoCard.addEventListener("mouseleave", () => {
       bgVideo.style.opacity = "0";
       cardVideo.style.opacity = "0";
-      
-      textColumn.classList.remove('fade-out');
-      
+
+      textColumn.classList.remove("fade-out");
+
       bgVideo.pause();
       cardVideo.pause();
     });

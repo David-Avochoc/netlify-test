@@ -1,0 +1,158 @@
+---
+interface Props {
+  label?: string;
+  labelBackground?: string;
+  cardTitle?: string;
+  cardTitleSize?: string;
+  cardDescription?: string;
+  cardBackground?: string;
+  cardBackgroundImage?: string;
+  cardSource?: string;
+  cardSourceIcon?: string;
+}
+
+const {
+  label,
+  labelBackground = "var(--white-25)",
+  cardTitle,
+  cardTitleSize = "var(--font-size-60)",
+  cardDescription,
+  cardBackground = "var(--navy)",
+  cardBackgroundImage,
+  cardSource,
+  cardSourceIcon,
+} = Astro.props;
+---
+
+<article
+  class="stat-card"
+  style={`
+    --card-background: ${cardBackground};
+    --card-background-image: ${
+      cardBackgroundImage ? `url('${cardBackgroundImage}')` : "none"
+    };
+  `}
+>
+  <div class="stat-card__main">
+    {
+      label && (
+        <span
+          class="stat-card__label"
+          style={`--label-background: ${labelBackground}`}
+        >
+          {label}
+        </span>
+      )
+    }
+    {
+      cardTitle && (
+        <h3
+          class="stat-card__title"
+          style={`--card-title-size: ${cardTitleSize}`}
+        >
+          {cardTitle}
+        </h3>
+      )
+    }
+    {cardDescription && <p class="stat-card__description">{cardDescription}</p>}
+  </div>
+  {
+    cardSource && (
+      <div class="stat-card__source">
+        {cardSourceIcon && (
+          <img
+            class="stat-card__source-icon"
+            src={cardSourceIcon}
+            alt=""
+            aria-hidden="true"
+          />
+        )}
+        <span class="stat-card__source-text">{cardSource}</span>
+      </div>
+    )
+  }
+</article>
+
+<style>
+  .stat-card {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: var(--space-4);
+    width: 19.562rem;
+    padding: 0;
+    background: transparent;
+    overflow: hidden;
+  }
+
+  .stat-card__main {
+    display: flex;
+    flex: 1;
+    min-height: 21.25rem;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: space-between;
+    padding: var(--space-16);
+    background-color: var(--card-background);
+    background-image: var(--card-background-image);
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    border-radius: var(--border-radius-small);
+  }
+
+  .stat-card__label {
+    align-self: flex-start;
+    padding-block: var(--std-btn-padding-y);
+    padding-inline: var(--std-btn-padding-x);
+    border-radius: 2.125rem;
+    background: var(--label-background);
+    font-size: var(--font-size-12);
+    color: var(--navy);
+    font-weight: var(--font-weight-medium);
+    text-transform: uppercase;
+  }
+  .stat-card__title {
+    font-size: var(--card-title-size);
+    color: var(--white);
+  }
+  .stat-card__description {
+    font-size: var(--font-size-16);
+    font-weight: var(--font-weight-regular);
+    line-height: 1.5;
+    color: var(--white);
+  }
+  .stat-card__source {
+    display: flex;
+    flex-shrink: 0;
+    align-items: center;
+    gap: var(--space-12);
+    width: 100%;
+    box-sizing: border-box;
+    padding: var(--space-16);
+    background-image: url("/images/backgrounds/cards/sourcebackground.webp");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    border-radius: var(--border-radius-small);
+  }
+  .stat-card__source-icon {
+    width: 3.125rem;
+    height: 3.125rem;
+    background-color: var(--white);
+    border-radius: 0.25rem;
+    padding: 0.875rem;
+  }
+  .stat-card__source-icon img {
+    display: block;
+    flex-shrink: 0;
+    width: 1.375rem;
+    height: 1.5rem;
+    object-fit: contain;
+  }
+  .stat-card__source-text {
+    font-size: var(--font-size-16);
+    font-weight: var(--font-weight-semibold);
+    color: var(--white);
+  }
+</style>

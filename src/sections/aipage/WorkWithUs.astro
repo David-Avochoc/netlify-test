@@ -1,261 +1,88 @@
 ---
 import Container from "@/components/global/Container.astro";
-
-const stepsData = [
-  {
-    step: "01.",
-    title: "Free AI maturity assessment.",
-    description: "A short, no-obligation look at where AI could genuinely help your business, and where the risk sits.",
-    icon: "/images/Ai-Page/star-ai-page.svg"
-  },
-  {
-    step: "02.",
-    title: "A real conversation. Not a sales call.",
-    description: "You'll speak directly with our leadership about what you actually need.",
-    icon: "/images/Ai-Page/Flower-ai-page.svg"
-  },
-  {
-    step: "03.",
-    title: "A plan, not a pitch.",
-    description: "We map your workflows and tell you, honestly, where AI fits and where it doesn't yet.",
-    icon: "/images/Ai-Page/Clover-ai-page.svg"
-  },
-  {
-    step: "04.",
-    title: "Build, integrate, or train.",
-    description: "Depending on what you need: development, integration, or training to ensure your team is ready.",
-    icon: "/images/Ai-Page/Build-ai-page.svg"
-  },
-  {
-    step: "05.",
-    title: "Governance, built in.",
-    description: "Compliance and oversight set up alongside the work, not bolted on afterward.",
-    icon: "/images/Ai-Page/Governance-ai-page.svg"
-  },
-  {
-    step: "06.",
-    title: "Ongoing support.",
-    description: "AI moves fast. We keep watching so you don't have to.",
-    icon: "/images/Ai-Page/support-Ai-Page.svg"
-  }
-];
+import Columns from "@/components/global/Columns.astro";
+import SectionTitle from "@/components/ui/SectionTitle.astro";
+import StepRevealCard from "@/components/cards/StepRevealCard.astro";
+import PrimaryBtn from "@/components/buttons/PrimaryBtn.astro";
 ---
 
 <section class="work-with-us">
   <Container>
-    <div class="work-with-us__container">
-      
-      <div class="intro-column">
-        <h2>Here's what working with us actually looks like.</h2>
-        
-        <a href="/services" class="services-btn">
-          <span class="text">SEE ALL SERVICES</span>
-          <span class="icon">
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
-              <path fill-rule="evenodd" d="M14 2.5a.5.5 0 0 0-.5-.5h-6a.5.5 0 0 0 0 1h4.793L2.146 13.146a.5.5 0 0 0 .708.708L13 3.707V8.5a.5.5 0 0 0 1 0v-6z"/>
-            </svg>
-          </span>
-        </a>
+    <Columns
+      layout="40-60"
+      gap="var(--space-22)"
+      align="stretch"
+      backgroundColor="var(--white)"
+    >
+      <div class="work-with-us__content">
+        <SectionTitle
+          title="Here's what working with us actually looks like."
+          fontSize="var(--font-size-30)"
+        />
+
+        <PrimaryBtn
+          href="#"
+          text="See all our services"
+          background="var(--grey)"
+          textColor="var(--navy)"
+        />
       </div>
 
-      <div class="cards-grid">
-        {stepsData.map((card) => (
-          <div class="step-card">
-            <div class="card-icon-wrapper">
-              <img src={card.icon} alt={`Step ${card.step} icon`} loading="lazy" />
-            </div>
-            
-            <div class="card-header">
-              <span class="step-number">{card.step}</span>
-              <h3 class="step-title">{card.title}</h3>
-            </div>
-
-            <div class="card-body-wrapper">
-              <div class="card-body">
-                <p>{card.description}</p>
-              </div>
-            </div>
-          </div>
-        ))}
+      <div class="work-with-us__grid">
+        <StepRevealCard
+          step="01."
+          title="Free AI maturity assessment."
+          description="A short, no-obligation look at where AI could genuinely help your business, and where the risk sits."
+          icon="/icons/star-ai-page.svg"
+        />
+        <StepRevealCard
+          step="02."
+          title="A real conversation. Not a sales call."
+          description="You'll speak directly with our leadership about what you actually need."
+          icon="/icons/flower-ai-page.svg"
+        />
+        <StepRevealCard
+          step="03."
+          title="A plan, not a pitch."
+          description="We map your workflows and tell you, honestly, where AI fits and where it doesn't yet."
+          icon="/icons/clover-ai-page.svg"
+        />
+        <StepRevealCard
+          step="04."
+          title="Build, integrate, or train."
+          description="Depending on what you need: development, integration, orLink: Insights page (not yet built, flagged in the design brief)"
+          icon="/icons/build-ai-page.svg"
+        />
+        <StepRevealCard
+          step="05."
+          title="Governance, built in."
+          description="Compliance and oversight set up alongside the work, not bolted on afterward."
+          icon="/icons/governance-ai-page.svg"
+        />
+        <StepRevealCard
+          step="06."
+          title="Ongoing support."
+          description="AI moves fast. We keep watching so you don't have to."
+          icon="/icons/support-ai-page.svg"
+        />
       </div>
-
-    </div>
+    </Columns>
   </Container>
 </section>
 
 <style>
   .work-with-us {
-    background-color: var(--white);
-    padding: 120px 0;
-    font-family: var(--font-family-primary);
+    padding-block: var(--space-80);
   }
-
-  .work-with-us__container {
-    display: grid;
-    grid-template-columns: 1fr 2.5fr; 
-    gap: 60px;
-  }
-
-  .intro-column {
+  .work-with-us__content {
     display: flex;
     flex-direction: column;
+    align-items: flex-start;
     justify-content: space-between;
   }
-
-  .intro-column h2 {
-    font-size: var(--font-size-36);
-    font-weight: var(--font-weight-medium);
-    color: var(--navy);
-    line-height: 1.3;
-    margin: 0;
-    letter-spacing: -0.5px;
-    max-width: 300px;
-  }
-
-  .services-btn {
-    display: inline-flex;
-    align-items: stretch;
-    background-color: var(--grey-100);
-    color: var(--navy);
-    text-decoration: none;
-    font-size: var(--font-size-12);
-    font-weight: var(--font-weight-bold);
-    letter-spacing: 0.5px;
-    align-self: flex-start;
-    transition: opacity 0.3s ease;
-  }
-
-  .services-btn:hover {
-    opacity: 0.8;
-  }
-
-  .services-btn .text {
-    padding: 12px 20px;
-    display: flex;
-    align-items: center;
-  }
-
-  .services-btn .icon {
-    background-color: var(--lime); 
-    color: var(--navy);
-    padding: 12px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-
-  .cards-grid {
+  .work-with-us__grid {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 24px;
-  }
-
-  .step-card {
-    background-color: var(--grey-100); 
-    border-radius: var(--border-radius-small, 8px);
-    padding: 32px 24px;
-    display: flex;
-    flex-direction: column;
-    min-height: 380px;
-    transition: background-color 0.3s ease;
-  }
-
-  .card-icon-wrapper {
-    margin-bottom: auto; 
-    height: 80px;
-    display: flex;
-    align-items: flex-start;
-  }
-
-  .card-icon-wrapper img {
-    max-width: 60px;
-    height: auto;
-    object-fit: contain;
-  }
-
-  .card-header {
-    margin-top: 40px;
-  }
-
-  .step-number {
-    display: block;
-    font-size: var(--font-size-14);
-    font-weight: var(--font-weight-bold);
-    color: var(--navy);
-    margin-bottom: 8px;
-  }
-
-  .step-title {
-    font-size: var(--font-size-20);
-    font-weight: var(--font-weight-bold);
-    color: var(--navy);
-    margin: 0;
-    line-height: 1.4;
-  }
-
-  .card-body-wrapper {
-    display: grid;
-    grid-template-rows: 0fr; 
-    transition: grid-template-rows 0.4s ease;
-  }
-
-  .card-body {
-    overflow: hidden;
-    border-top: 1px solid transparent;
-    transition: border-color 0.4s ease, padding-top 0.4s ease, margin-top 0.4s ease;
-  }
-
-  .card-body p {
-    font-size: var(--font-size-14);
-    line-height: 1.6;
-    color: var(--charcoal);
-    margin: 0;
-    opacity: 0;
-    transform: translateY(10px);
-    transition: opacity 0.4s ease, transform 0.4s ease;
-  }
-
-  .step-card:hover .card-body-wrapper {
-    grid-template-rows: 1fr; 
-  }
-
-  .step-card:hover .card-body {
-    border-color: var(--grey-300); 
-    padding-top: 16px;
-    margin-top: 16px;
-  }
-
-  .step-card:hover .card-body p {
-    opacity: 1;
-    transform: translateY(0);
-  }
-
-  @media (max-width: 1024px) {
-    .work-with-us__container {
-      grid-template-columns: 1fr; 
-    }
-
-    .intro-column h2 {
-      max-width: 100%;
-      margin-bottom: 40px;
-    }
-
-    .services-btn {
-      margin-bottom: 60px;
-    }
-
-    .cards-grid {
-      grid-template-columns: repeat(2, 1fr); 
-    }
-  }
-
-  @media (max-width: 768px) {
-    .cards-grid {
-      grid-template-columns: 1fr; 
-    }
-    
-    .step-card {
-      min-height: auto;
-    }
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: var(--space-22);
   }
 </style>

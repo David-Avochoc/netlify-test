@@ -1,0 +1,248 @@
+---
+import PrimaryBtn from "../buttons/PrimaryBtn.astro";
+
+type FormFieldType =
+  | "text"
+  | "email"
+  | "tel"
+  | "number"
+  | "url"
+  | "password"
+  | "search"
+  | "date"
+  | "time"
+  | "datetime-local"
+  | "month"
+  | "week"
+  | "color"
+  | "file"
+  | "hidden"
+  | "checkbox"
+  | "radio"
+  | "range"
+  | "submit"
+  | "reset"
+  | "button"
+  | "textarea"
+  | "select";
+
+interface FormOption {
+  label: string;
+  value: string;
+}
+
+interface FormField {
+  name: string;
+  label: string;
+  type?: FormFieldType;
+  placeholder?: string;
+  required?: boolean;
+  width?: "full" | "half";
+  rows?: number;
+  options?: FormOption[];
+}
+
+interface Props {
+  fields?: FormField[];
+  title?: string;
+  description?: string;
+  submitLabel?: string;
+  note?: string;
+  layout?: "stacked" | "grid";
+  class?: string;
+}
+
+const {
+  fields = [],
+  title = "",
+  description = "",
+  submitLabel = "Submit",
+  note = "",
+  layout = "stacked",
+  class: className = "",
+} = Astro.props as Props;
+---
+
+<form class:list={["form", `form--${layout}`, className]} data-preview-form>
+  {title && <h2 class="form__title">{title}</h2>}
+
+  {description && <p class="form__description">{description}</p>}
+
+  <div class="form__fields">
+    {
+      fields.map((field) => (
+        <div
+          class:list={["form__field", `form__field--${field.width ?? "full"}`]}
+        >
+          <div class="form__control-wrap">
+            {field.type === "textarea" ? (
+              <textarea
+                id={field.name}
+                name={field.name}
+                placeholder={field.placeholder ?? ""}
+                required={field.required ?? false}
+                rows={field.rows ?? 4}
+                class="form__control form__textarea"
+              />
+            ) : field.type === "select" ? (
+              <>
+                <label class="form__label" for={field.name}>
+                  {field.label}
+                  {field.required && <span aria-hidden="true"> *</span>}
+                </label>
+
+                <select
+                  id={field.name}
+                  name={field.name}
+                  required={field.required ?? false}
+                  class="form__control"
+                >
+                  {field.options?.map((option) => (
+                    <option value={option.value}>{option.label}</option>
+                  ))}
+                </select>
+              </>
+            ) : (
+              <input
+                id={field.name}
+                name={field.name}
+                type={field.type ?? "text"}
+                placeholder={field.placeholder ?? ""}
+                required={field.required ?? false}
+                class="form__control"
+              />
+            )}
+
+            {field.type !== "select" && (
+              <label class="form__label" for={field.name}>
+                {field.label}
+                {field.required && <span aria-hidden="true"> *</span>}
+              </label>
+            )}
+          </div>
+        </div>
+      ))
+    }
+  </div>
+
+  <PrimaryBtn type="submit" text={submitLabel} class="form__submit" />
+
+  {note && <p class="form__note">{note}</p>}
+
+  <p class="form__status" data-form-status role="status" hidden></p>
+</form>
+
+<style>
+  .form {
+    --form-text: var(--navy);
+    --form-label-color: var(--navy);
+    --form-placeholder-color: var(--grey-400);
+    --form-input-border: var(--navy);
+    --form-input-background: var(--white-10);
+    --form-label-active: var(--lime);
+    --form-field-gap: var(--space-12);
+    --form-input-padding-x: var(--std-btn-padding-x);
+    --form-input-padding-y: var(--std-btn-padding-y);
+    --form-label-placeholder-gap: var(--space-4);
+    --form-input-radius: var(--border-radius-xsmall);
+    width: 100%;
+    color: var(--form-text);
+  }
+
+  .form__title {
+    font-size: var(--font-size-36);
+    font-weight: var(--font-weight-regular);
+    color: var(--navy);
+    letter-spacing: -0.045rem;
+    padding-bottom: var(--space-56);
+  }
+
+  .form__description {
+    font-size: var(--font-size-14);
+    line-height: 1.5;
+    margin-bottom: var(--space-12);
+  }
+
+  .form__fields {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--form-field-gap);
+    width: 100%;
+    margin-bottom: var(--space-56);
+  }
+
+  .form__field--full {
+    grid-column: 1 / -1;
+  }
+
+  .form__field--half {
+    grid-column: span 1;
+  }
+
+  .form--stacked .form__field {
+    grid-column: 1 / -1;
+  }
+
+  .form__control-wrap {
+    position: relative;
+    width: 100%;
+  }
+
+  .form__label {
+    position: absolute;
+    font-size: var(--font-size-12);
+    top: var(--form-input-padding-y);
+    left: var(--form-input-padding-x);
+    color: var(--form-label-color);
+    z-index: 1;
+    line-height: 1.2;
+    transition: color var(--transition-duration-standard)
+      var(--transition-easing);
+  }
+  .form__field:focus-within .form__label {
+    color: var(--form-label-active);
+  }
+
+  .form__control {
+    display: block;
+    width: 100%;
+    padding: calc(
+        var(--form-input-padding-y) + var(--font-size-12) * 1.2 +
+          var(--form-label-placeholder-gap)
+      )
+      var(--form-input-padding-x) var(--form-input-padding-y);
+    border: 1px solid transparent;
+    border-radius: var(--form-input-radius);
+    background: var(--form-input-background);
+    font-size: var(--font-size-16);
+    font-weight: var(--font-weight-regular);
+    color: var(--form-text);
+    min-height: 3.625rem;
+    transition: border-color var(--transition-duration-standard)
+      var(--transition-easing);
+  }
+
+  .form__control:focus {
+    border-color: var(--white);
+    outline: none;
+    box-shadow: none;
+  }
+
+  .form__control:autofill,
+  .form__control:-webkit-autofill {
+    border-color: var(--form-input-border);
+  }
+
+  .form__control::placeholder {
+    font-size: var(--font-size-16);
+    font-weight: var(--font-weight-regular);
+    color: var(--form-placeholder-color);
+    opacity: 1;
+    line-height: 1.5;
+  }
+
+  .form__note {
+    color: var(--grey-500);
+    margin-top: var(--space-8);
+  }
+</style>

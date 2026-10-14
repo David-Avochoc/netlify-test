@@ -1,22 +1,28 @@
 ---
 interface Props {
-  href: string;
+  href?: string;
   text: string;
+  type?: "button" | "submit" | "reset";
   background?: string;
   textColor?: string;
+  class?: string;
 }
 
 const {
   href,
   text,
+  type = "button",
   background = "var(--navy)",
   textColor = "var(--white)",
+  class: className = "",
 } = Astro.props;
+
+const Tag = href ? "a" : "button";
 ---
 
-<a
+<Tag
   href={href}
-  class="primary-btn"
+  class:list={["primary-btn", className]}
   style={`--button-background: ${background}; --button-text-color: ${textColor}`}
 >
   <span class="primary-btn__sizer" aria-hidden="true">
@@ -30,15 +36,15 @@ const {
   <span class="primary-btn__arrow" aria-hidden="true">
     <img src="/icons/arrow-up-right-drk.svg" alt="" />
   </span>
-</a>
+</Tag>
 
 <style>
   .primary-btn {
     --button-height: calc(var(--font-size-16) + (2 * var(--std-btn-padding-y)));
     --button-arrow-size: var(--button-height);
     --button-icon-size: var(--font-size-16);
-    --button-duration: 600ms;
-    --button-easing: cubic-bezier(0.65, 0, 0.35, 1);
+    --button-duration: var(--transition-duration-slow);
+    --button-easing: var(--transition-easing);
 
     position: relative;
     display: inline-block;

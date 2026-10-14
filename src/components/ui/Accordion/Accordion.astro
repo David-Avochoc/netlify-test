@@ -1,0 +1,106 @@
+---
+interface Props {
+  class?: string;
+  gap?: string;
+}
+
+const { class: className = "", gap = "0" } = Astro.props;
+---
+
+<div class:list={["accordion", className]} style={`--accordion-gap: ${gap};`}>
+  <slot />
+</div>
+
+<script>
+  function initialiseAccordions() {
+    const accordions = document.querySelectorAll<HTMLElement>(".accordion");
+
+    accordions.forEach((accordion) => {
+      if (accordion.dataset.accordionInitialised === "true") {
+        return;
+      }
+
+      accordion.dataset.accordionInitialised = "true";
+
+      const items = Array.from(accordion.children).filter(
+        (child): child is HTMLElement =>
+          child instanceof HTMLElement &&
+          child.classList.contains("accordion-item"),
+      );
+
+      items.forEach((item) => {
+        item.classList.remove("is-open");
+
+        const trigger = item.querySelector<HTMLButtonElement>(
+          ".accordion__trigger",
+        );
+
+        const panel = item.querySelector<HTMLElement>(".accordion__content");
+
+        trigger?.setAttribute("aria-expanded", "false");
+
+        if (panel) {
+          panel.setAttribute("aria-hidden", "true");
+          panel.setAttribute("inert", "");
+        }
+      });
+
+      items.forEach((item) => {
+        const trigger = item.querySelector<HTMLButtonElement>(
+          ".accordion__trigger",
+        );
+
+        if (!trigger) return;
+
+        trigger.addEventListener("click", () => {
+          const isOpen = item.classList.contains("is-open");
+
+          items.forEach((otherItem) => {
+            otherItem.classList.remove("is-open");
+
+            const otherTrigger = otherItem.querySelector<HTMLButtonElement>(
+              ".accordion__trigger",
+            );
+
+            const otherPanel = otherItem.querySelector<HTMLElement>(
+              ".accordion__content",
+            );
+
+            otherTrigger?.setAttribute("aria-expanded", "false");
+
+            if (otherPanel) {
+              otherPanel.setAttribute("aria-hidden", "true");
+              otherPanel.setAttribute("inert", "");
+            }
+          });
+
+          if (!isOpen) {
+            item.classList.add("is-open");
+
+            trigger.setAttribute("aria-expanded", "true");
+
+            const panel = item.querySelector<HTMLElement>(
+              ".accordion__content",
+            );
+
+            if (panel) {
+              panel.setAttribute("aria-hidden", "false");
+              panel.removeAttribute("inert");
+            }
+          }
+        });
+      });
+    });
+  }
+
+  initialiseAccordions();
+</script>
+
+<style>
+  .accordion {
+    display: flex;
+    flex-direction: column;
+    gap: var(--accordion-gap);
+    width: 100%;
+  }
+</style>

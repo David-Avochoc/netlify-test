@@ -2,20 +2,26 @@
 interface Props {
   title: string;
   fontSize?: string;
+  color?: string;
+  class?: string;
 }
 
-const { title, fontSize = "var(--font-size-24)" } = Astro.props;
+const {
+  title,
+  fontSize = "var(--font-size-24)",
+  color = "var(--navy)",
+  class: className = "",
+} = Astro.props;
 ---
 
-<div class="section-title">
-  <h2 style={`font-size: ${fontSize}`}>{title}</h2>
+<div class:list={["section-title", className]}>
+  <h2 style={`font-size: ${fontSize}; color: ${color}`}>{title}</h2>
 </div>
 
 <style>
   .section-title h2 {
     font-weight: var(--font-weight-semibold);
     line-height: 1.5;
-    color: var(--navy);
     text-transform: uppercase;
   }
 </style>

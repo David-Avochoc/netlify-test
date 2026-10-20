@@ -141,6 +141,22 @@ import PrimaryBtn from "@/components/buttons/PrimaryBtn.astro";
       cursor: auto;
     }
   }
+
+  @media only screen and (max-width: 799px) {
+    :global(.ai-hero-container.columns--stack) {
+      padding-top: calc(2.5rem + var(--space-24));
+      min-height: calc(100dvh - 6.875rem);
+    }
+    .ai-hero-left h1 {
+      font-size: var(--font-size-48);
+      letter-spacing: -0.06rem;
+    }
+    .hero__actions {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-24);
+    }
+  }
 </style>
 
 <script>

@@ -23,6 +23,11 @@ import Navigation from "./Navigation.astro";
     transform: translateX(-50%);
     z-index: 10;
   }
+  @media only screen and (max-width: 799px) {
+    .main-header {
+      padding-inline: 1rem;
+    }
+  }
 
   .main-logo {
     display: flex;
@@ -33,5 +38,6 @@ import Navigation from "./Navigation.astro";
   .main-logo img {
     width: auto;
     height: var(--nav-logo-height);
+    z-index: 99999;
   }
 </style>

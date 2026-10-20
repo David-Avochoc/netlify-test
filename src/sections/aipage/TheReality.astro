@@ -14,8 +14,14 @@ import HighlightBox from "@/components/ui/HighlightBox.astro";
       gap="2rem"
     >
       <div class="the-reality-left">
-        <SectionTitle title="The Reality" fontSize="var(--font-size:36)" />
-        Everyone says they do AI. Most of it never leaves the prototype stage.
+        <SectionTitle
+          title="The Reality"
+          fontSize="var(--font-size-36)"
+          mobileFontSize="var(--font-size-20)"
+        />
+        <h3>
+          Everyone says they do AI. Most of it never leaves the prototype stage.
+        </h3>
       </div>
       <div class="the-reality-right">
         <p class="reality-light-txt">
@@ -46,8 +52,6 @@ import HighlightBox from "@/components/ui/HighlightBox.astro";
     flex-direction: column;
     gap: 2rem;
     padding-right: 2rem;
-  }
-  .the-reality-left {
     border-right: 1px solid var(--grey-500);
   }
   .the-reality-left h3 {
@@ -74,5 +78,27 @@ import HighlightBox from "@/components/ui/HighlightBox.astro";
   .reality-dark-txt {
     font-weight: var(--font-weight-semibold);
     color: var(--grey-700);
+  }
+
+  @media only screen and (max-width: 799px) {
+    .the-reality-section {
+      padding-block: var(--space-36);
+    }
+    .the-reality-left {
+      gap: 1rem;
+      padding-right: 0rem;
+      border-right: 0px;
+      border-bottom: 1px solid var(--grey-500);
+      min-height: 24.187rem;
+    }
+    :global(.the-reality-container.columns--stack) {
+      gap: 1rem;
+    }
+    .the-reality-right {
+      gap: 1rem;
+    }
+    :global(.highlight-box) {
+      width: stretch !important;
+    }
   }
 </style>

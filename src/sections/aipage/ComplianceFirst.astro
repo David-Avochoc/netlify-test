@@ -10,7 +10,9 @@ import HighlightSection from "@/components/ui/HighlightSection.astro";
     <SectionTitle
       title="Compliance isn't an afterthought. It's the starting point."
       fontSize="var(--font-size-36)"
+      fontWeight="var(--font-weight-regular)"
       color="var(--navy)"
+      textTransform="capatilize"
       class="compliance-first__title"
     />
 
@@ -134,5 +136,30 @@ import HighlightSection from "@/components/ui/HighlightSection.astro";
   .ongoing-compliance p {
     flex: 1;
     min-width: 0;
+  }
+
+  @media only screen and (max-width: 799px) {
+    :global(.highlight-section) {
+      padding: var(--space-32) !important;
+    }
+    .iso-certification-badge img {
+      max-width: 7.5rem;
+      margin: auto;
+    }
+    .iso-heading {
+      text-align: center;
+    }
+    .iso-heading h4 {
+      text-align: left;
+      margin-top: 32px;
+      font-size: var(--font-size-30);
+    }
+    .iso-description p {
+      font-size: var(--font-size-18);
+    }
+    .gdpr-compliance,
+    .ongoing-compliance {
+      flex-direction: column;
+    }
   }
 </style>

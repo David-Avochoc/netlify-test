@@ -4,6 +4,7 @@ interface Props {
   text: string;
   background?: string;
   textColor?: string;
+  class?: string;
 }
 
 const {
@@ -11,12 +12,13 @@ const {
   text,
   background = "transparent",
   textColor = "var(--white)",
+  class: className = "",
 } = Astro.props;
 ---
 
 <a
   href={href}
-  class="secondary-btn"
+  class:list={["secondary-btn", className]}
   style={`--button-background: ${background}; --button-text-color: ${textColor}`}
 >
   <span class="secondary-btn__sizer" aria-hidden="true">

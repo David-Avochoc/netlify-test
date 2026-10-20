@@ -12,13 +12,76 @@ import ContactFooter from "@/sections/shared-sections/ContactFooter.astro";
 ---
 
 <BaseLayout title="AI" description="Progress Done Properly">
-  <AiHero />
-  <TheReality />
-  <We_Tell />
-  <HumanFirst />
-  <HowWeWork />
-  <ComplianceFirst />
-  <WorkWithUs />
-  <DataBackUps />
-  <ContactFooter />
+  <div class="avochoc-page-sections">
+    <div class="aps ai_hero">
+      <AiHero />
+    </div>
+    <div class="aps ai_reality">
+      <TheReality />
+    </div>
+    <div class="aps ai_we_tell">
+      <We_Tell />
+    </div>
+    <div class="aps ai_human_first">
+      <HumanFirst />
+    </div>
+    <div class="aps ai_how_we_work">
+      <HowWeWork />
+    </div>
+    <div class="aps ai_compliance_first">
+      <ComplianceFirst />
+    </div>
+    <div class="aps ai_work_with_us">
+      <WorkWithUs />
+    </div>
+    <div class="aps ai_data_backups">
+      <DataBackUps />
+    </div>
+    <div class="aps ai_contact">
+      <ContactFooter />
+    </div>
+  </div>
 </BaseLayout>
+
+<style>
+  .avochoc-page-sections {
+    display: flex;
+    flex-direction: column;
+  }
+  .ai_hero {
+    order: 1;
+  }
+  .ai_reality {
+    order: 2;
+  }
+  .ai_we_tell {
+    order: 3;
+  }
+  .ai_human_first {
+    order: 4;
+  }
+  .ai_how_we_work {
+    order: 5;
+  }
+  .ai_compliance_first {
+    order: 6;
+  }
+  .ai_work_with_us {
+    order: 7;
+  }
+  .ai_data_backups {
+    order: 8;
+  }
+  .ai_contact {
+    order: 9;
+  }
+
+  @media screen and (max-width: 799px) {
+    .ai_compliance_first {
+      order: 4;
+    }
+    .ai_human_first {
+      order: 5;
+    }
+  }
+</style>

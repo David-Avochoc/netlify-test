@@ -136,6 +136,36 @@ const {
       );
     }
   }
+  @media only screen and (max-width: 799px) {
+    .highlight-section::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      background:
+        linear-gradient(
+            var(--highlight-accent-color),
+            var(--highlight-accent-color)
+          )
+          left top / 1rem 1rem no-repeat,
+        linear-gradient(
+            var(--highlight-accent-color),
+            var(--highlight-accent-color)
+          )
+          right top / 1rem 1rem no-repeat,
+        linear-gradient(
+            var(--highlight-accent-color),
+            var(--highlight-accent-color)
+          )
+          left bottom / 1rem 1rem no-repeat,
+        linear-gradient(
+            var(--highlight-accent-color),
+            var(--highlight-accent-color)
+          )
+          right bottom / 1rem 1rem no-repeat;
+      z-index: 2;
+    }
+  }
 
   @media (max-width: 560px) {
     .highlight-section__inner {

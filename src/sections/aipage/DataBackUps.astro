@@ -11,6 +11,8 @@ import PrimaryBtn from "@/components/buttons/PrimaryBtn.astro";
     <SectionTitle
       title="The data backs up why we work this way."
       fontSize="var(--font-size-36)"
+      fontWeight="var(--font-weight-regular"
+      textTransform="capitalize"
       color="var(--navy)"
       class="data-backup__title"
     />
@@ -22,7 +24,7 @@ import PrimaryBtn from "@/components/buttons/PrimaryBtn.astro";
     >
       <StatCard
         label="The upside"
-        cardBackgroundImage="/images/backgrounds/cards/backgroundgradient1.webp"
+        cardBackgroundImage="/images/backgrounds/cards/backgroundgradient3.webp"
         cardTitle="14-34%"
         cardDescription="Increase in worker productivity from generative AI tools — rising to 34% for newer or less experienced staff."
         cardSource="Quarterly Journal of Economics"
@@ -30,7 +32,7 @@ import PrimaryBtn from "@/components/buttons/PrimaryBtn.astro";
       />
       <StatCard
         label="The reality"
-        cardBackgroundImage="/images/backgrounds/cards/backgroundgradient2.webp"
+        cardBackgroundImage="/images/backgrounds/cards/backgroundgradient1.webp"
         cardTitle="40%+"
         cardDescription="Of agentic AI projects expected to be cancelled before the end of 2027, largely due to unclear business value and weak governance."
         cardSource="Gartner"
@@ -38,7 +40,7 @@ import PrimaryBtn from "@/components/buttons/PrimaryBtn.astro";
       />
       <StatCard
         label="The trust gap"
-        cardBackgroundImage="/images/backgrounds/cards/backgroundgradient3.webp"
+        cardBackgroundImage="/images/backgrounds/cards/backgroundgradient2.webp"
         cardTitle="Unreliable AI outputs make buyers less confident in their decisions, not more."
         cardTitleSize="var(--font-size-30)"
         cardDescription="Vague AI claims don't build trust. Evidence does."
@@ -95,5 +97,48 @@ import PrimaryBtn from "@/components/buttons/PrimaryBtn.astro";
     display: flex;
     gap: var(--space-16);
     margin: auto;
+  }
+  @media screen and (max-width: 799px) {
+    :global(.data-backup-columns.columns) {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    :global(.data-backup-columns.columns > :nth-child(3)) {
+      order: 1;
+      position: sticky;
+      top: 55px;
+      z-index: 1;
+    }
+
+    :global(.data-backup-columns.columns > :nth-child(2)) {
+      order: 2;
+      position: sticky;
+      top: 105px;
+      z-index: 2;
+    }
+
+    :global(.data-backup-columns.columns > :nth-child(1)) {
+      order: 3;
+      position: sticky;
+      top: 155px;
+      z-index: 3;
+    }
+
+    :global(.data-backup-columns .stat-card) {
+      margin: 0;
+      gap: 0 !important;
+    }
+
+    .backup-data-statement p {
+      text-align: left;
+    }
+
+    .backup-data-cta {
+      flex-direction: column;
+      margin: 0;
+    }
   }
 </style>

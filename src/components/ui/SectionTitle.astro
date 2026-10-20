@@ -2,26 +2,49 @@
 interface Props {
   title: string;
   fontSize?: string;
+  mobileFontSize?: string;
+  fontWeight?: string;
   color?: string;
+  textTransform?: string;
   class?: string;
 }
 
 const {
   title,
   fontSize = "var(--font-size-24)",
+  mobileFontSize,
+  fontWeight = "var(--font-weight-semibold)",
   color = "var(--navy)",
+  textTransform = "uppercase",
   class: className = "",
 } = Astro.props;
 ---
 
-<div class:list={["section-title", className]}>
-  <h2 style={`font-size: ${fontSize}; color: ${color}`}>{title}</h2>
+<div
+  class:list={["section-title", className]}
+  style={`
+    --section-title-font-size: ${fontSize};
+    --section-title-mobile-font-size: ${mobileFontSize ?? fontSize};
+    --section-title-font-weight: ${fontWeight};
+    --section-title-color: ${color};
+    --section-title-text-transform: ${textTransform};
+  `}
+>
+  <h2>{title}</h2>
 </div>
 
 <style>
   .section-title h2 {
-    font-weight: var(--font-weight-semibold);
+    font-size: var(--section-title-font-size);
+    font-weight: var(--section-title-font-weight);
+    color: var(--section-title-color);
     line-height: 1.5;
-    text-transform: uppercase;
+    text-transform: var(--section-title-text-transform);
+  }
+
+  @media screen and (max-width: 799px) {
+    .section-title h2 {
+      font-size: var(--section-title-mobile-font-size);
+    }
   }
 </style>

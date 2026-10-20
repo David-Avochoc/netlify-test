@@ -17,53 +17,84 @@ import PrimaryBtn from "@/components/buttons/PrimaryBtn.astro";
       <div class="work-with-us__content">
         <SectionTitle
           title="Here's what working with us actually looks like."
-          fontSize="var(--font-size-30)"
+          fontSize="var(--font-size-36)"
+          fontWeight="var(--font-weight-regular)"
+          textTransform="capatilize"
         />
 
         <PrimaryBtn
           href="#"
-          text="See all our services"
+          text="See all services"
           background="var(--grey)"
           textColor="var(--navy)"
+          class="CTA-services"
         />
       </div>
 
-      <div class="work-with-us__grid">
-        <StepRevealCard
-          step="01."
-          title="Free AI maturity assessment."
-          description="A short, no-obligation look at where AI could genuinely help your business, and where the risk sits."
-          icon="/icons/star-ai-page.svg"
-        />
-        <StepRevealCard
-          step="02."
-          title="A real conversation. Not a sales call."
-          description="You'll speak directly with our leadership about what you actually need."
-          icon="/icons/flower-ai-page.svg"
-        />
-        <StepRevealCard
-          step="03."
-          title="A plan, not a pitch."
-          description="We map your workflows and tell you, honestly, where AI fits and where it doesn't yet."
-          icon="/icons/clover-ai-page.svg"
-        />
-        <StepRevealCard
-          step="04."
-          title="Build, integrate, or train."
-          description="Depending on what you need: development, integration, orLink: Insights page (not yet built, flagged in the design brief)"
-          icon="/icons/build-ai-page.svg"
-        />
-        <StepRevealCard
-          step="05."
-          title="Governance, built in."
-          description="Compliance and oversight set up alongside the work, not bolted on afterward."
-          icon="/icons/governance-ai-page.svg"
-        />
-        <StepRevealCard
-          step="06."
-          title="Ongoing support."
-          description="AI moves fast. We keep watching so you don't have to."
-          icon="/icons/support-ai-page.svg"
+      <div class="work-with-us__carousel">
+        <div class="carousel-controls-container">
+          <button
+            class="work-with-us__arrow work-with-us__arrow--prev"
+            type="button"
+            aria-label="Previous Card"
+            disabled
+          >
+            <span aria-hidden="true">&lt;</span>
+          </button>
+          <button
+            class="work-with-us__arrow work-with-us__arrow--next"
+            type="button"
+            aria-label="Next Card"
+            disabled
+          >
+            <span aria-hidden="true">&gt;</span>
+          </button>
+        </div>
+
+        <div class="work-with-us__grid">
+          <StepRevealCard
+            step="01."
+            title="Free AI maturity assessment."
+            description="A short, no-obligation look at where AI could genuinely help your business, and where the risk sits."
+            icon="/icons/star-ai-page.svg"
+          />
+          <StepRevealCard
+            step="02."
+            title="A real conversation. Not a sales call."
+            description="You'll speak directly with our leadership about what you actually need."
+            icon="/icons/flower-ai-page.svg"
+          />
+          <StepRevealCard
+            step="03."
+            title="A plan, not a pitch."
+            description="We map your workflows and tell you, honestly, where AI fits and where it doesn't yet."
+            icon="/icons/clover-ai-page.svg"
+          />
+          <StepRevealCard
+            step="04."
+            title="Build, integrate, or train."
+            description="Depending on what you need: development, integration, orLink: Insights page (not yet built, flagged in the design brief)"
+            icon="/icons/build-ai-page.svg"
+          />
+          <StepRevealCard
+            step="05."
+            title="Governance, built in."
+            description="Compliance and oversight set up alongside the work, not bolted on afterward."
+            icon="/icons/governance-ai-page.svg"
+          />
+          <StepRevealCard
+            step="06."
+            title="Ongoing support."
+            description="AI moves fast. We keep watching so you don't have to."
+            icon="/icons/support-ai-page.svg"
+          />
+        </div>
+        <PrimaryBtn
+          href="#"
+          text="See all services"
+          background="var(--grey)"
+          textColor="var(--navy)"
+          class="CarouselCTA"
         />
       </div>
     </Columns>
@@ -85,4 +116,130 @@ import PrimaryBtn from "@/components/buttons/PrimaryBtn.astro";
     grid-template-columns: repeat(3, minmax(0, 1fr));
     gap: var(--space-22);
   }
+  .work-with-us__carousel {
+    min-width: 0;
+  }
+  .work-with-us__arrow {
+    display: none;
+  }
+  :global(.CarouselCTA) {
+    display: none !important;
+  }
+  @media screen and (max-width: 799px) {
+    :global(.CTA-services) {
+      display: none !important;
+    }
+    :global(.CarouselCTA) {
+      display: block !important;
+      margin-top: var(--space-22);
+      margin-inline: var(--space-16);
+    }
+    :global(.work-with-us .container) {
+      padding-inline: 0px !important;
+    }
+    .work-with-us__content,
+    .carousel-controls-container {
+      padding-inline: 1rem;
+    }
+
+    :global(.step-reveal-card) {
+      min-width: 248px !important;
+    }
+
+    .work-with-us__carousel {
+      position: relative;
+      min-width: 0;
+    }
+    .work-with-us__grid {
+      display: flex;
+      gap: var(--space-22);
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+      scroll-behavior: smooth;
+      scrollbar-width: none;
+      padding-inline: var(--space-16);
+    }
+    .carousel-controls-container {
+      display: flex;
+      flex-direction: row;
+      justify-content: flex-end;
+      gap: 10px;
+      margin-bottom: var(--space-22);
+    }
+
+    .work-with-us__grid::-webkit-scrollbar {
+      display: none;
+    }
+
+    .work-with-us__grid > * {
+      flex: 0 0 85%;
+      min-width: 0;
+      scroll-snap-align: start;
+    }
+
+    .work-with-us__arrow {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 40px;
+      height: 40px;
+      border: 1px solid var(--navy);
+      border-radius: 0;
+      background: var(--white);
+      color: var(--navy);
+      cursor: pointer;
+    }
+
+    .work-with-us__arrow:disabled {
+      opacity: 0.35;
+      cursor: default;
+    }
+  }
 </style>
+
+<script>
+  document
+    .querySelectorAll<HTMLElement>(".work-with-us__carousel")
+    .forEach((carousel) => {
+      const grid = carousel.querySelector<HTMLElement>(".work-with-us__grid");
+      const prev = carousel.querySelector<HTMLButtonElement>(
+        ".work-with-us__arrow--prev",
+      );
+      const next = carousel.querySelector<HTMLButtonElement>(
+        ".work-with-us__arrow--next",
+      );
+
+      if (!grid || !prev || !next) return;
+
+      const updateButtons = () => {
+        const maxScroll = grid.scrollWidth - grid.clientWidth;
+        const isMobile = window.matchMedia("(max-width: 799px)").matches;
+
+        prev.disabled = !isMobile || grid.scrollLeft <= 1;
+        next.disabled = !isMobile || grid.scrollLeft >= maxScroll - 1;
+      };
+
+      const moveCard = (direction: number) => {
+        const card = grid.firstElementChild as HTMLElement | null;
+        if (!card) return;
+
+        const gap = parseFloat(getComputedStyle(grid).columnGap) || 0;
+
+        grid.scrollBy({
+          left: direction * (card.getBoundingClientRect().width + gap),
+          behavior: "smooth",
+        });
+      };
+
+      prev.addEventListener("click", () => moveCard(-1));
+      next.addEventListener("click", () => moveCard(1));
+
+      grid.addEventListener("scroll", updateButtons, {
+        passive: true,
+      });
+
+      window.addEventListener("resize", updateButtons);
+
+      updateButtons();
+    });
+</script>

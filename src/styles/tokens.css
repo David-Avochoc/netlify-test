@@ -94,6 +94,7 @@ html {
     --space-4: 0.25rem;
     --space-8: 0.5rem;
     --space-12: 0.75rem;
+    --space-14: 0.875rem;
     --space-16: 1rem;
     --space-20: 1.25rem;
     --space-22: 1.375rem;
@@ -106,6 +107,7 @@ html {
     --space-44: 2.75rem;
     --space-46: 2.875rem;
     --space-48: 3rem;
+    --space-50: 3.125rem;
     --space-56: 3.5rem;
     --space-64: 4rem;
     --space-80: 5rem;

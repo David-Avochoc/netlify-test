@@ -58,6 +58,7 @@ import PrimaryBtn from "@/components/buttons/PrimaryBtn.astro";
           text="Learn more about ai integration"
           background="var(--white)"
           textColor="var(--navy)"
+          class="ai-cta"
         />
       </div>
     </Columns>
@@ -72,10 +73,7 @@ import PrimaryBtn from "@/components/buttons/PrimaryBtn.astro";
   .human-first__left {
     border-right: 1px solid var(--white);
   }
-  :global(.human-first__title) {
-    padding-block: var(--space-16);
-    border-bottom: 1px solid var(--white);
-  }
+
   :global(.human-first__title2 h2) {
     background: var(--gradient-green-lime);
     -webkit-background-clip: text;
@@ -84,6 +82,7 @@ import PrimaryBtn from "@/components/buttons/PrimaryBtn.astro";
     text-align: right;
     padding-block: var(--space-16);
     padding-inline: var(--space-16);
+    border-top: 1px solid var(--white);
   }
   .human-first__right {
     display: flex;
@@ -110,14 +109,16 @@ import PrimaryBtn from "@/components/buttons/PrimaryBtn.astro";
     display: block;
     width: 100%;
     height: auto;
+    margin-bottom: var(--space-24);
   }
   .human-first__right2 {
     display: flex;
     flex-direction: column;
     align-items: flex-start;
-    gap: var(--space-48);
-    padding-left: var(--space-32);
+    gap: var(--space-24);
+    padding-left: 0;
     margin-block: auto;
+    padding-left: var(--space-32);
   }
 
   .human-first__right2 .into-txt2 {
@@ -135,4 +136,55 @@ import PrimaryBtn from "@/components/buttons/PrimaryBtn.astro";
   .human-first__right2 .into-txt2 p + p {
     margin-top: var(--space-12);
   }
+  @media only screen and (max-width: 799px) {
+    .human-first-section {
+      padding-top: 0;
+    }
+    .human-first__left {
+      border-right: 0px;
+    }
+    :global(.section-title.human-first__title) {
+      padding: 0px;
+      width: fit-content;
+      border-right: 1px solid white;
+    }
+    :global(.human-first__title h2) {
+      padding: var(--space-16) var(--space-32) var(--space-16) 0;
+      width: fit-content;
+    }
+    :global(.human-first__title2 h2) {
+      border-bottom: 1px solid var(--white);
+    }
+    .human-first__right {
+      display: flex;
+      flex-direction: column;
+      align-self: flex-end;
+      padding: 0;
+    }
+    .human-first__right p {
+      font-size: var(--font-size-24);
+      line-height: 1.26;
+      color: var(--white);
+      max-width: 37rem;
+      padding: 2rem 0 1rem 0;
+    }
+    :global(.human-first__columns) {
+      border-bottom: 0;
+    }
+    :global(.human-first__columns2) {
+      padding-top: var(--space-24);
+    }
+    .human-first__left2 {
+    padding-right: 0;
+  }
+  .human-first__right2 {
+    padding-left: 0;
+  }
+    .human-first__right2 p {
+    font-size: var(--font-size-14);
+  }
+  :global(.ai-cta) {
+    width: 100%;
+  }
+
 </style>

@@ -19,6 +19,8 @@ const tabs = ["Readiness", "Discovery", "Honesty", "Risk"];
         slot="heading"
         title="We'll tell you when AI is not the answer"
         fontSize="var(--font-size-36)"
+        textTransform="capitalize"
+        fontWeight="var(--font-weight-regular)"
       />
 
       <!-- Readiness -->
@@ -260,5 +262,51 @@ const tabs = ["Readiness", "Discovery", "Honesty", "Risk"];
     font-weight: var(--font-weight-semibold);
     color: var(--navy);
     text-transform: uppercase;
+  }
+
+  @media only screen and (max-width: 799px) {
+    :global(.we-tell__panel.columns--stack) {
+      gap: 0rem;
+    }
+    :global(.scroll-tabs__inner) {
+      padding-inline: var(--space-16);
+    }
+    :global(.scroll-tabs__tabs) {
+      display: none !important;
+    }
+    .panel-center {
+      order: 1;
+      margin-bottom: var(--space-32);
+    }
+    .panel-left {
+      order: 2;
+      padding: var(--space-36) 0;
+      border: 1px solid rgba(234, 236, 240, 0.25);
+      border-top-left-radius: var(--border-radius-small);
+      border-top-right-radius: var(--border-radius-small);
+      border-bottom: none;
+    }
+    .panel-right {
+      order: 3;
+      padding-bottom: var(--space-36);
+      border: 1px solid rgba(234, 236, 240, 0.25);
+      border-bottom-left-radius: var(--border-radius-small);
+      border-bottom-right-radius: var(--border-radius-small);
+      border-top: none;
+    }
+    .panel-left,
+    .panel-right {
+      padding-inline: var(--space-16);
+      max-width: 100%;
+      background: rgba(234, 236, 240, 0.1);
+    }
+    .panel-right .step {
+      color: var(--white);
+    }
+
+    .scroll-tabs__panel {
+      padding: 0;
+      align-items: flex-end;
+    }
   }
 </style>

@@ -116,4 +116,28 @@ import PrimaryBtn from "@/components/buttons/PrimaryBtn.astro";
     display: flex;
     gap: var(--space-16);
   }
+
+  @media screen and (max-width: 799px) {
+    :global(.accordion__trigger .accordion__number) {
+      font-size: var(--font-size-24);
+    }
+    :global(.accordion__trigger .accordion__title) {
+      font-size: var(--font-size-20);
+    }
+    :global(.accordion__content-inner) {
+      padding-block: var(--space-8) !important;
+      padding-left: var(--space-50) !important;
+      font-size: var(--font-size-14) !important;
+    }
+
+    :global(.accordion__icon::before, .accordion__icon::after) {
+      height: 1.5px !important;
+    }
+    :global(.accordion.how-we-work-section__accordion) {
+      gap: 8px !important;
+    }
+    .how-we-work-section__cta {
+      flex-direction: column;
+    }
+  }
 </style>

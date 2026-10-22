@@ -8,11 +8,13 @@ import ServiceCards from "../sections/homepage/ServiceCards.astro";
 import PrimaryBtn from "@/components/buttons/PrimaryBtn.astro";
 import SecondaryBtn from "@/components/buttons/SecondaryBtn.astro";
 import HomeHero from "../sections/homepage/HomeHero.astro";
-import StepRevealCard from "../components/cards/StepRevealCard.astro";
+import LargeCard from "@/components/cards/LargeCard.astro";
+import HowWeWork_Services from "@/sections/servicespage/HowWeWork_Services.astro";
 ---
 
 <BaseLayout title="AvoChoc" description="Progress Done Properly">
   <HomeHero />
+  <HowWeWork_Services />
 
   <Map
     title="AvoChoc builds solutions that work in the real world, not only the slide deck."
@@ -43,5 +45,18 @@ import StepRevealCard from "../components/cards/StepRevealCard.astro";
   />
 
   <PrimaryBtn href="/contact" text="Work With Us" />
+  <LargeCard
+    image="/images/backgrounds/cards/backgroundgradient1.webp"
+    imageAlt="Abstract planetary illustration"
+    title="Map What Matters"
+    description="Before we design anything, we find out what can't change. That means mapping dependencies, risk surfaces, and constraints."
+    step="Step"
+    stepNumber="1"
+    minWidth="40.312rem"
+    height="42.127rem"
+    imageHeight="353px"
+    gap="var(--space-34)"
+    backgroundColor="var(--white)"
+  />
   <WhatClientsSay />
 </BaseLayout>

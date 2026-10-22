@@ -8,32 +8,54 @@ interface Props {
   stepNumber?: string | number;
   width?: string;
   minWidth?: string;
+  maxWidth?: string;
   height?: string;
   gap?: string;
   imageHeight?: string;
   backgroundColor?: string;
   textColor?: string;
 }
+
+const {
+  image,
+  imageAlt,
+  title,
+  description,
+  step,
+  stepNumber,
+  width = "100%",
+  minWidth = "23.25rem",
+  maxWidth = "40.312rem",
+  height = "auto",
+  gap = "1rem",
+  imageHeight = "13.75rem",
+  backgroundColor = "var(--white)",
+  textColor = "var(--navy)",
+} = Astro.props;
 ---
 
 <article
   class="large-card"
-  style={`--card-width: ${width}; --card-min-width: ${min - width}; --card-height: ${height} --card-gap: ${gap}; --card-image-height: ${imageHeight}; --card-background: ${backgroundColor}; --card-text-color: ${textColor}`}
+  style={`--card-width: ${width}; --card-min-width: ${minWidth}; --card-max-width: ${maxWidth};--card-height: ${height}; --card-gap: ${gap}; --card-image-height: ${imageHeight}; --card-background: ${backgroundColor}; --card-text-color: ${textColor}`}
 >
-  <img class="large-card__image" src="{image} alt={imageAlt} loading=" lazy" />
-  {
-    step || stepNumber !== undefined ? (
-      <div class="large-card__step">
-        {step && <span class="large-card__step-label">{step}</span>}
-        {stepNumber !== undefined && (
-          <span class="large-card__step-number">{stepNumber}</span>
-        )}
-      </div>
-    ) : null
-  }
-  <div class="large-card__content">
-    <h4 class="large-card__title">{title}</h4>
-    <p class="large-card__description">{description}</p>
+  <img class="large-card__image" src={image} alt={imageAlt} loading="lazy" />
+
+  <div class="large-card__header">
+    {
+      step || stepNumber !== undefined ? (
+        <div class="large-card__step">
+          {step && <span class="large-card__step-label">{step}</span>}
+          {stepNumber !== undefined && (
+            <span class="large-card__step-number">{stepNumber}</span>
+          )}
+        </div>
+      ) : null
+    }
+
+    <div class="large-card__content">
+      <h4 class="large-card__title">{title}</h4>
+      <p class="large-card__description">{description}</p>
+    </div>
   </div>
 </article>
 
@@ -42,9 +64,12 @@ interface Props {
     display: flex;
     flex-direction: column;
     gap: var(--card-gap);
-    min-width: var(--card-min-width);
     width: var(--card-width);
+    min-width: var(--card-min-width);
+    max-width: var(--card-max-width);
     height: var(--card-height);
+    min-height: 0;
+    box-sizing: border-box;
     padding: var(--space-32);
     background-color: var(--card-background);
     color: var(--card-text-color);
@@ -56,24 +81,33 @@ interface Props {
     display: block;
     width: 100%;
     height: var(--card-image-height);
+    flex-shrink: 0;
     object-fit: cover;
     object-position: center;
     border-radius: var(--border-radius-med);
+  }
+
+  .large-card__header {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-8);
   }
 
   .large-card__step {
     display: flex;
     align-items: center;
     align-self: flex-start;
+    gap: 1px;
   }
 
   .large-card__step-label {
     display: inline-flex;
     align-items: center;
+    justify-content: center;
     padding-block: var(--space-4);
     padding-inline: var(--space-16);
-    gap: var(--space-8);
     border: 1px solid var(--navy);
+    border-radius: 999px;
     font-size: var(--font-size-14);
     font-weight: var(--font-weight-bold);
     color: var(--navy);
@@ -84,23 +118,48 @@ interface Props {
   .large-card__step-number {
     display: inline-flex;
     align-items: center;
+    justify-content: center;
+    min-width: 1.5rem;
+    min-height: 1.5rem;
+    padding-inline: var(--space-4);
+    box-sizing: border-box;
+    border-radius: 999px;
     background-color: var(--lime);
     font-size: var(--font-size-14);
     font-weight: var(--font-weight-bold);
     color: var(--navy);
   }
+
   .large-card__content {
     display: flex;
     flex-direction: column;
     gap: var(--space-34);
+    min-width: 0;
   }
-  .large-content__title {
+
+  .large-card__title {
+    margin: 0;
     font-size: var(--font-size-36);
     font-weight: var(--font-weight-regular);
   }
 
-  .large-content__description {
+  .large-card__description {
+    margin: 0;
     font-size: var(--font-size-18);
     font-weight: var(--font-weight-regular);
+    line-height: 1.6;
+  }
+
+  @media (max-width: 799px) {
+    .large-card {
+      width: 100%;
+      height: auto;
+      min-width: 0;
+    }
+
+    .large-card__image {
+      height: auto;
+      aspect-ratio: 1.65 / 1;
+    }
   }
 </style>

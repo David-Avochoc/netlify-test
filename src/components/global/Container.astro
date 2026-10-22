@@ -1,12 +1,16 @@
 ---
 interface Props {
   class?: string;
+  paddingY?: string;
 }
 
-const { class: className } = Astro.props;
+const { class: className, paddingY = "0" } = Astro.props;
 ---
 
-<div class:list={["container", className]}>
+<div
+  class:list={["container", className]}
+  style={`--container-padding-y: ${paddingY};`}
+>
   <slot />
 </div>
 
@@ -15,6 +19,7 @@ const { class: className } = Astro.props;
     width: 100%;
     /*max-width: var(--container-max-width);*/
     padding-inline: var(--section-padding-x);
+    padding-block: var(--container-padding-y);
     margin: 0 auto;
   }
   @media only screen and (max-width: 799px) {

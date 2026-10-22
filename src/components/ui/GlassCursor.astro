@@ -1,0 +1,393 @@
+---
+/**
+ * GlassCursor.astro
+ * A circular "liquid glass" lens that follows the cursor and refracts
+ * everything underneath it (background images, text, buttons, video...).
+ *
+ * Defaults mirror the Figma glass settings:
+ *   Light 80% @ -45°, Refraction 100, Depth 395.31, Dispersion 100, Frost 0, Splay 0
+ *
+ * Usage: place it as the last child of the section you want it to work in:
+ *   <section class="hero"> ... <GlassCursor /> </section>
+ * The lens only appears while the cursor is inside that section, and is clipped at its edges.
+ * To scope it to a different element: <GlassCursor scope="#my-section" />
+ */
+interface Props {
+  size?: number; // lens diameter in px
+  refraction?: number; // 0-100  how far the edge pulls in content from outside
+  depth?: number; // 0-400  how wide the refracting bezel is
+  dispersion?: number; // 0-100  RGB split (chromatic aberration)
+  frost?: number; // 0-100  blur
+  lightAngle?: number; // degrees, Figma convention (-45 = light from top-left)
+  lightIntensity?: number; // 0-100  strength of the rim highlight
+  smoothing?: number; // 0-1    follow speed (1 = instant, lower = floatier)
+  hideNativeCursor?: boolean;
+  scope?: string; // CSS selector of the area the lens lives in. Default: the element this component is placed inside (e.g. your hero <section>)
+  clip?: boolean; // clip the lens at the edges of the scope so it never spills outside it
+}
+
+const {
+  size = 180,
+  refraction = 100,
+  depth = 395.31,
+  dispersion = 100,
+  frost = 0,
+  lightAngle = -45,
+  lightIntensity = 80,
+  smoothing = 0.25,
+  hideNativeCursor = false,
+  scope = "",
+  clip = true,
+} = Astro.props;
+
+const rimAngle = 90 - lightAngle; // Figma angle -> CSS gradient angle
+---
+
+<!-- SVG filter: displacement map + per-channel offsets = refraction with dispersion -->
+<svg
+  aria-hidden="true"
+  focusable="false"
+  width="0"
+  height="0"
+  style="position:absolute;pointer-events:none"
+>
+  <defs>
+    <filter
+      id="glass-cursor-filter"
+      x="0"
+      y="0"
+      width={size}
+      height={size}
+      filterUnits="userSpaceOnUse"
+      primitiveUnits="userSpaceOnUse"
+      color-interpolation-filters="sRGB"
+    >
+      <feGaussianBlur
+        id="gc-blur"
+        in="SourceGraphic"
+        stdDeviation="0"
+        result="src"></feGaussianBlur>
+      <feImage
+        id="gc-map"
+        x="0"
+        y="0"
+        width={size}
+        height={size}
+        preserveAspectRatio="none"
+        result="map"></feImage>
+
+      <feDisplacementMap
+        id="gc-dr"
+        in="src"
+        in2="map"
+        scale="0"
+        xChannelSelector="R"
+        yChannelSelector="G"
+        result="dr"></feDisplacementMap>
+      <feColorMatrix
+        in="dr"
+        type="matrix"
+        values="1 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 1 0"
+        result="r"></feColorMatrix>
+
+      <feDisplacementMap
+        id="gc-dg"
+        in="src"
+        in2="map"
+        scale="0"
+        xChannelSelector="R"
+        yChannelSelector="G"
+        result="dg"></feDisplacementMap>
+      <feColorMatrix
+        in="dg"
+        type="matrix"
+        values="0 0 0 0 0  0 1 0 0 0  0 0 0 0 0  0 0 0 1 0"
+        result="g"></feColorMatrix>
+
+      <feDisplacementMap
+        id="gc-db"
+        in="src"
+        in2="map"
+        scale="0"
+        xChannelSelector="R"
+        yChannelSelector="G"
+        result="db"></feDisplacementMap>
+      <feColorMatrix
+        in="db"
+        type="matrix"
+        values="0 0 0 0 0  0 0 0 0 0  0 0 1 0 0  0 0 0 1 0"
+        result="b"></feColorMatrix>
+
+      <feBlend in="r" in2="g" mode="screen" result="rg"></feBlend>
+      <feBlend in="rg" in2="b" mode="screen"></feBlend>
+    </filter>
+  </defs>
+</svg>
+
+<div
+  id="glass-cursor"
+  class:list={["glass-cursor", { "hide-cursor": hideNativeCursor }]}
+  aria-hidden="true"
+  data-size={size}
+  data-refraction={refraction}
+  data-depth={depth}
+  data-dispersion={dispersion}
+  data-frost={frost}
+  data-smoothing={smoothing}
+  data-scope={scope}
+  data-clip={clip}
+  style={`--gc-size:${size}px;--gc-rim-angle:${rimAngle}deg;--gc-light:${lightIntensity / 100};`}
+>
+</div>
+
+<style is:global>
+  .glass-cursor {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: var(--gc-size);
+    height: var(--gc-size);
+    border-radius: 50%;
+    pointer-events: none; /* clicks, hovers and text selection pass straight through */
+    z-index: 2147483647;
+    opacity: 0;
+    transition: opacity 0.25s ease;
+    will-change: transform;
+    backdrop-filter: url(#glass-cursor-filter);
+    -webkit-backdrop-filter: url(#glass-cursor-filter);
+    /* NOTE: no outer box-shadow here. It enlarges the element's overflow box, which shifts the
+       filter's coordinate space in Chromium and misaligns the refraction map. */
+    box-shadow:
+      inset 0 0 22px rgba(255, 255, 255, calc(0.12 * var(--gc-light))),
+      inset 0 0 0 1px rgba(255, 255, 255, calc(0.1 * var(--gc-light)));
+  }
+  .glass-cursor.is-visible {
+    opacity: 1;
+  }
+
+  /* Specular rim, lit from the Figma light angle with a weaker bounce on the opposite side */
+  .glass-cursor::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: 50%;
+    padding: 1.5px;
+    background: linear-gradient(
+      var(--gc-rim-angle),
+      rgba(255, 255, 255, var(--gc-light)) 0%,
+      rgba(255, 255, 255, 0) 38%,
+      rgba(255, 255, 255, 0) 62%,
+      rgba(255, 255, 255, calc(var(--gc-light) * 0.55)) 100%
+    );
+    -webkit-mask:
+      linear-gradient(#000 0 0) content-box,
+      linear-gradient(#000 0 0);
+    -webkit-mask-composite: xor;
+    mask:
+      linear-gradient(#000 0 0) content-box exclude,
+      linear-gradient(#000 0 0);
+  }
+
+  /* Browsers without SVG filters in backdrop-filter (Safari / Firefox): frosted-glass fallback */
+  .glass-cursor.is-fallback {
+    backdrop-filter: blur(2px) saturate(1.5) brightness(1.08);
+    -webkit-backdrop-filter: blur(2px) saturate(1.5) brightness(1.08);
+    background: radial-gradient(
+      circle at 35% 30%,
+      rgba(255, 255, 255, 0.14),
+      rgba(255, 255, 255, 0) 60%
+    );
+  }
+
+  /* Only show on devices with a real hover cursor */
+  @media (hover: none), (pointer: coarse) {
+    .glass-cursor {
+      display: none;
+    }
+  }
+
+  .gc-hide-native,
+  .gc-hide-native * {
+    cursor: none !important;
+  }
+</style>
+
+<script>
+  const lens = document.getElementById("glass-cursor") as HTMLElement | null;
+
+  if (lens && !lens.dataset.ready) {
+    lens.dataset.ready = "true";
+
+    const num = (k: string) => parseFloat(lens.dataset[k] || "0");
+    const S = num("size");
+    const refraction = num("refraction") / 100;
+    const depth = Math.min(num("depth") / 400, 1);
+    const dispersion = num("dispersion") / 100;
+    const frost = num("frost") / 100;
+    const smoothing = num("smoothing") || 0.25;
+    const clipToScope = lens.dataset.clip !== "false";
+
+    // The area the lens is confined to: explicit selector, otherwise the parent (your hero section)
+    const scopeEl = (
+      lens.dataset.scope
+        ? document.querySelector(lens.dataset.scope)
+        : lens.parentElement
+    ) as HTMLElement | null;
+
+    const reduceMotion = window.matchMedia(
+      "(prefers-reduced-motion: reduce)",
+    ).matches;
+    const finePointer = window.matchMedia(
+      "(hover: hover) and (pointer: fine)",
+    ).matches;
+
+    // SVG filters inside backdrop-filter only work in Chromium (Chrome, Edge, Arc, Brave, Opera)
+    const brands = (navigator as any).userAgentData?.brands as
+      { brand: string }[] | undefined;
+    const isChromium = brands
+      ? brands.some((b) => /Chromium/i.test(b.brand))
+      : /Chrome\//.test(navigator.userAgent); // Edge/Opera/Brave all include "Chrome/" too
+
+    if (!finePointer || !scopeEl) {
+      lens.remove();
+    } else {
+      if (!isChromium) lens.classList.add("is-fallback");
+      else buildFilter();
+      track(scopeEl);
+    }
+
+    /** Builds the displacement map (a radial refraction profile) and sets per-channel scales. */
+    function buildFilter() {
+      const N = S;
+      const canvas = document.createElement("canvas");
+      canvas.width = canvas.height = N;
+      const ctx = canvas.getContext("2d")!;
+      const img = ctx.createImageData(N, N);
+
+      const bezel = 0.15 + 0.4 * depth; // fraction of the radius where refraction ramps up
+      const bezelStart = 1 - bezel;
+      const centerPull = -0.12; // slight magnification in the flat middle
+      const edge = -1; // rim samples from deeper inside the lens (keeps every sample in-bounds)
+
+      for (let y = 0; y < N; y++) {
+        for (let x = 0; x < N; x++) {
+          const nx = ((x + 0.5) / N) * 2 - 1;
+          const ny = ((y + 0.5) / N) * 2 - 1;
+          const r = Math.hypot(nx, ny);
+          let vx = 0,
+            vy = 0;
+          if (r <= 1) {
+            let g = centerPull;
+            if (r > bezelStart) {
+              const t = (r - bezelStart) / bezel;
+              g = centerPull + (edge - centerPull) * Math.pow(t, 3); // steep near the edge
+            }
+            vx = nx * g; // radial vector: negative = sample from nearer the centre
+            vy = ny * g;
+          }
+          const i = (y * N + x) * 4;
+          img.data[i] = Math.round(127.5 + vx * 127.5);
+          img.data[i + 1] = Math.round(127.5 + vy * 127.5);
+          img.data[i + 2] = 127;
+          img.data[i + 3] = 255;
+        }
+      }
+      ctx.putImageData(img, 0, 0);
+
+      document
+        .getElementById("gc-map")!
+        .setAttribute("href", canvas.toDataURL("image/png"));
+
+      // px offset at the rim = scale / 2  (feDisplacementMap maps 0..1 to -0.5..0.5 of scale)
+      const edgePx = (S / 2) * 0.9 * refraction;
+      const base = edgePx * 2;
+      const spread = 0.35 * dispersion; // R pulled further in than G, B less far
+      document
+        .getElementById("gc-dr")!
+        .setAttribute("scale", String(base * (1 + spread)));
+      document.getElementById("gc-dg")!.setAttribute("scale", String(base));
+      document
+        .getElementById("gc-db")!
+        .setAttribute("scale", String(base * (1 - spread)));
+      document
+        .getElementById("gc-blur")!
+        .setAttribute("stdDeviation", String(frost * 10));
+    }
+
+    /** Follows the pointer (with easing) while it is inside `area`; hides and clips outside it. */
+    function track(area: HTMLElement) {
+      const half = S / 2;
+      const hideNative = lens!.classList.contains("hide-cursor");
+      let px = -9999,
+        py = -9999; // last pointer position (viewport coords)
+      let x = px,
+        y = py; // eased lens centre
+      let inside = false,
+        raf = 0;
+
+      const hit = () => {
+        const r = area.getBoundingClientRect();
+        return px >= r.left && px <= r.right && py >= r.top && py <= r.bottom;
+      };
+
+      const setInside = (v: boolean) => {
+        if (v === inside) return;
+        inside = v;
+        if (v) {
+          x = px;
+          y = py;
+        } // snap to the cursor on entry instead of flying in from the old spot
+        lens!.classList.toggle("is-visible", v);
+        if (hideNative) area.classList.toggle("gc-hide-native", v);
+      };
+
+      const frame = () => {
+        raf = 0;
+        setInside(hit());
+        if (!inside) return;
+
+        const k = reduceMotion ? 1 : smoothing;
+        x += (px - x) * k;
+        y += (py - y) * k;
+        lens!.style.transform = `translate3d(${x - half}px, ${y - half}px, 0)`;
+
+        if (clipToScope) {
+          // inset() is relative to the lens box, so convert the area's edges into lens-local px
+          const r = area.getBoundingClientRect();
+          const l = x - half,
+            t = y - half;
+          const top = Math.max(0, r.top - t);
+          const left = Math.max(0, r.left - l);
+          const right = Math.max(0, l + S - r.right);
+          const bottom = Math.max(0, t + S - r.bottom);
+          lens!.style.clipPath = `inset(${top}px ${right}px ${bottom}px ${left}px)`;
+        }
+
+        if (Math.abs(px - x) > 0.1 || Math.abs(py - y) > 0.1)
+          raf = requestAnimationFrame(frame);
+      };
+      const schedule = () => {
+        if (!raf) raf = requestAnimationFrame(frame);
+      };
+
+      window.addEventListener(
+        "pointermove",
+        (e) => {
+          if (e.pointerType === "touch") return;
+          px = e.clientX;
+          py = e.clientY;
+          schedule();
+        },
+        { passive: true },
+      );
+
+      // Scrolling moves the section under a stationary cursor, so re-check then too
+      window.addEventListener("scroll", schedule, { passive: true });
+      window.addEventListener("resize", schedule);
+      document.documentElement.addEventListener("mouseleave", () => {
+        px = py = -9999;
+        schedule();
+      });
+    }
+  }
+</script>

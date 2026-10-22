@@ -1,0 +1,176 @@
+---
+interface Props {
+  /** Number of cards inside the stack */
+  steps?: number;
+  /** How much scrolling each card transition takes */
+  scrollPerStep?: string;
+}
+const { steps = 3, scrollPerStep = "80vh" } = Astro.props;
+---
+
+<div
+  class="scroll-stack"
+  data-scroll-stack
+  style={`--stack-steps: ${steps}; --stack-scroll-per-step: ${scrollPerStep}`}
+>
+  <div class="scroll-stack__sticky">
+    <slot />
+  </div>
+</div>
+
+<style>
+  /* Tall track = the scroll distance the section stays locked for */
+  .scroll-stack {
+    position: relative;
+    height: calc(
+      100vh + (var(--stack-steps) - 1) * var(--stack-scroll-per-step)
+    );
+  }
+
+  .scroll-stack__sticky {
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+  }
+
+  /* Make sure the Container fills the pane so side padding is unaffected */
+  .scroll-stack__sticky > :global(*) {
+    width: 100%;
+  }
+
+  /* Stack the cards on top of each other in one grid cell */
+  .scroll-stack :global(.stack-cards) {
+    display: grid;
+  }
+  .scroll-stack :global([data-stack-item]) {
+    grid-area: 1 / 1;
+    will-change: transform;
+    transform-origin: center top;
+  }
+  .scroll-stack :global([data-stack-item]:nth-child(1)) {
+    z-index: 1;
+  }
+  .scroll-stack :global([data-stack-item]:nth-child(2)) {
+    z-index: 2;
+  }
+  .scroll-stack :global([data-stack-item]:nth-child(3)) {
+    z-index: 3;
+  }
+  .scroll-stack :global([data-stack-item]:nth-child(4)) {
+    z-index: 4;
+  }
+
+  /* Mobile / reduced motion: normal flow, no locking */
+  @media (max-width: 799px), (prefers-reduced-motion: reduce) {
+    .scroll-stack {
+      height: auto;
+    }
+    .scroll-stack__sticky {
+      position: static;
+      height: auto;
+    }
+    .scroll-stack :global(.stack-cards) {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-32);
+    }
+  }
+</style>
+
+<script>
+  const clamp = (v: number, min = 0, max = 1) =>
+    Math.min(max, Math.max(min, v));
+  const ease = (t: number) => 1 - Math.pow(1 - t, 3); // easeOutCubic
+
+  /** Share of the viewport height the card stack may use (rest = headroom for peeking cards) */
+  const FIT_RATIO = 0.84;
+  const MIN_ZOOM = 0.5;
+
+  document
+    .querySelectorAll<HTMLElement>("[data-scroll-stack]")
+    .forEach((root) => {
+      const items = Array.from(
+        root.querySelectorAll<HTMLElement>("[data-stack-item]"),
+      );
+      const stack = root.querySelector<HTMLElement>(".stack-cards")!;
+      const mq = window.matchMedia(
+        "(min-width: 800px) and (prefers-reduced-motion: no-preference)",
+      );
+      let ticking = false;
+      let zoom = 1;
+
+      // Shrink only the card stack (never enlarge) so it fits the viewport height
+      const fit = () => {
+        if (!mq.matches) {
+          zoom = 1;
+          stack.style.zoom = "";
+          return;
+        }
+        stack.style.zoom = "1";
+        const natural = stack.offsetHeight;
+        zoom = clamp((window.innerHeight * FIT_RATIO) / natural, MIN_ZOOM, 1);
+        stack.style.zoom = String(zoom);
+      };
+
+      const update = () => {
+        ticking = false;
+
+        if (!mq.matches) {
+          items.forEach((el) => {
+            el.style.transform = "";
+            el.style.opacity = "";
+            el.style.filter = "";
+          });
+          return;
+        }
+
+        const scrollable = root.offsetHeight - window.innerHeight;
+        const progress =
+          clamp(-root.getBoundingClientRect().top / scrollable) *
+          (items.length - 1);
+
+        // How far each card has entered (card 0 is always in place)
+        const entry = items.map((_, j) =>
+          j === 0 ? 1 : ease(clamp(progress - (j - 1))),
+        );
+
+        const OFFSET_PX = 14; // upward shift per card behind
+        const SCALE_STEP = 0.04; // shrink per card behind
+        const FADE_STEP = 0.35; // opacity loss per card behind
+
+        items.forEach((el, i) => {
+          // Depth = how many cards are currently sitting on top of this one
+          let depth = 0;
+          for (let j = i + 1; j < items.length; j++) depth += entry[j];
+
+          // Pixel values are scaled by the stack's zoom, so divide it back out
+          const y = ((1 - entry[i]) * window.innerHeight * 1.1) / zoom;
+          el.style.transform = `translateY(${y - depth * OFFSET_PX}px) scale(${1 - depth * SCALE_STEP})`;
+          el.style.opacity = String(Math.max(0.3, 1 - depth * FADE_STEP));
+          el.style.filter = "";
+        });
+      };
+
+      const onScroll = () => {
+        if (!ticking) {
+          ticking = true;
+          requestAnimationFrame(update);
+        }
+      };
+
+      const onResize = () => {
+        fit();
+        onScroll();
+      };
+
+      window.addEventListener("scroll", onScroll, { passive: true });
+      window.addEventListener("resize", onResize);
+      window.addEventListener("load", onResize);
+      document.fonts?.ready.then(onResize);
+      mq.addEventListener("change", onResize);
+      fit();
+      update();
+    });
+</script>

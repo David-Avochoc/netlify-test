@@ -7,101 +7,112 @@ import LargeCard from "@/components/cards/LargeCard.astro";
 import TestimonialSection from "../shared-sections/TestimonialSection.astro";
 ---
 
-<section class="how-we-work-section_services">
-  <ScrollLockCards steps={3}>
-    <Container>
-      <Columns
-        layout="40-60"
-        gap="var(--space-80)"
-        align="center"
-        class="how-we-work_services-columns"
-      >
-        <div class="how_we_work-section_services-left">
-          <SectionTitle
-            title="How we work"
-            fontSize="var(--font-size-24)"
-            fontWeight="var(--font-weight-semibold)"
-            textTransform="uppercase"
-            color="var(--navy)"
-            class="how-we-work-section__title"
-          />
-          <h3 class="solutions-body-txt-main">
-            We don't start with solutions.<br /><span class="body-txt-light"
-              >We start by understanding what can't break.</span
-            >
-          </h3>
-          <p class="solutions-body-txt-sub">
-            You won't get big promises upfront. You'll get clear thinking,
-            trade-offs, and a realistic path forward.
-          </p>
-        </div>
+<div class="how-we-work-page-section">
+  <section class="how-we-work-section_services">
+    <div class="how-we-work-section_services__background" aria-hidden="true">
+    </div>
+    <ScrollLockCards steps={3}>
+      <Container>
+        <Columns
+          layout="40-60"
+          gap="var(--space-80)"
+          align="center"
+          class="how-we-work_services-columns"
+        >
+          <div class="how_we_work-section_services-left">
+            <SectionTitle
+              title="How we work"
+              fontSize="var(--font-size-24)"
+              fontWeight="var(--font-weight-semibold)"
+              textTransform="uppercase"
+              color="var(--navy)"
+              class="how-we-work-section__title"
+            />
+            <h3 class="solutions-body-txt-main">
+              We don't start with solutions.<br /><span class="body-txt-light"
+                >We start by understanding what can't break.</span
+              >
+            </h3>
+            <p class="solutions-body-txt-sub">
+              You won't get big promises upfront. You'll get clear thinking,
+              trade-offs, and a realistic path forward.
+            </p>
+          </div>
 
-        <div class="how_we_work-section_services-right">
-          <div class="stack-cards">
-            <div data-stack-item>
-              <LargeCard
-                image="/images/backgrounds/cards/cardbackground1.webp"
-                imageAlt="Map What Matters"
-                title="Map What Matters"
-                description="Before we design anything, we find out what can't change. That means mapping dependencies, risk surfaces, and constraints."
-                step="Step"
-                stepNumber="1"
-                height="42.127rem"
-                imageHeight="22.062rem"
-                gap="var(--space-34)"
-                backgroundColor="var(--white)"
-                maxWidth="auto"
-              />
-            </div>
-            <div data-stack-item>
-              <LargeCard
-                image="/images/backgrounds/cards/cardbackground2.webp"
-                imageAlt="Design Around Constraints"
-                title="Design Around Constraints"
-                description="We don't simplify by ignoring your reality. We simplify by working within it. Every decision accounts for how your business actually runs."
-                step="Step"
-                stepNumber="2"
-                height="42.127rem"
-                imageHeight="22.062rem"
-                gap="var(--space-34)"
-                backgroundColor="var(--white)"
-                maxWidth="auto"
-              />
-            </div>
-            <div data-stack-item>
-              <LargeCard
-                image="/images/backgrounds/cards/cardbackground3.webp"
-                imageAlt="Build for What Happens After"
-                title="Build for What Happens After"
-                description="Delivery isn't the finish line. We build for post-go-live: the edge cases, the scale, the Monday morning when real users hit a real system. (That Monday morning. Every CIO knows the one.)"
-                step="Step"
-                stepNumber="3"
-                height="42.127rem"
-                imageHeight="22.062rem"
-                backgroundColor="var(--white)"
-                maxWidth="auto"
-              />
+          <div class="how_we_work-section_services-right">
+            <div class="stack-cards">
+              <div data-stack-item>
+                <LargeCard
+                  image="/images/backgrounds/cards/cardbackground1.webp"
+                  imageAlt="Map What Matters"
+                  title="Map What Matters"
+                  description="Before we design anything, we find out what can't change. That means mapping dependencies, risk surfaces, and constraints."
+                  step="Step"
+                  stepNumber="1"
+                  height="42.127rem"
+                  imageHeight="22.062rem"
+                  gap="var(--space-34)"
+                  backgroundColor="var(--white)"
+                  maxWidth="auto"
+                />
+              </div>
+              <div data-stack-item>
+                <LargeCard
+                  image="/images/backgrounds/cards/cardbackground2.webp"
+                  imageAlt="Design Around Constraints"
+                  title="Design Around Constraints"
+                  description="We don't simplify by ignoring your reality. We simplify by working within it. Every decision accounts for how your business actually runs."
+                  step="Step"
+                  stepNumber="2"
+                  height="42.127rem"
+                  imageHeight="22.062rem"
+                  gap="var(--space-34)"
+                  backgroundColor="var(--white)"
+                  maxWidth="auto"
+                />
+              </div>
+              <div data-stack-item>
+                <LargeCard
+                  image="/images/backgrounds/cards/cardbackground3.webp"
+                  imageAlt="Build for What Happens After"
+                  title="Build for What Happens After"
+                  description="Delivery isn't the finish line. We build for post-go-live: the edge cases, the scale, the Monday morning when real users hit a real system. (That Monday morning. Every CIO knows the one.)"
+                  step="Step"
+                  stepNumber="3"
+                  height="42.127rem"
+                  imageHeight="22.062rem"
+                  backgroundColor="var(--white)"
+                  maxWidth="auto"
+                />
+              </div>
             </div>
           </div>
-        </div>
-      </Columns>
+        </Columns>
+      </Container>
+    </ScrollLockCards>
+  </section>
+  <section class="how-we-work-section_services2">
+    <Container paddingY="var(--space-80)">
+      <TestimonialSection />
     </Container>
-  </ScrollLockCards>
-</section>
-<section class="how-we-work-section_services2">
-  <Container paddingY="var(--space-80)">
-    <TestimonialSection />
-  </Container>
-</section>
+  </section>
+</div>
+
 <style>
-  .how-we-work-section_services {
-    background-image: url("/images/backgrounds/section/backgroundOrbs2.jpg");
-    background-repeat: no-repeat;
-    background-position: center;
-    background-size: cover;
-    background-attachment: fixed;
-    padding-top: var(--space-80);
+  .how-we-work-page-section {
+    position: relative;
   }
+  .how-we-work-section_services__background {
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+    background-image: url("/images/backgrounds/section/backgroundOrbs2.jpg");
+    background-position: top center;
+    background-size: cover;
+    background-repeat: no-repeat;
+  }
+
   .how_we_work-section_services-right {
     display: flex;
     justify-content: flex-end;
@@ -133,12 +144,5 @@ import TestimonialSection from "../shared-sections/TestimonialSection.astro";
     font-size: var(--font-size-20);
     font-weight: var(--font-weight-regular);
     color: var(--grey-600);
-  }
-  .how-we-work-section_services2 {
-    background-image: url("/images/backgrounds/section/backgroundOrbs3.jpg");
-    background-repeat: no-repeat;
-    background-position: center;
-    background-size: cover;
-    background-attachment: fixed;
   }
 </style>

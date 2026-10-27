@@ -1,8 +1,6 @@
 ---
 interface Props {
-  /** Number of cards inside the stack */
   steps?: number;
-  /** How much scrolling each card transition takes */
   scrollPerStep?: string;
 }
 const { steps = 3, scrollPerStep = "80vh" } = Astro.props;
@@ -19,12 +17,12 @@ const { steps = 3, scrollPerStep = "80vh" } = Astro.props;
 </div>
 
 <style>
-  /* Tall track = the scroll distance the section stays locked for */
   .scroll-stack {
     position: relative;
     height: calc(
       100vh + (var(--stack-steps) - 1) * var(--stack-scroll-per-step)
     );
+    background: transparent;
   }
 
   .scroll-stack__sticky {
@@ -33,14 +31,13 @@ const { steps = 3, scrollPerStep = "80vh" } = Astro.props;
     height: 100vh;
     display: flex;
     align-items: center;
+    background: transparent;
   }
 
-  /* Make sure the Container fills the pane so side padding is unaffected */
   .scroll-stack__sticky > :global(*) {
     width: 100%;
   }
 
-  /* Stack the cards on top of each other in one grid cell */
   .scroll-stack :global(.stack-cards) {
     display: grid;
   }
@@ -62,7 +59,6 @@ const { steps = 3, scrollPerStep = "80vh" } = Astro.props;
     z-index: 4;
   }
 
-  /* Mobile / reduced motion: normal flow, no locking */
   @media (max-width: 799px), (prefers-reduced-motion: reduce) {
     .scroll-stack {
       height: auto;
@@ -101,7 +97,6 @@ const { steps = 3, scrollPerStep = "80vh" } = Astro.props;
       let ticking = false;
       let zoom = 1;
 
-      // Shrink only the card stack (never enlarge) so it fits the viewport height
       const fit = () => {
         if (!mq.matches) {
           zoom = 1;
@@ -131,21 +126,18 @@ const { steps = 3, scrollPerStep = "80vh" } = Astro.props;
           clamp(-root.getBoundingClientRect().top / scrollable) *
           (items.length - 1);
 
-        // How far each card has entered (card 0 is always in place)
         const entry = items.map((_, j) =>
           j === 0 ? 1 : ease(clamp(progress - (j - 1))),
         );
 
-        const OFFSET_PX = 14; // upward shift per card behind
-        const SCALE_STEP = 0.04; // shrink per card behind
-        const FADE_STEP = 0.35; // opacity loss per card behind
+        const OFFSET_PX = 14;
+        const SCALE_STEP = 0.04;
+        const FADE_STEP = 0.35;
 
         items.forEach((el, i) => {
-          // Depth = how many cards are currently sitting on top of this one
           let depth = 0;
           for (let j = i + 1; j < items.length; j++) depth += entry[j];
 
-          // Pixel values are scaled by the stack's zoom, so divide it back out
           const y = ((1 - entry[i]) * window.innerHeight * 1.1) / zoom;
           el.style.transform = `translateY(${y - depth * OFFSET_PX}px) scale(${1 - depth * SCALE_STEP})`;
           el.style.opacity = String(Math.max(0.3, 1 - depth * FADE_STEP));

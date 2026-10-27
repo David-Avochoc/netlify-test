@@ -1,0 +1,180 @@
+---
+interface Props {
+  image: string;
+  imageAlt: string;
+  title: string;
+  description: string;
+  ctaLabel: string;
+  href: string;
+  width?: string;
+  minWidth?: string;
+  maxWidth?: string;
+  height?: string;
+  imageHeight?: string;
+  imagePadding?: string;
+  gap?: string;
+  backgroundColor?: string;
+  textColor?: string;
+  borderRadius?: string;
+}
+
+const {
+  image,
+  imageAlt,
+  title,
+  description,
+  ctaLabel,
+  href,
+  width = "100%",
+  minWidth = "0",
+  maxWidth = "40.312rem",
+  height = "auto",
+  imageHeight = "24.187rem",
+  imagePadding = "0",
+  gap = "var(--space-44)",
+  backgroundColor = "var(--white)",
+  textColor = "var(--navy)",
+  borderRadius = "var(--border-radius-med)",
+} = Astro.props;
+---
+
+<a
+  class="large-cta-card"
+  href={href}
+  style={`--card-width: ${width}; --card-min-width: ${minWidth}; --card-max-width: ${maxWidth}; --card-height: ${height}; --card-image-height: ${imageHeight}; --card-image-padding: ${imagePadding}; --card-gap: ${gap}; --card-background: ${backgroundColor}; --card-text-color: ${textColor}; --card-radius: ${borderRadius};`}
+>
+  <div class="large-cta-card__image-wrapper">
+    <img
+      class="large-cta-card__image"
+      src={image}
+      alt={imageAlt}
+      loading="lazy"
+    />
+  </div>
+  <div class="large-cta-card__body">
+    <div class="large-cta-card__content">
+      <h3 class="large-cta-card__title">{title}</h3>
+      <p class="large-cta-card__description">{description}</p>
+    </div>
+
+    <div class="large-cta-card__divider"></div>
+    <div class="large-cta-card__cta">
+      <span class="large-cta-card__label">{ctaLabel}</span>
+      <span class="large-cta-card__arrow">
+        <img src="/icons/arrow-up-right-drk.svg" alt="" aria-hidden="true" />
+      </span>
+    </div>
+  </div>
+</a>
+
+<style>
+  .large-cta-card {
+    display: flex;
+    flex-direction: column;
+    gap: var(--card-gap);
+    width: var(--card-width);
+    min-width: var(--card-min-width);
+    max-width: var(--card-max-width);
+    height: var(--card-height);
+    border-radius: var(--card-radius);
+    background-color: var(--card-background);
+    color: var(--navy);
+    text-decoration: none;
+  }
+  .large-cta-card__image-wrapper {
+    width: 100%;
+    height: var(--card-image-height);
+    padding: var(--card-image-padding);
+    flex-shrink: 0;
+    overflow: hidden;
+  }
+  .large-cta-card__image {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+  }
+  .large-cta-card__body {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    min-height: 0;
+    padding: 0 var(--space-32) var(--space-32) var(--space-32);
+  }
+  .large-cta-card__content {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-12);
+    min-height: 11.25rem;
+    margin-bottom: var(--space-32);
+  }
+  .large-cta-card__title {
+    font-size: var(--font-size-36);
+    font-weight: var(--font-weight-regular);
+    line-height: 1.2;
+    letter-spacing: -0.045rem;
+  }
+  .large-cta-card__description {
+    font-size: var(--font-size-16);
+    font-weight: var(--font-weight-regular);
+    line-height: 1.5;
+    color: var(--grey-500);
+  }
+  .large-cta-card__divider {
+    width: 100%;
+    height: 1px;
+    background: var(--navy);
+    margin-bottom: 1rem;
+  }
+  .large-cta-card__cta {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .large-cta-card__cta::after {
+    content: "";
+    position: absolute;
+    top: -1rem;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background: var(--navy);
+    transform: scaleX(0);
+    transform-origin: right;
+    transition: transform var(--button-duration) var(--button-easing);
+  }
+  .large-cta-card:hover .large-cta-card__cta::after,
+  .large-cta-card:focus-visible .large-cta-card__cta::after {
+    transform: scaleX(1);
+    transform-origin: left;
+  }
+  .large-cta-card__label {
+    font-size: var(--font-size-14);
+    font-weight: var(--font-weight-regular);
+    line-height: 1.4;
+    color: var(--grey-500);
+    text-transform: uppercase;
+  }
+  .large-cta-card__arrow {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 2rem;
+    height: 2rem;
+    transform: translate3d(0, 0, 0);
+    transition: transform var(--button-duration) var(--button-easing);
+    will-change: transform;
+  }
+  .large-cta-card__arrow img {
+    display: block;
+    width: var(--font-size-14);
+    height: var(--font-size-14);
+    object-fit: contain;
+  }
+  .large-cta-card:hover .large-cta-card__arrow,
+  .large-cta-card:focus-visible .large-cta-card__arrow {
+    transform: translate(4px, -4px);
+  }
+</style>

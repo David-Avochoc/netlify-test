@@ -87,6 +87,8 @@ html {
     --std-btn-padding-x: 1rem;
     --l-btn-padding-y: 0.679rem;
     --l-btn-padding-x: 1.358rem;
+    --button-duration: 600ms;
+    --button-easing: cubic-bezier(0.65, 0, 0.35, 1);
 
     /* ============================================================
         Spacing Scale

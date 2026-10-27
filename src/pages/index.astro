@@ -10,12 +10,22 @@ import SecondaryBtn from "@/components/buttons/SecondaryBtn.astro";
 import HomeHero from "../sections/homepage/HomeHero.astro";
 import LargeCard from "@/components/cards/LargeCard.astro";
 import HowWeWork_Services from "@/sections/servicespage/HowWeWork_Services.astro";
+import LargeCTACard from "@/components/cards/LargeCTACard.astro";
 ---
 
 <BaseLayout title="AvoChoc" description="Progress Done Properly">
   <HomeHero />
-  <HowWeWork_Services />
+  <LargeCTACard
+    image="/images/Local-styles.svg"
+    imageAlt="Custom Software Development"
+    imagePadding="45px 97.531px 46px 96.531px"
+    title="Custom Software Development"
+    description="Enterprise-grade software built around how your business actually works. Not around what a framework says it should do. We map constraints before we write a line of code."
+    ctaLabel="See our approach"
+    href="#"
+  />
 
+  <HowWeWork_Services />
   <Map
     title="AvoChoc builds solutions that work in the real world, not only the slide deck."
     description="Lorem ipsum dolor sit amet, consectetur adipiscing elit."

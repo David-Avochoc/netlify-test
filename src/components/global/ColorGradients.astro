@@ -1,0 +1,125 @@
+---
+interface Props {
+  class?: string;
+}
+
+const { class: className } = Astro.props;
+---
+
+<div class:list={["ambient-glow-container", className]} aria-hidden="true">
+  <div class="ambient-glow ambient-glow--secondary">
+    <div class="ambient-glow__orb ambient-glow__orb--secondary"></div>
+  </div>
+
+  <div class="ambient-glow ambient-glow--primary">
+    <div class="ambient-glow__orb ambient-glow__orb--primary"></div>
+  </div>
+</div>
+
+<style>
+  /* Background wrapper */
+  .ambient-glow-container {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .ambient-glow {
+    position: absolute;
+    width: 33.333333%;
+    aspect-ratio: 1;
+  }
+
+  /* Positioning */
+  .ambient-glow--secondary {
+    top: 0;
+    right: 15%;
+    transform: translateX(50%) translateY(-33.333333%);
+  }
+
+  .ambient-glow--primary {
+    top: 15%;
+    right: 0;
+    transform: translateX(50%) translateY(-33.333333%);
+  }
+
+  @media (min-width: 1280px) {
+    .ambient-glow--secondary {
+      transform: translateX(50%) translateY(-75%);
+    }
+
+    .ambient-glow--primary {
+      transform: translateX(50%) translateY(-66.666667%);
+    }
+  }
+
+  /* Orb */
+  .ambient-glow__orb {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    filter: blur(50px);
+  }
+
+  .ambient-glow__orb--secondary {
+    background: rgba(98, 251, 213, 0.25);
+    animation: move-circle 10s linear infinite;
+  }
+
+  .ambient-glow__orb--primary {
+    background: rgba(64, 93, 255, 0.3);
+    animation: move-circle-reverse 6s linear infinite;
+  }
+
+  @media (min-width: 640px) {
+    .ambient-glow__orb {
+      filter: blur(64px);
+    }
+  }
+
+  @media (min-width: 768px) {
+    .ambient-glow__orb {
+      filter: blur(80px);
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .ambient-glow__orb {
+      filter: blur(96px);
+    }
+  }
+
+  @media (min-width: 1280px) {
+    .ambient-glow__orb {
+      filter: blur(112px);
+    }
+  }
+
+  @keyframes move-circle {
+    0% {
+      transform: rotate(0deg) translateY(10%) rotate(0deg);
+    }
+
+    100% {
+      transform: rotate(360deg) translateY(10%) rotate(-360deg);
+    }
+  }
+
+  @keyframes move-circle-reverse {
+    0% {
+      transform: rotate(0deg) translateY(14%) rotate(0deg);
+    }
+
+    100% {
+      transform: rotate(-360deg) translateY(15%) rotate(360deg);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .ambient-glow__orb {
+      animation: none;
+    }
+  }
+</style>

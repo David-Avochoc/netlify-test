@@ -30,7 +30,7 @@ const {
     --section-title-text-transform: ${textTransform};
   `}
 >
-  <h2>{title}</h2>
+  <h2 set:html={title}></h2>
 </div>
 
 <style>

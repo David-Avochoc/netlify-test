@@ -64,6 +64,7 @@ const {
     background: var(--white);
     border-radius: var(--border-radius-small);
     color: var(--navy);
+    width: 100%;
   }
 
   .testimonial-card__logo {
@@ -160,5 +161,18 @@ const {
 
   .testimonial-card__cta:hover .testimonial-card__arrow {
     transform: translate(4px, -4px);
+  }
+
+  @media (max-width: 799px) {
+    .testimonial-card {
+      padding-block: var(--space-36);
+      padding-inline: var(--space-20);
+      min-width: 23rem;
+    }
+    .testimonial-card__quote {
+      margin: 0;
+      font-size: var(--font-size-16);
+      line-height: 1.5;
+    }
   }
 </style>

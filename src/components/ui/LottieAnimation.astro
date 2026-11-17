@@ -1,0 +1,36 @@
+---
+interface Props {
+    src: string;
+    alt?: string;
+    fit?: "contain" | "cover";
+}
+
+const {
+    src,
+    alt = "",
+    fit = "contain",
+} = Astro.props;
+---
+
+<dotlottie-wc
+    class="lottie-animation"
+    src={src}
+    autoplay
+    loop
+    role={alt ? "img" : undefined}
+    aria-label={alt || undefined}
+    aria-hidden={alt ? undefined : "true"}
+></dotlottie-wc>
+
+<style>
+    .lottie-animation {
+        display: block;
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+    }
+</style>
+
+<script>
+    import "@lottiefiles/dotlottie-wc";
+</script>

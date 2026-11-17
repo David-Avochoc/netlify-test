@@ -1,0 +1,330 @@
+---
+import TestimonialCard from "@/components/cards/TestimonialCard.astro";
+import { testimonials } from "@/components/ui/Testimonials/testimonials";
+
+interface Props {
+  count?: number;
+  start?: number;
+  class?: string;
+}
+
+const { count = 3, start = 0, class: className = "" } = Astro.props;
+
+// Select testimonials from the central data collection.
+const displayedTestimonials = testimonials.slice(
+  Math.max(0, start),
+  Math.max(0, start) + Math.max(0, count),
+);
+
+const isDesktopCarousel = displayedTestimonials.length > 3;
+---
+
+<section
+  class:list={[
+    "testimonial-section",
+    className,
+    { "testimonial-section--carousel": isDesktopCarousel },
+  ]}
+  data-testimonial-section
+>
+  <div class="testimonial-section__content">
+    <div class="testimonial-section__carousel">
+      <div
+        class="testimonial-section__grid"
+        data-testimonial-grid
+        aria-label="Testimonials"
+        tabindex="0"
+      >
+        {
+          displayedTestimonials.map((testimonial) => (
+            <TestimonialCard
+              logo={testimonial.logo}
+              logoAlt={testimonial.logoAlt}
+              quote={testimonial.quote}
+              name={testimonial.name}
+              role={testimonial.role}
+              company={testimonial.company}
+              ctaText={testimonial.ctaText ?? "WORK WITH US"}
+              ctaLink={testimonial.ctaLink ?? "/contact"}
+            />
+          ))
+        }
+      </div>
+
+      <div class="testimonial-section__navigation">
+        <button
+          class="testimonial-section__arrow testimonial-section__arrow--prev"
+          type="button"
+          aria-label="Previous testimonials"
+          disabled
+          hidden
+        >
+          <span aria-hidden="true">&larr;</span>
+        </button>
+
+        <button
+          class="testimonial-section__arrow testimonial-section__arrow--next"
+          type="button"
+          aria-label="Next testimonials"
+          hidden
+        >
+          <span aria-hidden="true">&rarr;</span>
+        </button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  document
+    .querySelectorAll<HTMLElement>("[data-testimonial-section]")
+    .forEach((section) => {
+      // Prevent duplicate initialisation if the script is evaluated again.
+      if (section.dataset.carouselInitialised === "true") return;
+      section.dataset.carouselInitialised = "true";
+
+      const grid = section.querySelector<HTMLElement>(
+        "[data-testimonial-grid]",
+      );
+
+      const prev = section.querySelector<HTMLButtonElement>(
+        ".testimonial-section__arrow--prev",
+      );
+
+      const next = section.querySelector<HTMLButtonElement>(
+        ".testimonial-section__arrow--next",
+      );
+
+      if (!grid || !prev || !next) return;
+
+      const mobileQuery = window.matchMedia("(max-width: 799px)");
+
+      const canScroll = () =>
+        mobileQuery.matches ||
+        section.classList.contains("testimonial-section--carousel");
+
+      const updateButtons = () => {
+        const maxScroll = Math.max(0, grid.scrollWidth - grid.clientWidth);
+
+        const shouldShow = canScroll() && maxScroll > 1;
+
+        prev.hidden = !shouldShow;
+        next.hidden = !shouldShow;
+
+        prev.disabled = !shouldShow || grid.scrollLeft <= 1;
+        next.disabled = !shouldShow || grid.scrollLeft >= maxScroll - 1;
+      };
+
+      const moveCard = (direction: number) => {
+        const card = grid.firstElementChild as HTMLElement | null;
+        if (!card) return;
+
+        const styles = window.getComputedStyle(grid);
+        const gap = parseFloat(styles.columnGap) || parseFloat(styles.gap) || 0;
+
+        grid.scrollBy({
+          left: direction * (card.getBoundingClientRect().width + gap),
+          behavior: window.matchMedia("(prefers-reduced-motion: reduce)")
+            .matches
+            ? "auto"
+            : "smooth",
+        });
+      };
+
+      prev.addEventListener("click", () => moveCard(-1));
+      next.addEventListener("click", () => moveCard(1));
+
+      grid.addEventListener("scroll", updateButtons, {
+        passive: true,
+      });
+
+      window.addEventListener("resize", updateButtons);
+      mobileQuery.addEventListener("change", updateButtons);
+
+      // Recalculate if card dimensions or container width change.
+      const resizeObserver = new ResizeObserver(updateButtons);
+      resizeObserver.observe(grid);
+
+      updateButtons();
+    });
+</script>
+
+<style>
+  .testimonial-section {
+    --testimonial-gap: var(--space-20);
+    width: 100%;
+    min-width: 0;
+  }
+
+  .testimonial-section__content {
+    width: 100%;
+    min-width: 0;
+  }
+
+  .testimonial-section__carousel {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    min-width: 0;
+  }
+
+  .testimonial-section:not(.testimonial-section--carousel)
+    .testimonial-section__grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: var(--testimonial-gap);
+  }
+
+  .testimonial-section__grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: var(--testimonial-gap);
+    min-width: 0;
+  }
+
+  .testimonial-section--carousel .testimonial-section__grid {
+    display: flex;
+    width: 100vw;
+    margin-left: calc(50% - 50vw);
+    padding: 0;
+    overflow-x: auto;
+    overflow-y: hidden;
+    scroll-snap-type: x mandatory;
+    scroll-behavior: smooth;
+    scrollbar-width: none;
+    overscroll-behavior-x: contain;
+  }
+
+  .testimonial-section--carousel .testimonial-section__grid::-webkit-scrollbar {
+    display: none;
+  }
+
+  .testimonial-section--carousel .testimonial-section__grid::before,
+  .testimonial-section--carousel .testimonial-section__grid::after {
+    content: "";
+    flex: 0 0 calc(var(--space-64) - var(--testimonial-gap));
+  }
+
+  .testimonial-section--carousel .testimonial-section__grid > * {
+    flex: 0 0
+      calc((100vw - 2 * var(--space-64) - 2 * var(--testimonial-gap)) / 3);
+    min-width: 0;
+    scroll-snap-align: start;
+  }
+
+  .testimonial-section--carousel
+    .testimonial-section__carousel
+    :global(.testimonial-card) {
+    min-width: 26rem;
+  }
+
+  .testimonial-section__navigation {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: var(--space-8);
+    margin-top: var(--space-64);
+    margin-right: var(--space-64);
+  }
+
+  .testimonial-section__arrow {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 2.5rem;
+    height: 2.25rem;
+    padding: 0;
+    border: 1px solid currentColor;
+    background: transparent;
+    color: var(--navy);
+    cursor: pointer;
+    transition:
+      opacity var(--transition-duration-standard) var(--transition-easing),
+      background-color var(--transition-duration-standard)
+        var(--transition-easing);
+  }
+
+  .testimonial-section__arrow[hidden] {
+    display: none;
+  }
+
+  .testimonial-section__arrow:disabled {
+    opacity: 0.35;
+    cursor: not-allowed;
+  }
+
+  .testimonial-section__arrow:not(:disabled):hover {
+    background: var(--grey);
+  }
+
+  .testimonial-section__arrow:focus-visible {
+    outline: 2px solid currentColor;
+    outline-offset: 3px;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .testimonial-section__arrow {
+      transition: none;
+    }
+  }
+
+  /* Mobile: always use a horizontal carousel */
+  @media (max-width: 799px) {
+    .testimonial-section:not(.testimonial-section--carousel)
+      .testimonial-section__grid {
+      display: flex;
+      grid-template-columns: none;
+      padding-inline: var(--space-16);
+    }
+
+    .testimonial-section__grid,
+    .testimonial-section--carousel .testimonial-section__grid {
+      display: flex;
+      width: 100%;
+      margin-left: 0;
+      padding-inline: var(--space-16);
+      box-sizing: border-box;
+      overflow-x: auto;
+      overflow-y: hidden;
+      gap: 20px;
+      scroll-snap-type: x mandatory;
+      scroll-behavior: smooth;
+      scrollbar-width: none;
+      overscroll-behavior-x: contain;
+    }
+
+    .testimonial-section__grid::-webkit-scrollbar {
+      display: none;
+    }
+
+    /* Keep card widths consistent, regardless of testimonial count */
+    .testimonial-section__grid > *,
+    .testimonial-section--carousel .testimonial-section__grid > * {
+      flex: 0 0 85%;
+      width: 85%;
+      min-width: 0;
+      box-sizing: border-box;
+      scroll-snap-align: start;
+    }
+
+    /* Remove desktop carousel spacers */
+    .testimonial-section--carousel .testimonial-section__grid::before,
+    .testimonial-section--carousel .testimonial-section__grid::after {
+      content: none;
+    }
+
+    .testimonial-section__navigation {
+      margin-right: var(--space-16);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .testimonial-section__grid {
+      scroll-behavior: auto;
+    }
+
+    .testimonial-section__arrow {
+      transition: none;
+    }
+  }
+</style>

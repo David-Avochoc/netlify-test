@@ -1,12 +1,16 @@
 ---
-import BaseLayout from "../layouts/BaseLayout.astro";
-import Hero from "../sections/shared-sections/Hero.astro";
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import ServicesHero from "@/sections/servicespage/ServicesHero.astro";
+import CustomSoftware from "@/sections/servicespage/CustomSoftware.astro";
+import ISOCertified from "@/sections/shared-sections/ISOCertified.astro";
+import HowWeWork_Services from "@/sections/servicespage/HowWeWork_Services.astro";
+import ContactFooter from "@/sections/shared-sections/ContactFooter.astro";
 ---
 
 <BaseLayout title="Services" description="Progress Done Properly">
-  <Hero
-    title="Services"
-    description="Learn more about AvoChoc and what we do."
-    backgroundImage="/images/backgrounds/hero/hero_image.webp"
-  />
+  <ServicesHero />
+  <CustomSoftware />
+  <ISOCertified />
+  <HowWeWork_Services />
+  <ContactFooter />
 </BaseLayout>

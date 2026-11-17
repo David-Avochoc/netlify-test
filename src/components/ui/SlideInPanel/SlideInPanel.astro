@@ -1,0 +1,162 @@
+---
+interface Props {
+  id: string;
+  title?: string;
+  width?: string;
+}
+
+const {
+  id,
+  title,
+  width = "min(100%, 42.687rem)",
+} = Astro.props;
+---
+
+<div
+  class="slide-in-panel__backdrop"
+  data-panel-backdrop
+  data-panel-close
+  aria-hidden="true"
+  hidden
+></div>
+
+<section
+  id={id}
+  class="slide-in-panel"
+  data-slide-in-panel
+  role="dialog"
+  aria-modal="true"
+  aria-label={title || undefined}
+  tabindex="-1"
+  hidden
+  style={`--panel-width: ${width};`}
+>
+  <button
+    class="slide-in-panel__close"
+    type="button"
+    data-panel-close
+    aria-label="Close panel"
+  >
+    <svg
+        viewBox="0 0 24 24"
+        width="24"
+        height="24"
+        fill="none"
+        aria-hidden="true"
+      >
+        <path
+          d="M6 6L18 18M18 6L6 18"
+          stroke="currentColor"
+          stroke-width="1.75"
+          stroke-linecap="round"
+        />
+      </svg>
+  </button>
+
+  <div class="slide-in-panel__content">
+    <slot />
+  </div>
+</section>
+
+<script>
+  import "./SlideInPanel.js";
+</script>
+
+<style>
+  .slide-in-panel__backdrop {
+    position: fixed;
+    inset: 0;
+    z-index: 1000;
+    background: var(--white-80);
+    opacity: 0;
+    transition:
+      opacity var(--transition-duration-standard)
+      var(--transition-easing);
+  }
+
+  .slide-in-panel__backdrop[hidden],
+  .slide-in-panel[hidden] {
+    display: none;
+  }
+
+  .slide-in-panel__backdrop.is-open {
+    opacity: 1;
+  }
+
+  .slide-in-panel {
+    position: fixed;
+    inset-block: 0;
+    right: 0;
+    z-index: 1001;
+    display: flex;
+    flex-direction: column;
+    width: var(--panel-width);
+    max-width: 100%;
+    height: 100vh;
+    height: 100dvh;
+    box-sizing: border-box;
+    overflow: hidden;
+    padding: var(--space-32);
+    background: transparent;
+    transform: translate3d(100%, 0, 0);
+    visibility: hidden;
+    transition:
+      transform var(--button-duration) var(--button-easing),
+      visibility var(--button-duration);
+  }
+
+  .slide-in-panel.is-open {
+    transform: translate3d(0, 0, 0);
+    visibility: visible;
+  }
+
+  .slide-in-panel__close {
+    position: absolute;
+    top: 32px;
+    right: 32px;
+    z-index: 2;
+    display: grid;
+    place-items: center;
+    width: 44px;
+    height: 44px;
+    padding: 0;
+    color: inherit;
+    background: transparent;
+    border: 0;
+    border-radius: 50%;
+    cursor: pointer;
+    transition:
+      background-color var(--transition-duration-fast)
+      ease;
+  }
+
+  .slide-in-panel__close:hover {
+    background: rgb(23 43 58 / 8%);
+  }
+
+  .slide-in-panel__close:focus-visible {
+    outline: 2px solid currentColor;
+    outline-offset: 3px;
+  }
+
+  .slide-in-panel__content {
+    flex: 1 1 auto;
+    min-height: 0;
+    overflow-x: hidden;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+  }
+
+  @media (max-width: 767px) {
+    .slide-in-panel {
+      width: 100%;
+      max-width: 100%;
+      padding: 24px;
+    }
+
+    .slide-in-panel__close {
+      top: 24px;
+      right: 24px;
+    }
+  }
+</style>

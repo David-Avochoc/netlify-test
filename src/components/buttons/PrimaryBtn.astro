@@ -6,6 +6,7 @@ interface Props {
   background?: string;
   textColor?: string;
   class?: string;
+  panelOpen?: string;
 }
 
 const {
@@ -15,6 +16,7 @@ const {
   background = "var(--navy)",
   textColor = "var(--white)",
   class: className = "",
+  panelOpen,
 } = Astro.props;
 
 const Tag = href ? "a" : "button";
@@ -22,6 +24,8 @@ const Tag = href ? "a" : "button";
 
 <Tag
   href={href}
+  type={!href ? type : undefined}
+  data-panel-open={panelOpen}
   class:list={["primary-btn", className]}
   style={`--button-background: ${background}; --button-text-color: ${textColor}`}
 >
@@ -123,6 +127,12 @@ const Tag = href ? "a" : "button";
   .primary-btn__arrow.is-returning {
     z-index: 3;
   }
+ @media only screen and (max-width: 799px) {
+ .primary-btn {
+    --button-height: calc(var(--font-size-20) + (2 * var(--std-btn-padding-y)));
+    height: var(--button-height);
+  }
+}
 </style>
 
 <script>

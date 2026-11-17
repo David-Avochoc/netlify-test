@@ -1,72 +1,24 @@
 ---
 import BaseLayout from "@/layouts/BaseLayout.astro";
-import Hero from "@/sections/shared-sections/Hero.astro";
+import HomeHero from "@/sections/homepage/HomeHero.astro";
+import Map from "@/sections/homepage/Map.astro";
+import AvoApproach from "@/sections/homepage/AvoApproach.astro";
+import WhatWeBuild from "@/sections/homepage/WhatWeBuild.astro";
+import HowWeWork_Home from "@/sections/homepage/HowWeWork_Home.astro";
+import CaseSudies_Home from "@/sections/homepage/CaseSudies_Home.astro";
 import WhatClientsSay from "@/sections/homepage/WhatClientsSay.astro";
-import Map from "../sections/homepage/Map.astro";
-import SplitFeature from "../sections/shared-sections/Threecolumns.astro";
-import ServiceCards from "../sections/homepage/ServiceCards.astro";
-import PrimaryBtn from "@/components/buttons/PrimaryBtn.astro";
-import SecondaryBtn from "@/components/buttons/SecondaryBtn.astro";
-import HomeHero from "../sections/homepage/HomeHero.astro";
-import LargeCard from "@/components/cards/LargeCard.astro";
-import HowWeWork_Services from "@/sections/servicespage/HowWeWork_Services.astro";
-import LargeCTACard from "@/components/cards/LargeCTACard.astro";
+import ContactFooter from "@/sections/shared-sections/ContactFooter.astro";
+import ISOCertified from "@/sections/shared-sections/ISOCertified.astro";
 ---
 
-<BaseLayout title="AvoChoc" description="Progress Done Properly">
-  <HomeHero />
-  <LargeCTACard
-    image="/images/Local-styles.svg"
-    imageAlt="Custom Software Development"
-    imagePadding="45px 97.531px 46px 96.531px"
-    title="Custom Software Development"
-    description="Enterprise-grade software built around how your business actually works. Not around what a framework says it should do. We map constraints before we write a line of code."
-    ctaLabel="See our approach"
-    href="#"
-  />
-
-  <HowWeWork_Services />
-  <Map
-    title="AvoChoc builds solutions that work in the real world, not only the slide deck."
-    description="Lorem ipsum dolor sit amet, consectetur adipiscing elit."
-    backgroundImage="/images/AvoChoc-Map.svg"
-  />
-
-  <SplitFeature
-    backgroundImage="/images/Avochoc_middle_column.svg"
-    blurred
-    descriptionParagraph1="Most organisations don’t struggle because they lack ambition. They struggle because their systems carry too much. Old platforms. Daily operations that depend on each other. Rules they have to follow. Every component relies on the next. Change one thing, and you risk breaking something else."
-    descriptionParagraph2="Most partners only work one way. Some push new ideas without understanding your limits. Others protect what you have, but don’t help you move forward. Neither works when your systems can't afford to fail."
-    titlePart1="Move fast and introduce risk."
-    titlePart2="Or stay stable and fall behind."
-  >
-    <br />
-    <b>We take a new approach.</b>
-    <br /><br />
-    We deliver secure modernisation for large organisations, without disrupting day-to-day
-    operations. We build systems for the real world, not the ideal one.
-    <SecondaryBtn slot="actions" href="/contact" text="Work With Us" />
-  </SplitFeature>
-
-  <ServiceCards
-    eyebrow="WHAT WE BUILD"
-    titlePart1="From legacy system modernisation to production-ready AI development. "
-    titlePart2="Everything built for the environments your business actually runs in."
-  />
-
-  <PrimaryBtn href="/contact" text="Work With Us" />
-  <LargeCard
-    image="/images/backgrounds/cards/backgroundgradient1.webp"
-    imageAlt="Abstract planetary illustration"
-    title="Map What Matters"
-    description="Before we design anything, we find out what can't change. That means mapping dependencies, risk surfaces, and constraints."
-    step="Step"
-    stepNumber="1"
-    minWidth="40.312rem"
-    height="42.127rem"
-    imageHeight="353px"
-    gap="var(--space-34)"
-    backgroundColor="var(--white)"
-  />
-  <WhatClientsSay />
+<BaseLayout title="Home" description="Progress Done Properly">
+<HomeHero />
+<Map />
+<AvoApproach />
+<WhatWeBuild />
+<HowWeWork_Home />
+<CaseSudies_Home />
+<WhatClientsSay />
+<ContactFooter />
+<ISOCertified />
 </BaseLayout>

@@ -32,6 +32,7 @@ html {
         Colours
     ============================================================ */    
     --navy: #1D2247;
+    --navy-20: rgba(29, 34, 71, 0.20);
     --blue: #2F00F4;
     --black: #000000;
     --charcoal: #344054;
@@ -40,7 +41,9 @@ html {
     --white-15: rgba(255, 255, 255, 0.15);
     --white-25: rgba(255, 255, 255, 0.25);
     --white-50: rgba(255, 255, 255, 0.5);
+    --white-80:rgba(255, 255, 255, 0.80);
     --grey: #EAECF0;
+    --grey-50: #F9FAFB;
     --grey-100: #F2F4F7;
     --grey-200: #EAECF0;
     --grey-300: #D0D5DD;
@@ -79,6 +82,7 @@ html {
     --border-radius-xsmall: 0.25rem;
     --border-radius-small: 0.5rem;
     --border-radius-med: 0.75rem;
+    --border-radius-large: 2rem;
 
     /* ============================================================
         Button
@@ -106,6 +110,7 @@ html {
     --space-34: 2.125rem;
     --space-36: 2.25rem;
     --space-40: 2.5rem;
+    --space-42: 2.625rem;
     --space-44: 2.75rem;
     --space-46: 2.875rem;
     --space-48: 3rem;

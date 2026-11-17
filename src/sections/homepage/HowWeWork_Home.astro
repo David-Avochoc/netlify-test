@@ -1,0 +1,160 @@
+---
+import Container from "@/components/global/Container.astro";
+import Columns from "@/components/global/Columns.astro";
+import SectionTitle from "@/components/ui/SectionTitle.astro";
+import ScrollLockCards from "@/components/ui/ScrollLockCards.astro";
+import LargeCard from "@/components/cards/LargeCard.astro";
+import OrbBackground from "@/components/OrbBackground.astro";
+---
+
+<OrbBackground
+  class="how-we-work-background"
+  fixed
+  base="#ebecf0"
+  teal="#63a1a0"
+  cyan="#adf1f1"
+  yellow="#d9eec1"
+  speed={1}
+  intensity={0.8}
+  grain
+>
+<section class="how-we-work-section_home">
+    <ScrollLockCards steps={3}>
+        <Container>
+            <Columns
+                layout="40-60"
+                gap="var(--space-80)"
+                align="center"
+                class="how-we-work_home-columns"
+            >
+            <div class="how_we_work-section_home-left">
+              <SectionTitle
+                title="How we work"
+                fontSize="var(--font-size-24)"
+                fontWeight="var(--font-weight-semibold)"
+                textTransform="uppercase"
+                color="var(--navy)"
+                class="how-we-work-section__title"
+              />
+              <h3 class="solutions-body-txt-main">
+                We don't start with solutions.<br /><span class="body-txt-light"
+                  >We start by understanding what can't break.</span
+                >
+              </h3>
+              <p class="solutions-body-txt-sub">
+                You won't get big promises upfront. You'll get clear thinking,
+                trade-offs, and a realistic path forward.
+              </p>
+            </div>
+
+            <div class="how_we_work-section_home-right">
+              <div class="stack-cards">
+                <div data-stack-item>
+                  <LargeCard
+                    animation="/animations/AvoWebsite-Lottie-1.lottie"
+                    imageBackground="/images/backgrounds/cards/AvoCardBackground.webp"
+                    imageAlt="Map What Matters"
+                    title="Map What Matters"
+                    description="Before we design anything, we find out what can't change. That means mapping dependencies, risk surfaces, and constraints."
+                    step="Step"
+                    stepNumber="1"
+                    height="42.127rem"
+                    imageHeight="22.062rem"
+                    gap="var(--space-34)"
+                    backgroundColor="var(--white)"
+                    maxWidth="auto"
+                  />
+                </div>
+                <div data-stack-item>
+                  <LargeCard
+                    animation="/animations/AvoWebsite-Lottie-2.lottie"
+                    imageBackground="/images/backgrounds/cards/AvoCardBackground.webp"
+                    imageAlt="Design Around Constraints"
+                    title="Design Around Constraints"
+                    description="We don't simplify by ignoring your reality. We simplify by working within it. Every decision accounts for how your business actually runs."
+                    step="Step"
+                    stepNumber="2"
+                    height="42.127rem"
+                    imageHeight="22.062rem"
+                    gap="var(--space-34)"
+                    backgroundColor="var(--white)"
+                    maxWidth="auto"
+                  />
+                </div>
+                <div data-stack-item>
+                  <LargeCard
+                    animation="/animations/AvoWebsite-Lottie-3.lottie"
+                    imageBackground="/images/backgrounds/cards/AvoCardBackground.webp"
+                    imageAlt="Build for What Happens After"
+                    title="Build for What Happens After"
+                    description="Delivery isn't the finish line. We build for post-go-live: the edge cases, the scale, the Monday morning when real users hit a real system. (That Monday morning. Every CIO knows the one.)"
+                    step="Step"
+                    stepNumber="3"
+                    height="42.127rem"
+                    imageHeight="22.062rem"
+                    backgroundColor="var(--white)"
+                    maxWidth="auto"
+                  />
+                </div>
+              </div>
+            </div>
+            </Columns>
+        </Container>
+    </ScrollLockCards>
+</section>
+</OrbBackground>
+
+<style>
+    .how-we-work-background {
+        position: relative;
+        isolation: isolate;
+        overflow: clip;
+    }
+      .how_we_work-section_home-right {
+    display: flex;
+    justify-content: flex-end;
+    min-width: 0;
+  }
+  .stack-cards {
+    flex: 0 1 44.2rem;
+    min-width: 0;
+  }
+  .how_we_work-section_home-left {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: flex-start;
+    align-self: stretch;
+  }
+  h3.solutions-body-txt-main {
+    font-size: var(--font-size-36);
+    font-weight: var(--font-weight-regular);
+    line-height: 1.2;
+    letter-spacing: -0.045rem;
+    color: var(--navy);
+    max-width: 32.75rem;
+  }
+  .body-txt-light {
+    color: var(--grey-500);
+  }
+  p.solutions-body-txt-sub {
+    font-size: var(--font-size-20);
+    font-weight: var(--font-weight-regular);
+    color: var(--grey-600);
+  }
+
+@media only screen and (max-width: 799px) {
+    :global(.columns--stack.how-we-work_home-columns) {
+        gap: var(--space-40) !important;
+    }
+.how_we_work-section_home-left {
+    padding-top: var(--space-40);
+}
+.solutions-body-txt-main {
+    padding-block: var(--space-48);
+}
+.how_we_work-section_home-right .stack-cards {
+    gap: var(--space-14);
+}
+}
+</style>

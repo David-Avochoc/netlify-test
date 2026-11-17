@@ -1,0 +1,37 @@
+---
+import Container from "@/components/global/Container.astro";
+import SectionTitle from "@/components/ui/SectionTitle.astro";
+import PreviewHoverList from "@/components/ui/PreviewHoverList.astro";
+import ourWork from "@/data/ourWork.js";
+import { hoverPreviewProjects } from "@/data/workSelections.js";
+import { getProjectsBySlug } from "@/utils/getProjects.js";
+
+const projects = getProjectsBySlug(
+  ourWork,
+  hoverPreviewProjects
+);
+---
+
+<section class="case-studies-showcase-section">
+    <Container>
+        <SectionTitle
+            title="Case Studies"
+            fontSize="var(--font-size-24)"
+            mobileFontSize="var(--font-size-30)"
+            fontWeight="var(--font-weight-semibold)"
+            color="var(--navy)"
+            textTransform="uppercase"
+        />
+        <PreviewHoverList projects={projects} />
+    </Container>
+</section>
+
+<style>
+    .case-studies-showcase-section {
+        padding-block: var(--space-80);
+        background: var(--grey);
+    }
+    .case-studies-showcase-section :global(.section-title) {
+        margin-bottom: var(--space-64);
+    }
+</style>

@@ -1,6 +1,10 @@
 ---
+import LottieAnimation from "@/components/ui/LottieAnimation.astro";
+
 interface Props {
-  image: string;
+  image?: string;
+  animation?: string;
+  imageBackground?: string;
   imageAlt: string;
   title: string;
   description: string;
@@ -18,6 +22,8 @@ interface Props {
 
 const {
   image,
+  animation,
+  imageBackground,
   imageAlt,
   title,
   description,
@@ -38,7 +44,29 @@ const {
   class="large-card"
   style={`--card-width: ${width}; --card-min-width: ${minWidth}; --card-max-width: ${maxWidth};--card-height: ${height}; --card-gap: ${gap}; --card-image-height: ${imageHeight}; --card-background: ${backgroundColor}; --card-text-color: ${textColor}`}
 >
-  <img class="large-card__image" src={image} alt={imageAlt} loading="lazy" />
+{
+  animation || image ? (
+    <div
+      class="large-card__media"
+      style={
+        imageBackground
+          ? `background-image: url('${imageBackground}')`
+          : undefined
+      }
+    >
+      {animation ? (
+        <LottieAnimation src={animation} alt={imageAlt} />
+      ) : image ? (
+        <img
+          class="large-card__image"
+          src={image}
+          alt={imageAlt}
+          loading="lazy"
+        />
+      ) : null}
+    </div>
+  ) : null
+}
 
   <div class="large-card__header">
     {
@@ -77,15 +105,31 @@ const {
     overflow: hidden;
   }
 
-  .large-card__image {
-    display: block;
-    width: 100%;
-    height: var(--card-image-height);
-    flex-shrink: 0;
-    object-fit: cover;
-    object-position: center;
-    border-radius: var(--border-radius-med);
-  }
+.large-card__media {
+  display: block;
+  width: 100%;
+  height: var(--card-image-height);
+  flex-shrink: 0;
+  overflow: hidden;
+  border-radius: var(--border-radius-med);
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+.large-card__media dotlottie-wc {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.large-card__image {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+}
 
   .large-card__header {
     display: flex;
@@ -157,7 +201,7 @@ const {
       min-width: 0;
     }
 
-    .large-card__image {
+    .large-card__media {
       height: auto;
       aspect-ratio: 1.65 / 1;
     }

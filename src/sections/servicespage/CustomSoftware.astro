@@ -1,0 +1,113 @@
+---
+import Container from "@/components/global/Container.astro";
+import Columns from "@/components/global/Columns.astro";
+import SectionTitle from "@/components/ui/SectionTitle.astro";
+import PrimaryBtn from "@/components/buttons/PrimaryBtn.astro";
+---
+
+<section class="cust-software-section">
+  <Container>
+    <Columns layout="33-33-33" gap="0" class="cust-software-columns">
+      <div class="cust-software-left">
+        <SectionTitle
+          title="We build custom software, AI, and integrated systems for organisations operating under real-world pressure."
+          fontSize="var(--font-size-36)"
+          mobileFontSize="var(--font-size-30)"
+          fontWeight="var(--font-weight-regular)"
+          color="var(--navy)"
+          textTransform="none"
+        />
+      </div>
+      <div class="cust-software-center" aria-label="Abstract blue graphic">
+      </div>
+      <div class="cust-software-right">
+        <div class="cust-softwar-right__content">
+          <p>
+            Most vendors sell you the solution before they understand the
+            problem.
+          </p>
+          <br />
+          <p class="cust-software-bold">We do it the other way around.</p>
+          <br />
+          <p>
+            Complex organisations don't need more technology. They need
+            technology that fits. Around legacy infrastructure, operational
+            dependencies, and the systems that genuinely cannot fail.
+          </p>
+          <br />
+          <p>
+            Every service we offer starts from the same place. Understanding
+            what can't break before we decide what should change.
+          </p>
+        </div>
+        <PrimaryBtn
+          href="#"
+          text="How we work"
+          background="var(--white)"
+          textColor="var(--navy)"
+        />
+      </div>
+    </Columns>
+  </Container>
+</section>
+
+<style>
+  .cust-software-section {
+    background: linear-gradient(to right, var(--grey-50) 50%, var(--navy) 50%);
+  }
+  :global(.cust-software-columns) {
+    min-height: 54.75rem;
+  }
+  .cust-software-left {
+    padding-inline: 0 var(--space-64);
+    padding-block: var(--space-64);
+  }
+  :global(.section-title h2) {
+    line-height: 1.2 !important;
+  }
+  .cust-software-center {
+    background: url("/images/backgrounds/section/abstract_blue_circles.webp")
+      no-repeat center center;
+    background-size: cover;
+    height: 100%;
+  }
+  .cust-software-right {
+    padding-inline: var(--space-32) 0;
+    padding-block: var(--space-64);
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    height: 100%;
+    justify-content: space-between;
+  }
+  .cust-softwar-right__content {
+    font-size: var(--font-size-18);
+    line-height: 1.5;
+    color: var(--white);
+    max-width: 24rem;
+  }
+  .cust-software-bold {
+    font-weight: var(--font-weight-bold);
+  }
+
+  @media (max-width: 799px) {
+    :global(.cust-software-section .container) {
+      padding-inline: 0;
+    }
+    .cust-software-section {
+      background: var(--grey-50);
+    }
+    .cust-software-left {
+      padding-inline: 1rem;
+    }
+    .cust-software-center {
+      min-height: 16.25rem;
+    }
+    .cust-software-right {
+      align-items: stretch;
+      min-height: 40rem;
+      background: var(--navy);
+      padding-inline: 1rem;
+    }
+  }
+</style>

@@ -1,0 +1,117 @@
+---
+import Container from "@/components/global/Container.astro";
+import Columns from "@/components/global/Columns.astro";
+import SectionTitle from "@/components/ui/SectionTitle.astro";
+import PrimaryBtn from "@/components/buttons/PrimaryBtn.astro";
+---
+
+<section class="avo-approach-section">
+    <Container>
+        <Columns layout="33-33-33" gap="0" class="avo-approach-columns">
+            <div class="avo-approach-left">
+                <SectionTitle
+                    title="Move fast and introduce risk. <span class='light-txt'>Or stay stable and fall behind.</span>"
+                    fontSize="var(--font-size-36)"
+                    mobileFontSize="var(--font-size-30)"
+                    fontWeight="var(--font-weight-regular)"
+                    color="var(--navy)"
+                    textTransform="none"
+                />
+            </div>
+            <div class="avo-approach-center" aria-label="Abstract green graphic">
+            </div>
+            <div class="avo-approach-right">
+                <div class="avo-approach-right__content">
+                    <p>
+                        Most organisations don't struggle because they lack ambition. They struggle because their systems carry too much. Old platforms. Daily operations that depend on each other. Rules they have to follow. Every component relies on the next. Change one thing, and you risk breaking something else.
+                    </p><br/>
+                    <p>
+                        Most partners only work one way. Some push new ideas without understanding your limits. Others protect what you have, but don't help you move forward. Neither works when your systems can't afford to fail.
+                    </p><br/>
+                    <p class="avo-approach-bold">We take a new approach.</p><br />
+                    <p>We deliver secure modernisation for large organisations, without disrupting day-to-day operations. We build systems for the real world, not the ideal one.
+                    </p>
+                </div>
+                <PrimaryBtn
+                  href="#"
+                  text="Work with us"
+                  background="var(--white)"
+                  textColor="var(--navy)"
+                />
+            </div>
+        </Columns>
+    </Container>
+</section>
+
+<style>
+    .avo-approach-section {
+    background: linear-gradient(to right, var(--grey-50) 50%, var(--olivegreen) 50%);
+  }  
+  :global(.avo-approach-columns) {
+    min-height: 54.75rem;
+  }
+  .avo-approach-left {
+    padding-inline: 0 var(--space-64);
+    padding-block: var(--space-64);
+  }
+  :global(.section-title h2) {
+    line-height: 1.2 !important;
+    max-width: 18.25rem;
+  }
+  .avo-approach-left :global(.section-title .light-txt)  {
+    display: block;
+    color: var(--grey-500);
+  }
+  .avo-approach-center {
+    background: url("/images/backgrounds/section/abstract_green_circles.webp")
+      no-repeat center center;
+    background-size: cover;
+    height: 100%;
+  }
+  .avo-approach-right {
+    padding-inline: var(--space-32) 0;
+    padding-block: var(--space-64);
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    height: 100%;
+    justify-content: space-between;
+  }
+  .avo-approach-right__content {
+    font-size: var(--font-size-18);
+    line-height: 1.5;
+    color: var(--white);
+    max-width: 24rem;
+  }
+  .avo-approach-bold {
+    font-weight: var(--font-weight-bold);
+  }
+
+  @media (max-width: 799px) {
+    :global(.avo-approach-section .container) {
+      padding-inline: 0;
+    }
+
+    :global(.section-title h2) {
+      max-width: 100%;
+  }
+
+    .avo-approach-section {
+      background: var(--grey-50);
+    }
+    .avo-approach-left {
+      padding-inline: 1rem;
+    }
+    .avo-approach-center {
+      min-height: 16.25rem;
+    }
+    .avo-approach-right {
+      align-items: stretch;
+      background: var(--olivegreen);
+      padding-inline: 1rem;
+    }
+    .avo-approach-right__content {
+      margin-bottom: var(--space-32);
+    }
+  }   
+</style>

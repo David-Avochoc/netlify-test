@@ -1,23 +1,31 @@
 ---
 interface Props {
-  href: string;
+  href?: string;
   text: string;
+  type?: "button" | "submit" | "reset";
   background?: string;
   textColor?: string;
   class?: string;
+  panelOpen?: string;
 }
 
 const {
   href,
   text,
+  type = "button",
   background = "transparent",
   textColor = "var(--white)",
   class: className = "",
+  panelOpen,
 } = Astro.props;
+
+const Tag = href && !panelOpen ? "a" : "button";
 ---
 
-<a
-  href={href}
+
+<Tag
+  type={!href ? type : undefined}
+  data-panel-open={panelOpen}
   class:list={["secondary-btn", className]}
   style={`--button-background: ${background}; --button-text-color: ${textColor}`}
 >
@@ -32,7 +40,7 @@ const {
   <span class="secondary-btn__arrow" aria-hidden="true">
     <img src="/icons/arrow-up-right-drk.svg" alt="" />
   </span>
-</a>
+</Tag>
 
 <style>
   .secondary-btn {
@@ -122,6 +130,12 @@ const {
   .secondary-btn__arrow.is-returning {
     z-index: 3;
   }
+   @media only screen and (max-width: 799px) {
+ .secondary-btn {
+    --button-height: calc(var(--font-size-20) + (2 * var(--std-btn-padding-y)));
+    height: var(--button-height);
+  }
+}
 </style>
 
 <script>

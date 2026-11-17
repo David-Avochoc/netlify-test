@@ -1,0 +1,83 @@
+---
+import Hero from "@/sections/shared-sections/Hero.astro";
+import Container from "@/components/global/Container.astro";
+import Columns from "@/components/global/Columns.astro";
+import HighlightBox from "@/components/ui/HighlightBox.astro";
+---
+
+<section class="services-hero-section">
+  <Hero backgroundImage="/images/backgrounds/hero/hero_image.webp">
+    <Container>
+      <Columns class="services-hero-container" layout="60-40" align="stretch">
+        <div class="services-hero-left">
+          <h1>
+            Comples systems.<br />
+            Real constraints.<br />
+            No shortcuts.<br />
+          </h1>
+        </div>
+        <div class="services-hero-right">
+          <p>
+            We build custom software, AI, and integrated systems for
+            organisations operating under
+          </p>
+          <HighlightBox
+            background="var(--navy-20)"
+            textColor="var(--white)"
+            accentColor="var(--lime)"
+            fontSize="var(--font-size-24)"
+          >
+            real-world pressure
+          </HighlightBox>
+        </div>
+      </Columns>
+    </Container>
+  </Hero>
+</section>
+
+<style>
+  :global(.services-hero-container.columns--stack) {
+    padding-top: 7.75rem;
+    min-height: 22.813rem;
+  }
+  .services-hero-left {
+    padding-left: calc(var(--space-64) + var(--space-16));
+  }
+  .services-hero-left h1 {
+    font-size: var(--font-size-60);
+    font-weight var(--font-weight-semibold);
+    color: var(--white);
+    letter-spacing: -0.075rem;
+  }
+  .services-hero-right {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-16);
+    justify-content: flex-end;
+  }
+  .services-hero-right p {
+    font-size: var(--font-size-24);
+    color: var(--white);
+    line-height: 1.3;
+    max-width: 32rem;
+  }
+  @media only screen and (max-width: 799px) {
+    :global(.services-hero-container.columns--stack) {
+      padding-top: calc(2.5rem + var(--space-24));
+      min-height: calc(100dvh - 6.875rem);
+    }
+  .services-hero-left {
+    padding-left: 0;
+  }
+    .services-hero-left h1 {
+      font-size: var(--font-size-48);
+      letter-spacing: -0.06rem;
+    }
+    .services-hero-right {
+      gap: var(--space-48);
+    }
+    .services-hero-right p {
+      font-size: var(--font-size-20);
+  }
+  }
+</style>

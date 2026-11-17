@@ -1,14 +1,14 @@
 ---
 import Container from "@/components/global/Container.astro";
 import SectionTitle from "@/components/ui/SectionTitle.astro";
-import TestimonialSection from "@/sections/shared-sections/TestimonialSection.astro";
+import TestimonialsSection from "@/components/ui/Testimonials/TestimonialsSection.astro";
 ---
 
 <section class="home-testimonials">
   <Container>
     <div class="home-testimonials__inner">
       <SectionTitle title="What Clients Say" />
-      <TestimonialSection />
+      <TestimonialsSection count={3} />
     </div>
   </Container>
 </section>
@@ -22,5 +22,10 @@ import TestimonialSection from "@/sections/shared-sections/TestimonialSection.as
     flex-direction: column;
     padding-block: var(--space-80);
     gap: var(--space-64);
+  }
+  @media (max-width: 799px) {
+    .home-testimonials :global(.section-title) {
+      padding-inline: var(--space-16);
+    }
   }
 </style>

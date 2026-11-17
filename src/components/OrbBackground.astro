@@ -1,0 +1,232 @@
+---
+interface Props {
+  as?: keyof HTMLElementTagNameMap;
+  class?: string;
+  style?: string;
+  base?: string;
+  teal?: string;
+  cyan?: string;
+  yellow?: string;
+  speed?: number;
+  intensity?: number;
+  grain?: boolean;
+  fixed?: boolean;
+  [attr: string]: unknown;
+}
+
+const {
+  as: Tag = "section",
+  class: className,
+  style: userStyle,
+  base,
+  teal,
+  cyan,
+  yellow,
+  speed,
+  intensity,
+  grain = true,
+  fixed = false,
+  ...rest
+} = Astro.props;
+
+const vars = [
+  base && `--orb-base:${base}`,
+  teal && `--orb-teal:${teal}`,
+  cyan && `--orb-cyan:${cyan}`,
+  yellow && `--orb-yellow:${yellow}`,
+  speed !== undefined && `--orb-speed:${speed}`,
+  intensity !== undefined && `--orb-intensity:${intensity}`,
+  userStyle,
+]
+  .filter(Boolean)
+  .join(";");
+---
+
+<Tag
+  class:list={["orb-section", className]}
+  style={vars || undefined}
+  data-orb-section
+  {...rest}
+>
+  <div class="orb-section__bg" aria-hidden="true">
+    <div class="orb orb--teal"><div class="orb__core"></div></div>
+    <div class="orb orb--cyan"><div class="orb__core"></div></div>
+    <div class="orb orb--yellow"><div class="orb__core"></div></div>
+  </div>
+
+  {grain && <div class="orb-section__grain" aria-hidden="true" />}
+
+  <div class="orb-section__content">
+    <slot />
+  </div>
+</Tag>
+
+<style>
+  .orb-section {
+    position: relative;
+    isolation: isolate;
+    overflow: clip;
+    background-color: var(--orb-base);
+  }
+
+  .orb-section__content {
+    position: relative;
+    z-index: 1;
+  }
+
+  .orb-section__bg {
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    height: 100dvh;
+    width: 100%;
+    margin-bottom: -100vh;
+    margin-bottom: -100dvh;
+    z-index: 0;
+    pointer-events: none;
+    opacity: var(--orb-intensity, 1);
+    container-type: size;
+    overflow: clip;
+  }
+
+  .orb {
+    --size: max(80vw, 440px);
+    position: absolute;
+    left: var(--x);
+    top: var(--y);
+    width: var(--size);
+    height: var(--size);
+    margin: calc(var(--size) / -2) 0 0 calc(var(--size) / -2);
+    will-change: translate;
+    animation: orb-drift var(--drift, 7s) ease-in-out infinite alternate;
+    animation-delay: var(--drift-delay, 0s);
+  }
+
+  @supports (width: 1cqw) {
+    .orb {
+      --size: max(var(--cq-size), 440px);
+    }
+  }
+
+  .orb__core {
+    position: absolute;
+    inset: 0;
+    border-radius: 50%;
+    background: radial-gradient(
+      closest-side,
+      var(--c) 0%,
+      color-mix(in srgb, var(--c) 92%, transparent) 12%,
+      color-mix(in srgb, var(--c) 76%, transparent) 28%,
+      color-mix(in srgb, var(--c) 55%, transparent) 45%,
+      color-mix(in srgb, var(--c) 32%, transparent) 62%,
+      color-mix(in srgb, var(--c) 16%, transparent) 78%,
+      color-mix(in srgb, var(--c) 5%, transparent) 92%,
+      transparent 100%
+    );
+    will-change: transform, opacity;
+    animation: orb-breathe var(--breathe, 4s) ease-in-out infinite alternate;
+    animation-delay: var(--breathe-delay, 0s);
+  }
+
+  .orb--teal {
+    --c: var(--orb-teal);
+    --x: 21%;
+    --y: 5%;
+    --cq-size: 83cqw;
+    --dx: 4cqw;
+    --dy: 3cqw;
+    --drift: calc(7s / var(--orb-speed, 1));
+    --drift-delay: calc(-2s / var(--orb-speed, 1));
+    --s0: 0.92;
+    --s1: 1.12;
+    --o0: 0.85;
+    --o1: 1;
+    --breathe: calc(6.5s / var(--orb-speed, 1));
+    --breathe-delay: calc(-1s / var(--orb-speed, 1));
+  }
+
+  .orb--cyan {
+    --c: var(--orb-cyan, #adf1f1);
+    --x: 76%;
+    --y: 28%;
+    --cq-size: 72cqw;
+    --dx: 7cqw;
+    --dy: 5cqw;
+    --drift: calc(5.5s / var(--orb-speed, 1));
+    --drift-delay: calc(-1.5s / var(--orb-speed, 1));
+    --s0: 0.82;
+    --s1: 1.25;
+    --o0: 0.85;
+    --o1: 1;
+    --breathe: calc(3.5s / var(--orb-speed, 1));
+    --breathe-delay: calc(-2.5s / var(--orb-speed, 1));
+  }
+
+  .orb--yellow {
+    --c: var(--orb-yellow, #d9eec1);
+    --x: 85%;
+    --y: 80%;
+    --cq-size: 72cqw;
+    --dx: 8cqw;
+    --dy: 3cqw;
+    --drift: calc(4.5s / var(--orb-speed, 1));
+    --drift-delay: calc(-3s / var(--orb-speed, 1));
+    --s0: 0.9;
+    --s1: 1.15;
+    --o0: 0.3;
+    --o1: 1;
+    --breathe: calc(4.5s / var(--orb-speed, 1));
+    --breathe-delay: calc(-0.5s / var(--orb-speed, 1));
+  }
+
+  @keyframes orb-drift {
+    from {
+      translate: calc(var(--dx) * -1) 0;
+    }
+
+    to {
+      translate: var(--dx) 0;
+    }
+  }
+
+  @keyframes orb-breathe {
+    from {
+      transform: translateY(calc(var(--dy) * -1)) scale(var(--s0));
+      opacity: var(--o0);
+    }
+
+    to {
+      transform: translateY(var(--dy)) scale(var(--s1));
+      opacity: var(--o1);
+    }
+  }
+
+  .orb-section__grain {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    opacity: 0.22;
+    mix-blend-mode: soft-light;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n' color-interpolation-filters='sRGB'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='1 0 0 0 0 1 0 0 0 0 1 0 0 0 0 0 0 0 0 1'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+
+  .orb-section[data-orb-paused] .orb,
+  .orb-section[data-orb-paused] .orb__core {
+    animation-play-state: paused;
+  }
+</style>
+
+<script>
+  const sections = document.querySelectorAll<HTMLElement>("[data-orb-section]");
+  if ("IntersectionObserver" in window) {
+    const io = new IntersectionObserver((entries) => {
+      for (const e of entries) {
+        (e.target as HTMLElement).toggleAttribute(
+          "data-orb-paused",
+          !e.isIntersecting,
+        );
+      }
+    });
+    sections.forEach((s) => io.observe(s));
+  }
+</script>

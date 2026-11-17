@@ -22,9 +22,19 @@ const { class: className, paddingY = "0" } = Astro.props;
     padding-block: var(--container-padding-y);
     margin: 0 auto;
   }
+  .container:has(.testimonial-section--carousel),
+  .container:has(.what-we-build-section__track) {
+    padding-inline: 0;
+  }
+  .container:has(.testimonial-section--carousel) :global(.section-title) {
+    padding-inline: var(--section-padding-x);
+  }
   @media only screen and (max-width: 799px) {
     .container {
-      padding-inline: 16px;
+      padding-inline: 1rem;
+    }
+    .container:has(.testimonial-section) {
+      padding-inline: 0;
     }
   }
 </style>

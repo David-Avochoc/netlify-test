@@ -1,0 +1,550 @@
+---
+import Container from "@/components/global/Container.astro";
+import SectionTitle from "@/components/ui/SectionTitle.astro";
+import LargeCtaCard from "@/components/cards/LargeCTACard.astro";
+
+const services = [
+  {
+    image: "/images/backgrounds/cards/AvoSoftwareDev.webp",
+    imageAlt: "Custom software development",
+    title: "Custom Software Development",
+    description:
+      "Enterprise-grade software built around how your business actually works. Not around what a framework says it should do. We map constraints before we write a line of code.",
+    ctaLabel: "See our approach",
+    href: "/services",
+  },
+  {
+    image: "/images/backgrounds/cards/AvoMachineLearning.webp",
+    imageAlt: "AI and machine learning",
+    title: "AI & Machine Learning",
+    description:
+      "AI that earns its place in real workflows, not only boardroom demos. We use AI where it can prove its value. Not where it only looks impressive.",
+    ctaLabel: "See AI services",
+    panelOpen: "contact-panel",
+  },
+  {
+    image: "/images/backgrounds/cards/AvoSystemIntegration.webp",
+    imageAlt: "System integration and modernisation",
+    title: "System Integration & Modernisation",
+    description:
+      "Legacy infrastructure carrying years of decisions doesn't get replaced overnight. We modernise in a way that respects what's already working.",
+    ctaLabel: "See our work",
+    href: "/services/system-integration",
+  },
+  {
+    image: "/images/backgrounds/cards/AvoProductDev.webp",
+    imageAlt: "Product development",
+    title: "Product Development",
+    description:
+      "From post-MVP chaos to production-ready software. We turn prototypes into systems that last. Built for real users, real scale, real pressure.",
+    ctaLabel: "How we work",
+    href: "/services/product-development",
+  },
+];
+---
+
+<section class="what-we-build-section" data-what-we-build>
+    <Container>
+    <div class="what-we-build-section__intro">
+      <SectionTitle
+        title="What We Build"
+        fontSize="var(--font-size-24)"
+        fontWeight="var(--font-weight-semibold)"
+        textTransform="uppercase"
+        color="var(--navy)"
+        class="what-we-build__title"
+      />
+
+      <h3 class="what-we-build-body">
+        From legacy system modernisation to production-ready AI development.
+        <span class="light-txt">
+          Everything built for the environments your business actually runs in.
+        </span>
+      </h3>
+    </div>
+
+    <nav class="what-we-build-section__pills" aria-label="Services">
+      {services.map((service, index) => (
+        <button
+          type="button"
+          class:list={[
+            "what-we-build-section__pill",
+            { "is-active": index === 0 },
+          ]}
+          aria-pressed={index === 0 ? "true" : "false"}
+          data-service-pill={index}
+        >
+          {service.title}
+        </button>
+      ))}
+    </nav>
+
+    <div class="what-we-build-section__viewport" data-service-viewport >
+      <div class="what-we-build-section__track" data-service-track>
+        {services.map((service, index) => (
+          <article
+            class="what-we-build-section__card"
+            data-service-card={index}
+          >
+            <LargeCtaCard
+              image={service.image}
+              imageAlt={service.imageAlt}
+              title={service.title}
+              description={service.description}
+              ctaLabel={service.ctaLabel}
+              href={service.href}
+              panelOpen={service.panelOpen}
+              width="100%"
+              minWidth="0"
+              maxWidth="none"
+              height="100%"
+              imageHeight="18rem"
+              gap="var(--space-32)"
+            />
+          </article>
+        ))}
+      </div>
+    </div>
+</Container>
+</section>
+
+
+
+<style>
+  .what-we-build-section {
+    padding-block: var(--space-80);
+  }
+.what-we-build-section__intro,
+.what-we-build-section__pills {
+    padding-inline: var(--section-padding-x);
+}
+:global(.section-title.what-we-build__title) {
+    margin-bottom: var(--space-24);
+}
+.what-we-build-section__intro,
+.what-we-build-section__pills {
+    margin-bottom: var(--space-48);
+}
+.what-we-build-body {
+    font-size: var(--font-size-36);
+    font-weight: var(--font-weight-regular);
+    line-height: 1.2;
+    max-width: 56rem;
+}
+.what-we-build-body .light-txt {
+    color: var(--grey-500);
+}
+.what-we-build-section__pills {
+    display: flex;
+    align-items: center;
+    gap: var(--space-8);
+}
+.what-we-build-section__pill {
+    padding-block: var(--space-8);
+    padding-inline: var(--space-24);
+    border: 1px solid var(--grey-400);
+    border-radius: var(--space-34);
+    font-size: var(--font-size-14);
+    color: var(--grey-400);
+    cursor: pointer;
+    transition:
+        color var(--transition-duration-fast) var(--transition-easing),
+        background-color var(--transition-duration-fast) var(--transition-easing),
+        border-color var(--transition-duration-fast) var(--transition-easing);
+}
+.what-we-build-section__pill.is-active {
+    color: var(--navy);
+    background: var(--grey-300);
+    border-color: var(--grey-300);
+}
+.what-we-build-section__viewport {
+    overflow-x: auto;
+    overflow-y: hidden;
+    scrollbar-width: none;
+    cursor: grab;
+    touch-action: pan-y;
+}
+.what-we-build-section__viewport::-webkit-scrollbar {
+  display: none;
+}
+.what-we-build-section__viewport.is-dragging {
+  cursor: grabbing;
+  scroll-behavior: auto;
+}
+.what-we-build-section__track {
+  display: flex;
+  align-items: stretch;
+  gap: var(--space-22);
+  width: max-content;
+  min-width: 100%;
+}
+.what-we-build-section__track::before {
+  content: "";
+  flex: 0 0 var(--space-44);
+}
+.what-we-build-section__track::after {
+  content: "";
+  flex: 0 0 var(--service-trailing-space, 0px);
+}
+.what-we-build-section__card {
+    max-width: 40.312rem;
+    min-height: 43.75rem;;
+    border-radius: var(--space-12);
+    border: 1px solid var(--grey-200);
+}
+.what-we-build-section__card :global(.large-cta-card__image-wrapper) {
+    background: var(--grey-100);
+    padding: 2.812rem;
+    border-radius: var(--border-radius-med) var(--border-radius-med) 0 0;
+}
+.what-we-build-section__card :global(.large-cta-card__image-wrapper img) {
+    object-fit: scale-down;  
+  }
+.what-we-build-section :global(.large-cta-card) {
+  background-color: var(--grey-50);
+  gap: var(--space-48);
+}
+.what-we-build-section :global(.large-cta-card__divider) {
+    margin-top: auto;
+}
+@media (max-width: 799px) {
+    .what-we-build-section__intro {
+      padding-inline: var(--space-16);
+      margin-bottom: var(--space-24);
+    }
+
+    .what-we-build-body {
+      font-size: var(--font-size-24);
+    }
+
+    .what-we-build-section__pills,
+    .what-we-build-section__track::before {
+      display: none;;
+    }
+
+    .what-we-build-section__viewport {
+      width: 100%;
+      padding-inline: var(--space-16);
+      overflow: visible;
+      cursor: auto;
+      touch-action: auto;
+    }
+
+    .what-we-build-section__track {
+      width: 100%;
+      min-width: 0;
+      flex-direction: column;
+      gap: var(--space-24);
+    }
+
+    .what-we-build-section__track::after {
+      display: none;
+    }
+
+    .what-we-build-section__card {
+      flex: 0 0 auto;
+      width: 100%;
+      min-height: auto;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .what-we-build-section__pill {
+      transition: none;
+    }
+  }
+</style>
+
+<script>
+  document
+    .querySelectorAll<HTMLElement>("[data-what-we-build]")
+    .forEach((section) => {
+      if (section.dataset.initialised === "true") return;
+
+      const viewport = section.querySelector<HTMLElement>(
+        "[data-service-viewport]",
+      );
+
+      const track = section.querySelector<HTMLElement>(
+        "[data-service-track]",
+      );
+
+      const pills = Array.from(
+        section.querySelectorAll<HTMLButtonElement>(
+          "[data-service-pill]",
+        ),
+      );
+
+      const cards = Array.from(
+        section.querySelectorAll<HTMLElement>(
+          "[data-service-card]",
+        ),
+      );
+
+      if (!viewport || !track || !pills.length || !cards.length) return;
+
+      section.dataset.initialised = "true";
+
+      const desktopQuery = window.matchMedia("(min-width: 800px)");
+      const reducedMotionQuery = window.matchMedia(
+        "(prefers-reduced-motion: reduce)",
+      );
+
+      let dragging = false;
+      let moved = false;
+      let startX = 0;
+      let startScroll = 0;
+      let activePointerId: number | null = null;
+      let pointerDownOnCard = false;
+      let suppressClick = false;
+      let clickTimer: ReturnType<typeof setTimeout> | undefined;
+
+      const clearClickSuppression = () => {
+        suppressClick = false;
+
+        if (clickTimer) {
+          clearTimeout(clickTimer);
+          clickTimer = undefined;
+        }
+      };
+
+      const setActive = (index: number) => {
+        if (index < 0 || index >= cards.length) return;
+
+        pills.forEach((pill, i) => {
+          const active = i === index;
+
+          pill.classList.toggle("is-active", active);
+          pill.setAttribute("aria-pressed", String(active));
+        });
+      };
+
+      // Allow the last card to align with the viewport's left edge.
+      const updateTrailingSpace = () => {
+        if (!desktopQuery.matches) {
+          track.style.setProperty("--service-trailing-space", "0px");
+          return;
+        }
+
+        const lastCard = cards[cards.length - 1];
+
+        if (!lastCard) return;
+
+        const trailingSpace = Math.max(
+          0,
+          viewport.clientWidth - lastCard.getBoundingClientRect().width,
+        );
+
+        track.style.setProperty(
+          "--service-trailing-space",
+          `${trailingSpace}px`,
+        );
+      };
+
+      const updateActive = () => {
+        if (!desktopQuery.matches) return;
+
+        const viewportLeft = viewport.getBoundingClientRect().left;
+
+        let closestIndex = 0;
+        let closestDistance = Infinity;
+
+        cards.forEach((card, index) => {
+          const rect = card.getBoundingClientRect();
+
+          if (rect.right <= viewportLeft + 1) return;
+
+          const distance = Math.abs(rect.left - viewportLeft);
+
+          if (distance < closestDistance) {
+            closestDistance = distance;
+            closestIndex = index;
+          }
+        });
+
+        setActive(closestIndex);
+      };
+
+      const goToCard = (index: number) => {
+        const card = cards[index];
+
+        if (!card) return;
+
+        setActive(index);
+
+        const behavior = reducedMotionQuery.matches ? "auto" : "smooth";
+
+        if (!desktopQuery.matches) {
+          card.scrollIntoView({
+            behavior,
+            block: "start",
+          });
+
+          return;
+        }
+
+         if (index === 0) {
+    viewport.scrollTo({
+      left: 0,
+      behavior,
+    });
+
+    return;
+  }
+
+        const target =
+          viewport.scrollLeft +
+          card.getBoundingClientRect().left -
+          viewport.getBoundingClientRect().left;
+
+        viewport.scrollTo({
+          left: target,
+          behavior,
+        });
+      };
+
+      pills.forEach((pill, index) => {
+        pill.addEventListener("click", () => goToCard(index));
+      });
+
+      viewport.addEventListener("scroll", updateActive, {
+        passive: true,
+      });
+
+      viewport.addEventListener("pointerdown", (event: PointerEvent) => {
+        if (
+          !desktopQuery.matches ||
+          event.button !== 0 ||
+          !event.isPrimary
+        ) {
+          return;
+        }
+
+        clearClickSuppression();
+
+        dragging = true;
+        moved = false;
+        startX = event.clientX;
+        startScroll = viewport.scrollLeft;
+        activePointerId = event.pointerId;
+
+        const target = event.target;
+
+        pointerDownOnCard =
+          target instanceof Element &&
+          Boolean(target.closest("[data-service-card]"));
+
+        section.classList.add("is-dragging");
+      });
+
+      viewport.addEventListener("pointermove", (event: PointerEvent) => {
+        if (!dragging || event.pointerId !== activePointerId) return;
+
+        const distance = event.clientX - startX;
+
+        if (!moved && Math.abs(distance) > 5) {
+          moved = true;
+
+          viewport.classList.add("is-dragging");
+
+          if (!viewport.hasPointerCapture(event.pointerId)) {
+            viewport.setPointerCapture(event.pointerId);
+          }
+        }
+
+        if (moved) {
+          viewport.scrollLeft = startScroll - distance;
+        }
+      });
+
+      const stopDragging = (event: PointerEvent) => {
+        if (!dragging || event.pointerId !== activePointerId) return;
+
+        const wasDrag = moved && pointerDownOnCard;
+
+        dragging = false;
+        activePointerId = null;
+
+        section.classList.remove("is-dragging");
+        viewport.classList.remove("is-dragging");
+
+        if (viewport.hasPointerCapture(event.pointerId)) {
+          viewport.releasePointerCapture(event.pointerId);
+        }
+
+        if (wasDrag) {
+          suppressClick = true;
+          updateActive();
+
+          clickTimer = setTimeout(() => {
+            suppressClick = false;
+            clickTimer = undefined;
+          }, 250);
+        }
+
+        moved = false;
+        pointerDownOnCard = false;
+      };
+
+      viewport.addEventListener("pointerup", stopDragging);
+      viewport.addEventListener("pointercancel", stopDragging);
+
+      viewport.addEventListener("lostpointercapture", () => {
+        if (!dragging) return;
+
+        dragging = false;
+        activePointerId = null;
+
+        section.classList.remove("is-dragging");
+        viewport.classList.remove("is-dragging");
+
+        moved = false;
+        pointerDownOnCard = false;
+      });
+
+      viewport.addEventListener(
+        "click",
+        (event: MouseEvent) => {
+          if (!suppressClick) return;
+
+          clearClickSuppression();
+
+          event.preventDefault();
+          event.stopPropagation();
+        },
+        true,
+      );
+
+      desktopQuery.addEventListener("change", () => {
+        dragging = false;
+        moved = false;
+        activePointerId = null;
+        pointerDownOnCard = false;
+
+        clearClickSuppression();
+
+        section.classList.remove("is-dragging");
+        viewport.classList.remove("is-dragging");
+
+        viewport.scrollLeft = 0;
+
+        updateTrailingSpace();
+        setActive(0);
+      });
+
+      const resizeObserver = new ResizeObserver(() => {
+        updateTrailingSpace();
+        updateActive();
+      });
+
+      resizeObserver.observe(viewport);
+      resizeObserver.observe(track);
+
+      cards.forEach((card) => resizeObserver.observe(card));
+
+      updateTrailingSpace();
+      updateActive();
+    });
+</script>
+
+

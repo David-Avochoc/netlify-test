@@ -5,7 +5,8 @@ interface Props {
   title: string;
   description: string;
   ctaLabel: string;
-  href: string;
+  href?: string;
+  panelOpen?: string;
   width?: string;
   minWidth?: string;
   maxWidth?: string;
@@ -25,6 +26,7 @@ const {
   description,
   ctaLabel,
   href,
+  panelOpen,
   width = "100%",
   minWidth = "0",
   maxWidth = "40.312rem",
@@ -40,7 +42,8 @@ const {
 
 <a
   class="large-cta-card"
-  href={href}
+  href={href ?? (panelOpen ? `#${panelOpen}` : undefined)}
+  data-panel-open={panelOpen}
   style={`--card-width: ${width}; --card-min-width: ${minWidth}; --card-max-width: ${maxWidth}; --card-height: ${height}; --card-image-height: ${imageHeight}; --card-image-padding: ${imagePadding}; --card-gap: ${gap}; --card-background: ${backgroundColor}; --card-text-color: ${textColor}; --card-radius: ${borderRadius};`}
 >
   <div class="large-cta-card__image-wrapper">

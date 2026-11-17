@@ -2,6 +2,8 @@
 import "../styles/global.css";
 import Header from "@/components/global/Header.astro";
 import Footer from "@/components/global/Footer.astro";
+import SlideInPanel from "@/components/ui/SlideInPanel/SlideInPanel.astro";
+import SlideInPanelContact from "@/components/ui/SlideInPanel/contact/SlideInPanelContact.astro";
 
 interface Props {
   title?: string;
@@ -33,5 +35,8 @@ const { title = "AvoChoc", description = "Progress Done Properly" } =
       <slot />
     </main>
     <Footer />
+        <SlideInPanel id="contact-panel" title="Get in touch">
+      <SlideInPanelContact />
+    </SlideInPanel>
   </body>
 </html>

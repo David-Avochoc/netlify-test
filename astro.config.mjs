@@ -17,15 +17,12 @@ const database = process.env.NETLIFY_DB_URL
 
 export default defineConfig({
   output: "server",
-
   adapter: netlify(),
-
   integrations: [
     react(),
-
     emdash({
       database,
-
+      siteUrl: "https://netlify-test-6tse.netlify.app",
       storage: local({
         directory: "./uploads",
         baseUrl: "/_emdash/api/media/file",

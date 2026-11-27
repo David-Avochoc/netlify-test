@@ -16,6 +16,7 @@
     "@astrojs/node": "^11.1.14",
     "@astrojs/react": "^7.1.9",
     "@lottiefiles/dotlottie-wc": "^0.12.2",
+    "@netlify/database": "^2.0.4",
     "astro": "^7.4.13",
     "emdash": "^1.6.0",
     "pg": "^8.23.1",

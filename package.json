@@ -18,6 +18,7 @@
     "@lottiefiles/dotlottie-wc": "^0.12.2",
     "astro": "^7.4.13",
     "emdash": "^1.6.0",
+    "pg": "^8.23.1",
     "react": "^19.3.1",
     "react-dom": "^19.3.1",
     "three": "^0.187.0"

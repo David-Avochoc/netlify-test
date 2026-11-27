@@ -1,9 +1,19 @@
+
 import { defineConfig } from "astro/config";
 import netlify from "@astrojs/netlify";
 import react from "@astrojs/react";
 
 import emdash, { local } from "emdash/astro";
-import { sqlite } from "emdash/db";
+import { sqlite, postgres } from "emdash/db";
+
+const database = process.env.NETLIFY_DB_URL
+  ? postgres({
+      connectionString: process.env.NETLIFY_DB_URL,
+      migrationConnectionStringEnv: "NETLIFY_DB_URL",
+    })
+  : sqlite({
+      url: "file:./data.db",
+    });
 
 export default defineConfig({
   output: "server",
@@ -14,9 +24,7 @@ export default defineConfig({
     react(),
 
     emdash({
-      database: sqlite({
-        url: "file:./data.db",
-      }),
+      database,
 
       storage: local({
         directory: "./uploads",

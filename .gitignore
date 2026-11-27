@@ -27,3 +27,5 @@ pnpm-debug.log*
 data.db
 data.db-*
 uploads/
+# Netlify local build output
+.netlify/

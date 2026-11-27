@@ -22,3 +22,8 @@ pnpm-debug.log*
 
 # jetbrains setting folder
 .idea/
+
+# EmDash local development data
+data.db
+data.db-*
+uploads/

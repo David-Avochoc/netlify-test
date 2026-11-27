@@ -1,9 +1,30 @@
+
 ---
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import InsightsGrid from "../../sections/insights/InsightsGrid.astro";
-import { getPosts } from "../../api/wordpress/posts.js";
+import { getEmDashCollection } from "emdash";
 
-const posts = await getPosts();
+const { entries, error } = await getEmDashCollection("posts");
+
+if (error) {
+  throw error;
+}
+
+const posts = entries.map(({ data }) => {
+  const textBlocks = (data.content ?? [])
+    .flatMap((block) => block.children ?? [])
+    .filter((child) => child._type === "span")
+    .map((child) => child.text)
+    .filter(Boolean);
+
+  return {
+    title: data.title,
+    slug: data.slug,
+    image: data.featured_image,
+    imageAlt: data.title,
+    excerpt: data.excerpt || textBlocks.join(" ").slice(0, 180),
+  };
+});
 ---
 
 <BaseLayout title="Insights">
@@ -11,7 +32,6 @@ const posts = await getPosts();
     <section class="insights-page-header">
       <div class="insights-page-header__container">
         <h1>Insights</h1>
-
         <p>Explore our latest articles, news and ideas.</p>
       </div>
     </section>

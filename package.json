@@ -12,6 +12,7 @@
     "astro": "astro"
   },
   "dependencies": {
+    "@astrojs/netlify": "^8.2.14",
     "@astrojs/node": "^11.1.14",
     "@astrojs/react": "^7.1.9",
     "@lottiefiles/dotlottie-wc": "^0.12.2",

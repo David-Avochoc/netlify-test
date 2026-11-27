@@ -1,0 +1,44 @@
+// src/components/ui/Testimonials/testimonials.js
+var testimonials = [
+	{
+		logo: "/images/logos/Firedart_Logo.svg",
+		logoAlt: "Firedart",
+		quote: "Working with AvoChoc has been consistently reassuring. Their team is dependable, professional, and focused on delivering outcomes that matter. From day one, they demonstrated a clear understanding of our needs and followed through with solutions that support our long-term goals. They've become a steady partner we know we can count on.",
+		name: "Prisha Boolah",
+		role: "CEO",
+		company: "Firedart",
+		ctaText: "WORK WITH US",
+		ctaLink: "/contact"
+	},
+	{
+		logo: "/images/logos/Berylls_Logo.svg",
+		logoAlt: "Berylls",
+		quote: "AvoChoc couples a quality-first mindset with proactive execution, ensuring projects run smoothly from start to finish. I trust Jaco Bruwer to deliver, every time.",
+		name: "Dr Oliver Weis",
+		role: "Managing Director",
+		company: "Berylls",
+		ctaText: "WORK WITH US",
+		ctaLink: "/contact"
+	},
+	{
+		logo: "/images/logos/GRITCARGO.svg",
+		logoAlt: "GritCargo",
+		quote: "At GritCargo, we have the pleasure of working with an exceptional team at AvoChoc. Their developers and managers are extremely competent and trustworthy and they take extra care to ensure that what they deliver is of the highest quality. AvoChoc, as a strategic partner, has played an essential role in enabling our business, always being proactive and focused on execution.",
+		name: "Nick Kulenkampff",
+		role: "CTO",
+		company: "GritCargo",
+		ctaText: "WORK WITH US",
+		ctaLink: "/contact"
+	},
+	{
+		logo: "/images/logos/GRITCARGO.svg",
+		logoAlt: "BCKRDS",
+		quote: "The team at Avochoc are invaluable partners to us at BCKRDS and were critical to bringing the Spotify MOM DBN festival to life. They delivered a robust, interactive hub that kept our audience engaged and connected to the citywide events during the festival. Their flawless build handled the campaign's high demands effortlessly and significantly contributed to our project's success and our Spotify's impact during the campaign.",
+		name: "Wade",
+		role: "Owner",
+		company: "Time2Read",
+		ctaText: "WORK WITH US",
+		ctaLink: "/contact"
+	}
+];
+export { testimonials as t };

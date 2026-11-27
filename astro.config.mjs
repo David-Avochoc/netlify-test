@@ -1,6 +1,5 @@
-
 import { defineConfig } from "astro/config";
-import node from "@astrojs/node";
+import netlify from "@astrojs/netlify";
 import react from "@astrojs/react";
 
 import emdash, { local } from "emdash/astro";
@@ -9,9 +8,7 @@ import { sqlite } from "emdash/db";
 export default defineConfig({
   output: "server",
 
-  adapter: node({
-    mode: "standalone",
-  }),
+  adapter: netlify(),
 
   integrations: [
     react(),

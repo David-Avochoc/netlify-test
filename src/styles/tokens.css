@@ -33,6 +33,7 @@ html {
     ============================================================ */    
     --navy: #1D2247;
     --navy-20: rgba(29, 34, 71, 0.20);
+    --navy-50: rgba(29, 34, 71, 0.50);
     --blue: #2F00F4;
     --black: #000000;
     --charcoal: #344054;
@@ -40,7 +41,9 @@ html {
     --white-10: rgba(255, 255, 255, 0.10);
     --white-15: rgba(255, 255, 255, 0.15);
     --white-25: rgba(255, 255, 255, 0.25);
+    --white-30: rgba(255, 255, 255, 0.30);
     --white-50: rgba(255, 255, 255, 0.5);
+    --white-60: rgba(255, 255, 255, 0.60);
     --white-80:rgba(255, 255, 255, 0.80);
     --grey: #EAECF0;
     --grey-50: #F9FAFB;
@@ -57,6 +60,7 @@ html {
     --green: #53BA84;
 
     --gradient-cyan-lime: linear-gradient(27deg, #00FEFC 8.33%, #D2EF6A 91.67%);
+    --gradient-lime-blue: linear-gradient(90deg, #D2EF6A -11.71%, #02D1FE 140%);
     --gradient-green-lime: linear-gradient(90deg, #00BD7F 0%, #CCF04F 100%);
     --gradient-green-white: linear-gradient(180deg, rgba(255, 255, 255, 0.00) 35%, #006662 100%);
     --gradient-navy-white: linear-gradient(180deg, #1D2247 0%, #CCCDD5 69.23%, #FFF 86.94%);
@@ -69,11 +73,13 @@ html {
     --font-size-16: 1rem;
     --font-size-18: 1.125rem;
     --font-size-20: 1.25rem;
+    --font-size-22: 1.375rem;
     --font-size-24: 1.5rem;
     --font-size-30: 1.875rem;
     --font-size-36: 2.25rem;
     --font-size-48: 3rem;
     --font-size-60: 3.75rem;
+    --font-size-72: 4.5rem;
     --font-size-294: 18.375rem;
 
     /* ============================================================
@@ -83,6 +89,7 @@ html {
     --border-radius-small: 0.5rem;
     --border-radius-med: 0.75rem;
     --border-radius-large: 2rem;
+    --border-radius-xxlarge: 3rem;
 
     /* ============================================================
         Button
@@ -118,7 +125,9 @@ html {
     --space-56: 3.5rem;
     --space-64: 4rem;
     --space-80: 5rem;
+    --space-96: 6rem;
     --space-100: 6.25rem;
+    --space-120: 7.5rem;
     
     /* ============================================================
         Navigation

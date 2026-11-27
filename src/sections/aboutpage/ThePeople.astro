@@ -1,0 +1,169 @@
+
+---
+import Container from "@/components/global/Container.astro";
+import Columns from "@/components/global/Columns.astro";
+import SectionTitle from "@/components/ui/SectionTitle.astro";
+import PrimaryBtn from "@/components/buttons/PrimaryBtn.astro";
+---
+
+<section class="ThePeople-section" id="ThePeople-section">
+    <Container>
+        <div class="ThePeople-section_top-row">
+            <Columns
+                class="ThePeople-section_top-row-columns"
+                layout="50-50"
+                gap="var(--space-12)"
+            >
+                <div class="ThePeople-section_top-row-left">
+                    <SectionTitle
+                        title="The People"
+                        fontSize="var(--font-size-24)"
+                        fontWeight="var(--font-weight-regular)"
+                        color="var(--white)"
+                        textTransform="uppercase"
+                        class="ThePeople-section_top-row-left__title"
+                    />
+                </div>
+
+                <div class="ThePeople-section_top-row-right">
+                    <SectionTitle
+                        title="The people behind the platforms."
+                        fontSize="var(--font-size-36)"
+                        fontWeight="var(--font-weight-regular)"
+                        color="var(--white)"
+                        textTransform="none"
+                        class="ThePeople-section_top-row-right__title"
+                    />
+                    <p class="ThePeople-section_top-row-right__body">
+                        Software doesn't build itself.<br /><br />
+                        Behind every deployment, architecture diagram, and AI workflow is a team of designers, engineers, strategists, QA specialists, and product people who genuinely enjoy solving difficult problems.<br/><br/>
+                        We care about performance. We care about quality. We care about users.<br /><br/>
+                        We also care an unreasonable amount about coffee. Nobody's perfect.
+                    </p>
+                </div>
+            </Columns>
+        </div>
+
+        <div class="ThePeople-section_bottom-row">
+            <Columns
+                class="ThePeople-section_bottom-row-columns"
+                layout="50-50"
+                gap="var(--space-20)"
+            >
+                <div class="ThePeople-section_bottom-row-left">
+                    <div class="ThePeople-cards-wrapper">
+                        <div class="ThePeople-card">
+                            <div class="ThePeople-avatar-wrap">
+                                <img src="/images/content/staff/jaco-avatar.png" alt="Jaco Bruwer" />
+                            </div>
+                            <h3>Jaco Bruwer</h3>
+                            <p class="ThePeople-job-title">CHIEF EXECUTIVE OFFICER</p>
+                            <p class="ThePeople-bio">
+                                The mastermind leading AvoChoc with a people-first belief: our clients' critical systems move forward safely when teams feel trusted and free to grow.
+                            </p>
+                        </div>
+                        <div class="ThePeople-card">
+                            <div class="ThePeople-avatar-wrap">
+                                <img src="/images/content/staff/johan-avatar.png" alt="Jaco Bruwer" />
+                            </div>
+                            <h3>Johan Botha</h3>
+                            <p class="ThePeople-job-title">CHIEF OPERATING OFFICER</p>
+                            <p class="ThePeople-bio">
+                                The mastermind behind AvoChoc's daily operations, turning complex delivery into calm, predictable progress that both clients and teams can genuinely rely on.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="ThePeople-section_bottom-row-right">
+                    <img src="/images/content/staff/avo-avatars.png" />
+                    <p class="ThePeople-section_bottom-row-right__body">
+                        Real people. Real expertise. <span class="lime-txt">Mostly real plants.</span>
+                    </p>
+                    <PrimaryBtn
+                        href="#"
+                        text="Insights"
+                        background="var(--white)"
+                        textColor="var(--navy)"
+                    />
+                </div>
+
+            </Columns>
+        </div>
+    </Container>
+</section>
+
+<style>
+    .ThePeople-section {
+        padding-block: var(--space-64);
+        background: var(--navy);
+    }
+    .ThePeople-section :global(.container) {
+        display: flex;
+        flex-direction: column;
+        gap: var(--space-20);
+    }
+    .ThePeople-section_top-row-right {
+        display: flex;
+        flex-direction: column;
+        flex: 1 0 0;
+        gap: var(--space-12);
+        min-height: 22.812rem;
+    }
+    :global(.section-title.ThePeople-section_top-row-right__title) {
+        letter-spacing: -0.045rem;
+        line-height: 1.2;
+    }
+    .ThePeople-section_top-row-right__body {
+        font-size: var(--font-size-16);
+        line-height: 1.5;
+        color: var(--white);
+        max-width: 33.437rem;
+    }
+    .ThePeople-cards-wrapper {
+        display: flex;
+        gap: var(--space-16);
+    }
+    .ThePeople-card {
+        border: 1px solid var(--white);
+        padding: var(--space-16);
+        border-radius: var(--space-8)
+    }
+    .ThePeople-avatar-wrap img {
+        width: 5.25rem;
+        height: 5.25rem;
+        margin-bottom: 4.555rem;
+    }
+    .ThePeople-card h3 {
+        font-size: var(--font-size-24);
+        font-weight: var(--font-weight-medium);
+        line-height: 1.3;
+        color: var(--white);
+        margin-bottom: var(--space-8);
+    }
+    .ThePeople-job-title {
+        font-size: var(--font-size-14);
+        font-weight: var(--font-weight-medium);
+        line-height: 1.3;
+        color: var(--white);
+        margin-bottom: 1rem;
+    }
+    .ThePeople-bio {
+        font-size: var(--font-size-14);
+        font-weight: var(--font-weight-regular);
+        color: var(--white);
+    }
+    .ThePeople-section_bottom-row-right__body {
+        font-size: var(--font-size-20);
+        line-height: 1.5;
+        color: var(--white);
+        margin-bottom: var(--space-16);
+    }
+    .ThePeople-section_bottom-row-right img {
+        height: 5.25rem;
+        margin-bottom: 10.937rem;
+    }
+    .lime-txt {
+        color: var(--lime);
+    }
+</style>

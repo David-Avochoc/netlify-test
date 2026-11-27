@@ -1,0 +1,88 @@
+---
+import Container from "@/components/global/Container.astro";
+import SectionTitle from "@/components/ui/SectionTitle.astro";
+---
+
+<Container>
+    <section class="organisation-trust-section">
+        <div class="organisation-trust-section__content">
+            <SectionTitle
+                title="Trusted by organisations that can't afford to get it wrong."
+                fontSize="var(--font-size-36)"
+                textTransform="capitalise"
+                fontWeight="var(--font-weight-regular)"
+            />
+            <p class="organisation-trust-section__body">
+                Real projects across agriculture, automotive, logistics and fleet, financial services, energy and social impact, and every complex organisation in between.
+            </p>
+        </div>
+        <div class="working-globally">
+        <img src="/images/globel-trust.svg" alt="globe" /> 
+        <a href="#" data-panel-open="contact-panel">Based in South Africa. <span class="wg-bold">Working globally</span><span class="CTA-arrow"><img src="/icons/arrow-up-right-drk.svg" /></span></a>
+        </div>
+    </section>
+</Container>
+
+<style>
+    .organisation-trust-section {
+        padding-block: var(--space-64);
+        border-bottom: 1px solid var(--navy);
+    }
+    .organisation-trust-section__content {
+        padding-block: 0 var(--space-64);
+        display: flex;
+        flex-direction: column;
+        gap: var(--space-24);
+        max-width: 46.375rem;
+    }
+    .organisation-trust-section__content :global(.section-title h2) {
+        max-width: 37.5rem;;
+    }
+    .organisation-trust-section__body {
+        font-size: var(--font-size-20);
+        font-weight: var(--font-weight-regular);
+        color: var(--grey-600);
+    }
+    .working-globally {
+        display: flex;
+        align-items: center;
+        gap: var(--space-16);
+    }
+    .working-globally a {
+        display: inline-flex;
+        align-items: center;
+        font-size: var(--font-size-20);
+        color: var(--navy);
+    }
+    .working-globally .wg-bold {
+        font-weight: var(--font-weight-semibold);
+    }
+    .working-globally .CTA-arrow {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-left: var(--space-32);
+        width: 2rem;
+        height: 2rem;
+        transform: translate3d(0,0,0);
+        transition: transform var(--button-duration) var(--button-easing);
+        will-change: transform;
+    }
+    .working-globally a:hover .CTA-arrow {
+        transform: translate(4px, -4px);
+    }
+@media only screen and (max-width: 799px) {
+    .working-globally {
+        display: inline-flex;
+        gap: var(--space-8);
+    }
+    .working-globally a {
+        display: block;
+        font-size: var(--font-size-16);
+    }
+    .working-globally .CTA-arrow {
+        display: inline-flex;
+        margin-left: var(--space-8);
+    }
+}
+</style>

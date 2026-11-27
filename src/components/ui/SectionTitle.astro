@@ -2,6 +2,7 @@
 interface Props {
   title: string;
   fontSize?: string;
+  lineHeight?: string;
   mobileFontSize?: string;
   fontWeight?: string;
   color?: string;
@@ -14,6 +15,7 @@ const {
   fontSize = "var(--font-size-24)",
   mobileFontSize,
   fontWeight = "var(--font-weight-semibold)",
+  lineHeight,
   color = "var(--navy)",
   textTransform = "uppercase",
   class: className = "",
@@ -26,6 +28,7 @@ const {
     --section-title-font-size: ${fontSize};
     --section-title-mobile-font-size: ${mobileFontSize ?? fontSize};
     --section-title-font-weight: ${fontWeight};
+    --section-title-line-height: ${lineHeight};
     --section-title-color: ${color};
     --section-title-text-transform: ${textTransform};
   `}
@@ -38,7 +41,7 @@ const {
     font-size: var(--section-title-font-size);
     font-weight: var(--section-title-font-weight);
     color: var(--section-title-color);
-    line-height: 1.5;
+    line-height: var(--section-title-line-height);
     text-transform: var(--section-title-text-transform);
   }
 

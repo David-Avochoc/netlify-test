@@ -1,0 +1,23 @@
+---
+import Container from "@/components/global/Container.astro";
+import Columns from "@/components/global/Columns.astro";
+import SectionTitle from "@/components/ui/SectionTitle.astro";
+---
+
+<section class="avo-hiring" id="avo-hiring">
+  <Container>
+    <SectionTitle
+      title="We are Hiring"
+      fontSize="var(--font-size-36)"
+      fontWeight="var(--font-weight-regular)"
+      textTransform="sentencecase"
+      class="avo-hiring__title"
+    />
+  </Container>
+</section>
+
+<style>
+  .avo-hiring {
+    padding-block: var(--space-80);
+  }
+</style>

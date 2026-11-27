@@ -1,0 +1,179 @@
+---
+interface Props {
+  href?: string;
+  text: string;
+  type?: "button" | "submit" | "reset";
+  background?: string;
+  textColor?: string;
+  class?: string;
+  panelOpen?: string;
+}
+
+const {
+  href,
+  text,
+  type = "button",
+  background = "var(--navy)",
+  textColor = "var(--white)",
+  class: className = "",
+  panelOpen,
+} = Astro.props;
+
+const Tag = href ? "a" : "button";
+---
+
+<Tag
+  href={href}
+  type={!href ? type : undefined}
+  data-panel-open={panelOpen}
+  class:list={["call-btn", className]}
+  style={`--button-background: ${background}; --button-text-color: ${textColor}`}
+>
+  <span class="call-btn__sizer" aria-hidden="true">
+    {text}
+  </span>
+
+  <span class="call-btn__label">
+    {text}
+  </span>
+
+  <span class="call-btn__arrow" aria-hidden="true">
+    <img src="/icons/calendar_icon.svg" alt="" />
+  </span>
+</Tag>
+
+<style>
+  .call-btn {
+    --button-height: calc(var(--font-size-16) + (2 * var(--std-btn-padding-y)));
+    --button-arrow-size: var(--button-height);
+    --button-icon-size: var(--font-size-16);
+    --button-duration: var(--transition-duration-slow);
+    --button-easing: var(--transition-easing);
+
+    position: relative;
+    display: inline-block;
+    height: var(--button-height);
+    overflow: hidden;
+    isolation: isolate;
+    cursor: pointer;
+    text-decoration: none;
+  }
+  .call-btn__sizer {
+    height: var(--button-height);
+    padding-block: var(--std-btn-padding-y);
+    padding-inline: var(--std-btn-padding-x);
+    padding-right: calc(var(--std-btn-padding-x) + var(--button-arrow-size));
+    font-size: var(--font-size-16);
+    font-weight: var(--font-weight-regular);
+    line-height: 1;
+    white-space: nowrap;
+    text-transform: uppercase;
+    visibility: hidden;
+  }
+  .call-btn__label {
+    position: absolute;
+    top: 0;
+    left: 0;
+    display: flex;
+    align-items: center;
+    z-index: 2;
+    width: calc(100% - var(--button-arrow-size));
+    height: var(--button-height);
+    padding-block: var(--std-btn-padding-y);
+    padding-inline: var(--std-btn-padding-x);
+    font-size: var(--font-size-16);
+    font-weight: var(--font-weight-regular);
+    line-height: 1;
+    white-space: nowrap;
+    text-transform: uppercase;
+    color: var(--button-text-color);
+    background: var(--button-background);
+    transform: translate3d(0, 0, 0);
+    transition: transform var(--button-duration) var(--button-easing);
+    will-change: transform;
+  }
+  .call-btn__arrow {
+    position: absolute;
+    top: 0;
+    right: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 3;
+    width: var(--button-arrow-size);
+    height: var(--button-height);
+    background: var(--white);
+    transform: translate3d(0, 0, 0);
+    transition: transform var(--button-duration) var(--button-easing);
+    will-change: transform;
+  }
+  .call-btn__arrow img {
+    display: block;
+    width: var(--button-icon-size);
+    height: var(--button-icon-size);
+    object-fit: contain;
+  }
+  .call-btn:hover .call-btn__label,
+  .call-btn:focus-visible .call-btn__label {
+    transform: translate3d(var(--button-arrow-size), 0, 0);
+  }
+  .call-btn:hover .call-btn__arrow,
+  .call-btn:focus-visible .call-btn__arrow {
+    transform: translate3d(calc(-1 * var(--button-label-width)), 0, 0);
+  }
+  .call-btn__arrow.is-behind {
+    z-index: 1;
+  }
+  .call-btn__arrow.is-returning {
+    z-index: 3;
+  }
+ @media only screen and (max-width: 799px) {
+ .call-btn {
+    --button-height: calc(var(--font-size-20) + (2 * var(--std-btn-padding-y)));
+    height: var(--button-height);
+  }
+}
+</style>
+
+<script>
+  const buttons = document.querySelectorAll<HTMLElement>(".call-btn");
+
+  buttons.forEach((button) => {
+    const label = button.querySelector<HTMLElement>(".call-btn__label");
+    const arrow = button.querySelector<HTMLElement>(".call-btn__arrow");
+
+    if (!label || !arrow) return;
+
+    const updateLabelWidth = () => {
+      button.style.setProperty(
+        "--button-label-width",
+        `${label.offsetWidth}px`,
+      );
+    };
+
+    updateLabelWidth();
+
+    const resizeObserver = new ResizeObserver(updateLabelWidth);
+
+    resizeObserver.observe(label);
+
+    button.addEventListener("pointerenter", () => {
+      arrow.classList.remove("is-returning");
+      arrow.classList.add("is-behind");
+    });
+
+    button.addEventListener("pointerleave", () => {
+      arrow.classList.remove("is-behind");
+      arrow.classList.add("is-returning");
+    });
+
+    arrow.addEventListener("transitionend", (event) => {
+      if (
+        event.propertyName === "transform" &&
+        arrow.classList.contains("is-returning")
+      ) {
+        arrow.classList.remove("is-returning");
+      }
+    });
+  });
+</script>

@@ -1,12 +1,22 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
-import Hero from "../sections/shared-sections/Hero.astro";
+import AboutUsHero from "@/sections/aboutpage/AboutUsHero.astro";
+import MostSoftware from "@/sections/aboutpage/MostSoftware.astro";
+import AvoCrew from "@/sections/aboutpage/AvoCrew.astro";
+import WeDontDo from "@/sections/aboutpage/WeDontDo.astro";
+import MattersToUs from "@/sections/aboutpage/MattersToUs.astro";
+import GameSection from "@/sections/aboutpage/GameSection.astro";
+import ThePeople from "@/sections/aboutpage/ThePeople.astro";
+import ContactFooter from "@/sections/shared-sections/ContactFooter.astro";
 ---
 
 <BaseLayout title="About Us" description="Progress Done Properly">
-  <Hero
-    title="About Us"
-    description="Learn more about AvoChoc and what we do."
-    backgroundImage="/images/backgrounds/hero/hero_image.webp"
-  />
+  <AboutUsHero />
+  <MostSoftware />
+  <AvoCrew />
+  <WeDontDo />
+  <MattersToUs />
+  <GameSection />
+  <ThePeople />
+  <ContactFooter />
 </BaseLayout>

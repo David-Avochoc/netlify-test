@@ -1,0 +1,263 @@
+
+---
+import { testimonials } from "@/components/ui/Testimonials/testimonials.js";
+
+const initialIndex = Math.max(
+  0,
+  testimonials.findIndex(
+    (testimonial) => testimonial.company === "GritCargo"
+  )
+);
+
+const initialTestimonial = testimonials[initialIndex] ?? testimonials[0];
+---
+
+{initialTestimonial && (
+  <section
+    class="contact-testimonial"
+    aria-label="Client testimonials"
+    data-initial-index={initialIndex}
+  >
+    <div class="contact-testimonial__quote-panel">
+      <h3>WHAT OUR CLIENTS ARE SAYING</h3>
+
+      <div class="contact-testimonial__quote">
+        <p data-testimonial-quote>
+          {initialTestimonial.quote}
+        </p>
+      </div>
+    </div>
+
+    <div class="contact-testimonial__footer">
+      <div class="contact-testimonial__person">
+        <span class="contact-testimonial__person-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none">
+            <circle cx="12" cy="8" r="3.5" />
+            <path d="M5 20v-2a7 7 0 0 1 14 0v2" />
+          </svg>
+        </span>
+
+        <span data-testimonial-person>
+          {[
+            initialTestimonial.name,
+            initialTestimonial.role,
+            initialTestimonial.company
+          ].filter(Boolean).join(", ")}
+        </span>
+      </div>
+
+      <div class="contact-testimonial__logo">
+        <img
+          src={initialTestimonial.logo}
+          alt={initialTestimonial.logoAlt ?? ""}
+          data-testimonial-logo
+        />
+      </div>
+    </div>
+  </section>
+)}
+
+<script>
+  import { testimonials } from "@/components/ui/Testimonials/testimonials.js";
+
+  const initContactTestimonials = () => {
+    document
+  .querySelectorAll<HTMLElement>(".contact-testimonial")
+  .forEach((card) => {
+      if (card.dataset.initialized === "true") return;
+      if (testimonials.length < 2) return;
+
+      card.dataset.initialized = "true";
+
+      const quote = card.querySelector<HTMLParagraphElement>(
+  "[data-testimonial-quote]"
+);
+
+const person = card.querySelector<HTMLSpanElement>(
+  "[data-testimonial-person]"
+);
+
+const logo = card.querySelector<HTMLImageElement>(
+  "[data-testimonial-logo]"
+);
+
+      if (!quote || !person || !logo) return;
+
+      const initialIndex = Number(card.dataset.initialIndex) || 0;
+      const reducedMotion = window.matchMedia(
+        "(prefers-reduced-motion: reduce)"
+      );
+
+      let index = initialIndex;
+      let timer: ReturnType<typeof window.setTimeout>;
+      let destroyed = false;
+
+      const interval = 6000;
+      const fadeDuration = 400;
+
+    const schedule = (callback: () => void, delay: number) => {
+    timer = window.setTimeout(() => {
+        if (!destroyed) callback();
+    }, delay);
+    };
+
+      const updateTestimonial = () => {
+        if (destroyed) return;
+
+        card.classList.add("is-fading");
+
+        schedule(() => {
+          index = (index + 1) % testimonials.length;
+
+          const testimonial = testimonials[index];
+
+          quote.textContent = testimonial.quote;
+
+          person.textContent = [
+            testimonial.name,
+            testimonial.role,
+            testimonial.company
+          ].filter(Boolean).join(", ");
+
+          logo.src = testimonial.logo;
+          logo.alt = testimonial.logoAlt ?? "";
+
+          card.classList.remove("is-fading");
+
+          schedule(updateTestimonial, interval);
+        }, reducedMotion.matches ? 0 : fadeDuration);
+      };
+
+      schedule(updateTestimonial, interval);
+
+      const cleanup = () => {
+        destroyed = true;
+        window.clearTimeout(timer);
+        card.dataset.initialized = "false";
+      };
+
+      document.addEventListener("astro:before-swap", cleanup, {
+        once: true
+      });
+    });
+  };
+
+  initContactTestimonials();
+
+  document.addEventListener(
+    "astro:page-load",
+    initContactTestimonials
+  );
+</script>
+
+<style>
+  .contact-testimonial {
+    --testimonial-green: var(--green);
+    --testimonial-navy: var(--navy);
+    --testimonial-body: var(--grey-600);
+
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    color: var(--testimonial-body);
+  }
+
+  .contact-testimonial__quote-panel,
+  .contact-testimonial__footer {
+    background: var(--testimonial-green);
+    border-radius: var(--border-radius-small);
+    min-height: 17.312rem;
+  }
+
+  .contact-testimonial__quote-panel {
+    padding: var(--space-16);
+  }
+
+  .contact-testimonial__quote-panel h3 {
+    font-size: var(--font-size-24);
+    font-weight: var(--font-weight-semibold);
+    line-height: 1.3;
+    text-transform: uppercase;
+    color: var(--testimonial-navy);
+    margin-bottom: var(--space-24);
+  }
+
+.contact-testimonial__quote {
+  opacity: 1;
+  transition: opacity var(--transition-duration-medium) ease;
+}
+
+  .contact-testimonial__quote p {
+    font-size: var(--font-size-18);
+    font-weight: var(--font-weight-regular);
+    line-height: 1.5;
+    color: var(--testimonial-body);
+  }
+
+  .contact-testimonial__footer {
+    min-height: 4.562rem;
+    padding: var(--space-16);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .contact-testimonial__person {
+    display: flex;
+    align-items: center;
+    gap: var(--space-8);
+    min-width: 0;
+    border: 1px solid var(--testimonial-navy);
+    border-radius: var(--border-radius-large);
+    padding: var(--space-8) var(--space-16);
+    font-size: var(--font-size-20);
+    color: var(--testimonial-navy);
+  }
+
+  .contact-testimonial__person-icon {
+    flex-shrink: 0;
+  }
+
+  .contact-testimonial__person-icon svg {
+    display: block;
+    width: 1rem;
+    height: 1rem;
+    stroke: currentColor;
+    stroke-width: 2.5;
+  }
+
+  .contact-testimonial__logo {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    flex-shrink: 0;
+  }
+
+  .contact-testimonial__logo img {
+    display: block;
+    width: auto;
+    max-width: 5.5rem;
+    max-height: 2rem;
+    object-fit: contain;
+  }
+
+.contact-testimonial.is-fading .contact-testimonial__quote {
+  opacity: 0;
+}
+
+@media screen and (max-width: 799px) {
+.contact-testimonial__quote-panel h3 {
+  font-size: var(--font-size-20);
+}
+.contact-testimonial__quote p,
+.contact-testimonial__person {
+  font-size: var(--font-size-16);
+}
+.contact-testimonial__footer {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-24);
+}
+}
+</style>

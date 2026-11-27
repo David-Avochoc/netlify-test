@@ -24,6 +24,7 @@ const Tag = href && !panelOpen ? "a" : "button";
 
 
 <Tag
+  href={href}
   type={!href ? type : undefined}
   data-panel-open={panelOpen}
   class:list={["secondary-btn", className]}

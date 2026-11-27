@@ -1,0 +1,66 @@
+---
+import Hero from "@/sections/shared-sections/Hero.astro";
+import Container from "@/components/global/Container.astro";
+import Columns from "@/components/global/Columns.astro";
+import SecondaryBtn from "@/components/buttons/SecondaryBtn.astro";
+import PrimaryBtn from "@/components/buttons/PrimaryBtn.astro";
+---
+
+<section class="careers-hero-section" id="careers-hero-section">
+    <Hero backgroundImage="/images/backgrounds/hero/hero_image3.webp">
+        <Container>
+            <Columns class="careers-hero-columns" layout="50-50" gap="var(--space-20)">
+                <div class="careers-hero-left">
+                    <h1>
+                        Check out our open roles and grow with us.
+                    </h1>
+                </div>
+                <div class="careers-hero-right">
+                    <p>
+                        We're a global team building custom software from the ground up. With diverse backgrounds and a passion for innovation, we tackle every project with fresh ideas. If you're creative, driven, and ready for a fun, fast-paced environment.
+                    </p>
+                </div>
+            </Columns>
+        </Container>
+    </Hero>
+</section>
+
+<style>
+    :global(.careers-hero-columns) {
+        min-height: 25.687rem;
+    }
+    .careers-hero-left h1 {
+        font-size: var(--font-size-60);
+        font-weight: var(--font-weight-semibold);
+        color: var(--grey);
+        letter-spacing: -0.075rem;
+    }
+    .careers-hero-right {
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-end;
+        margin-top: auto;
+    }
+    .careers-hero-right p {
+        font-size: var(--font-size-24);
+        font-weight: var(--font-weight-regular);
+        color: var(--white);
+        line-height: 1.3;
+        padding-bottom: var(--space-24);
+    }
+    .hero__actions {
+        display: flex;
+        gap: var(--space-16);
+    }
+
+  @media only screen and (max-width: 799px) {
+    .careers-hero-left h1 {
+        font-size: var(--font-size-48);
+        letter-spacing: -0.06rem;        
+    }
+    .hero__actions {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-24);
+    }     
+</style>

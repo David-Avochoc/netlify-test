@@ -1,0 +1,162 @@
+---
+import logoCarousel from "@/data/logoCarousel.js";
+
+interface Logo {
+  name: string;
+  logo: string;
+  alt?: string;
+  href?: string;
+  hasCaseStudy?: boolean;
+}
+
+interface Props {
+  duration?: number;
+}
+
+const { duration = 30 } = Astro.props;
+const logos: Logo[] = logoCarousel;
+---
+
+<section
+  class="logo-carousel"
+  aria-label="Our clients"
+  style={`--scroll-duration: ${duration}s`}
+>
+  <div class="logo-carousel__track">
+    {Array.from({ length: 2 }, (_, groupIndex) => (
+      <div
+        class="logo-carousel__group"
+        aria-hidden={groupIndex === 1 ? "true" : undefined}
+      >
+        {logos.map((logo) => (
+          <div class="logo-carousel__item">
+            {logo.href ? (
+              <a
+                class="logo-carousel__card"
+                href={logo.href}
+                aria-label={
+                  logo.hasCaseStudy
+                    ? `View ${logo.name} case study`
+                    : `Visit ${logo.name}`
+                }
+                tabindex={groupIndex === 1 ? -1 : undefined}
+              >
+                <img
+                  src={logo.logo}
+                  alt={groupIndex === 0 ? logo.alt || logo.name : ""}
+                  class="logo-carousel__image"
+                  loading="lazy"
+                />
+
+                {logo.hasCaseStudy && (
+                  <span class="logo-carousel__label">Case Study</span>
+                )}
+              </a>
+            ) : (
+              <div class="logo-carousel__card">
+                <img
+                  src={logo.logo}
+                  alt={groupIndex === 0 ? logo.alt || logo.name : ""}
+                  class="logo-carousel__image"
+                  loading="lazy"
+                />
+
+                {logo.hasCaseStudy && (
+                  <span class="logo-carousel__label">Case Study</span>
+                )}
+              </div>
+            )}
+          </div>
+        ))}
+      </div>
+    ))}
+  </div>
+</section>
+
+<style>
+  .logo-carousel {
+    width: 100%;
+    overflow: hidden;
+    padding-block: var(--space-64);
+  }
+
+  .logo-carousel__track {
+    display: flex;
+    width: max-content;
+    gap: var(--space-8);
+    animation: logo-scroll var(--scroll-duration) linear infinite;
+    will-change: transform;
+  }
+
+  .logo-carousel__group {
+    display: flex;
+    flex: 0 0 auto;
+    align-items: stretch;
+    gap: var(--space-8);
+  }
+
+  .logo-carousel__card {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    min-width: 21.125rem;
+    height: 12.312rem;
+    overflow: visible;
+    border-radius: var(--boreder-radius-large);
+    background: var(--grey-50);
+  }
+
+  a.logo-carousel__card {
+    cursor: pointer;
+  }
+
+  .logo-carousel__image {
+    display: block;
+    max-width: 100%;
+    height: 100%;
+    width: auto;
+    height: auto;
+    object-fit: contain;
+  }
+
+  .logo-carousel__label {
+    position: absolute;
+    bottom: -1.156rem;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: var(--space-8) var(--space-24);
+    border-radius: var(--border-radius-large);
+    background: var(--lime);
+    color: var(--navy);
+    font-size: var(--font-size-14);
+    line-height: 1.5;
+    white-space: nowrap;
+  }
+
+  .logo-carousel__card:focus-visible {
+    outline: 2px solid var(--blue);
+    outline-offset: -2px;
+  }
+
+  @keyframes logo-scroll {
+    from {
+      transform: translateX(0);
+    }
+
+    to {
+      transform: translateX(-50%);
+    }
+  }
+
+  @media (max-width: 600px) {
+    .logo-carousel__item {
+      flex-basis: 100px;
+    }
+
+    .logo-carousel__card {
+      height: 12.312rem;
+    }
+  }
+</style>

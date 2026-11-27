@@ -1,0 +1,291 @@
+---
+import Container from "@/components/global/Container.astro";
+import PrimaryBtn from "@/components/buttons/PrimaryBtn.astro";
+---
+
+<section class="mostsoftware-wrapper" id="mostsoftware-section">
+  <div class="mostsoftware-sticky">
+    <canvas id="mostsoftware-canvas" class="mostsoftware-canvas"></canvas>
+    
+    <div class="mostsoftware-text-container">
+      <Container class="mostsoftware-container">
+        <h2 class="mostsoftware-text active" data-step="0">Most software companies tell you they're innovative.</h2>
+        <h2 class="mostsoftware-text" data-step="1">We'd rather tell you what we don't believe.</h2>
+        <h2 class="mostsoftware-text" data-step="2">We don't believe AI fixes broken businesses.</h2>
+        <h2 class="mostsoftware-text" data-step="3">We don't believe modernisation should mean starting over.</h2>
+        <h2 class="mostsoftware-text" data-step="4">We don't believe enterprise software has to be slow, bloated, or impossible to enjoy.</h2>
+        <h2 class="mostsoftware-text" data-step="5">We believe progress should make things better without breaking everything that already works.</h2>
+        <div class="mostsoftware-text" data-step="6">
+          <h2 class="mostsoftware-heading">That's been our approach since day one.</h2>
+          <p class="mostsoftware-subtext">Weird name. Serious systems. A decade of not breaking things.</p>
+          <PrimaryBtn
+              href="/services/#howWeWork"
+              text="HOW WE WORK"
+              background="var(--white)"
+              textColor="var(--navy)"
+            />
+        </div>
+      </Container>
+    </div>
+  </div>
+</section>
+
+<style>
+    .mostsoftware-wrapper {
+        position: relative;
+        width: 100%;
+        height: 700dvh;
+        background: var(--navy);
+    }
+    .mostsoftware-sticky {
+        position: sticky;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100vh;
+        overflow: hidden;
+    }
+    .mostsoftware-canvas {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        z-index: 1;
+        pointer-events: auto;
+    }
+    .mostsoftware-text-container {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: absolute;
+        width: 100%;
+        inset: 0;
+        padding-bottom: 22vh;
+        z-index: 2;
+    }
+    .mostsoftware-text {
+        position: absolute;
+        left: 0;
+        right: 0;
+        margin: 0 auto;
+        max-width: 72.125rem;
+        font-size: var(--font-size-60);
+        font-weight: var(--font-weight-semibold);
+        line-height: 1.2;
+        letter-spacing: -0.075rem;
+        color: var(--white);
+        text-align: center;
+        opacity: 0;
+        transform: translateY(45px);
+        transition: 
+            opacity var(--transition-duration-fast) var(--transition-easing),
+            transform var(--transition-duration-fast) var(--transition-easing);
+        will-change: opacity, transform;
+    }
+    .mostsoftware-heading {
+        font-size: inherit;
+    }
+    .mostsoftware-text.active {
+        opacity: 1;
+        transform: translateY(0);
+    }
+    .mostsoftware-text.passed {
+        opacity: 0;
+        transform: translateY(-45px);
+    }
+    .mostsoftware-subtext {
+        font-size: var(--font-size-20);
+        font-weight: var(--font-weight-regular);
+        color: var(--grey-100);
+        line-height: 1.5;
+        margin: var(--space-36);
+    }
+</style>
+
+<script>
+  import * as THREE from 'three';
+
+  document.addEventListener('DOMContentLoaded', () => {
+    const wrapper = document.getElementById('mostsoftware-section');
+    const texts = document.querySelectorAll<HTMLElement>('.mostsoftware-text');
+    const canvas = document.getElementById('mostsoftware-canvas') as HTMLCanvasElement;
+    if (!wrapper || !canvas) return;
+
+    let targetScrollProgress = 0;
+    let smoothedScrollProgress = 0;
+
+    const handleScroll = () => {
+      const rect = wrapper.getBoundingClientRect();
+      const scrollableDistance = rect.height - window.innerHeight;
+      
+      let progress = -rect.top / scrollableDistance;
+      progress = Math.max(0, Math.min(1, progress));
+      targetScrollProgress = progress;
+
+      const totalSteps = texts.length;
+      const currentStep = Math.min(totalSteps - 1, Math.floor(progress * totalSteps));
+
+      texts.forEach((txt, idx) => {
+        txt.classList.remove('active', 'passed');
+        if (idx === currentStep) {
+          txt.classList.add('active');
+        } else if (idx < currentStep) {
+          txt.classList.add('passed');
+        }
+      });
+    };
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    handleScroll();
+
+    const scene = new THREE.Scene();
+    scene.fog = new THREE.FogExp2(0x1D2247, 0.018);
+
+    const camera = new THREE.PerspectiveCamera(55, window.innerWidth / window.innerHeight, 0.1, 350);
+    camera.position.set(0, 5, 20);
+
+    const renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: true });
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+
+    const createGlowTexture = () => {
+      const c = document.createElement('canvas');
+      c.width = 64;
+      c.height = 64;
+      const ctx = c.getContext('2d');
+      if (!ctx) return null;
+      
+      const grad = ctx.createRadialGradient(32, 32, 0, 32, 32, 32);
+      grad.addColorStop(0, 'rgba(255, 255, 255, 0.6)');
+      grad.addColorStop(0.25, 'rgba(120, 80, 255, 0.5)');
+      grad.addColorStop(0.6, 'rgba(47, 0, 244, 0.2)');
+      grad.addColorStop(1, 'rgba(29, 34, 71, 0)');
+      
+      ctx.fillStyle = grad;
+      ctx.fillRect(0, 0, 64, 64);
+      return new THREE.CanvasTexture(c);
+    };
+
+    const GRID_X = 65;
+    const GRID_Z = 160;
+    const SEPARATION_X = 1.35;
+    const SEPARATION_Z = 1.5;
+    const particleCount = GRID_X * GRID_Z;
+
+    const positions = new Float32Array(particleCount * 3);
+    const colors = new Float32Array(particleCount * 3);
+
+    let pIdx = 0;
+    for (let ix = 0; ix < GRID_X; ix++) {
+      for (let iz = 0; iz < GRID_Z; iz++) {
+        const x = (ix - GRID_X / 2) * SEPARATION_X;
+        const z = -iz * SEPARATION_Z + 30;
+        
+        positions[pIdx * 3] = x;
+        positions[pIdx * 3 + 1] = 0;
+        positions[pIdx * 3 + 2] = z;
+
+        colors[pIdx * 3] = 0.4;
+        colors[pIdx * 3 + 1] = 0.4;
+        colors[pIdx * 3 + 2] = 0.4;
+
+        pIdx++;
+      }
+    }
+
+    const geometry = new THREE.BufferGeometry();
+    geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+    geometry.setAttribute('color', new THREE.BufferAttribute(colors, 3));
+
+    const material = new THREE.PointsMaterial({
+      size: 1.05,
+      map: createGlowTexture(),
+      transparent: true,
+      opacity: 0.45,
+      vertexColors: true,
+      blending: THREE.AdditiveBlending,
+      depthWrite: false
+    });
+
+    const particles = new THREE.Points(geometry, material);
+    scene.add(particles);
+
+    const raycaster = new THREE.Raycaster();
+    const mouse = new THREE.Vector2(-9999, -9999);
+    const floorPlane = new THREE.Plane(new THREE.Vector3(0, 1, 0), 6.2);
+    const intersectPoint = new THREE.Vector3();
+
+    window.addEventListener('mousemove', (event) => {
+      mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
+      mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
+    });
+
+    window.addEventListener('mouseout', () => {
+      mouse.x = -9999;
+      mouse.y = -9999;
+    });
+
+    const clock = new THREE.Clock();
+    const START_Z = 18;
+    const TRAVEL_DISTANCE = 175;
+    const HOVER_RADIUS = 5.0;
+
+    const tick = () => {
+      const elapsedTime = clock.getElapsedTime();
+
+      smoothedScrollProgress += (targetScrollProgress - smoothedScrollProgress) * 0.045;
+
+      const currentCamZ = START_Z - (smoothedScrollProgress * TRAVEL_DISTANCE);
+      camera.position.z = currentCamZ;
+      camera.position.y = 4.2 + Math.sin(elapsedTime * 0.8) * 0.25;
+      camera.lookAt(0, -3.8, currentCamZ - 40);
+
+      raycaster.setFromCamera(mouse, camera);
+      raycaster.ray.intersectPlane(floorPlane, intersectPoint);
+
+      const pos = geometry.attributes.position.array as Float32Array;
+      const col = geometry.attributes.color.array as Float32Array;
+
+      for (let i = 0; i < particleCount; i++) {
+        const i3 = i * 3;
+        const x = pos[i3];
+        const z = pos[i3 + 2];
+
+        let hoverIntensity = 0;
+        if (intersectPoint && mouse.x !== -9999) {
+          const dx = x - intersectPoint.x;
+          const dz = z - intersectPoint.z;
+          const distSq = dx * dx + dz * dz;
+
+          if (distSq < HOVER_RADIUS * HOVER_RADIUS) {
+            hoverIntensity = Math.pow(1.0 - (Math.sqrt(distSq) / HOVER_RADIUS), 1.5);
+          }
+        }
+
+        pos[i3 + 1] = 
+          Math.sin(elapsedTime * 1.2 + x * 0.12 + z * 0.05) * 1.6 +
+          Math.cos(elapsedTime * 0.9 + z * 0.08) * 1.2 - 6.2 +
+          (hoverIntensity * 1.8);
+
+        const currentVColor = 0.35 + (0.65 * hoverIntensity);
+        col[i3] = currentVColor;
+        col[i3 + 1] = currentVColor;
+        col[i3 + 2] = currentVColor;
+      }
+
+      geometry.attributes.position.needsUpdate = true;
+      geometry.attributes.color.needsUpdate = true;
+
+      renderer.render(scene, camera);
+      requestAnimationFrame(tick);
+    };
+
+    tick();
+
+    window.addEventListener('resize', () => {
+      camera.aspect = window.innerWidth / window.innerHeight;
+      camera.updateProjectionMatrix();
+      renderer.setSize(window.innerWidth, window.innerHeight);
+    });
+  });
+</script>

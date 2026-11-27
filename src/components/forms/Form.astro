@@ -138,7 +138,7 @@ const {
     --form-label-color: var(--navy);
     --form-placeholder-color: var(--grey-400);
     --form-input-border: var(--navy);
-    --form-input-background: var(--white-10);
+    --form-input-background: var(--white-50);
     --form-label-active: var(--lime);
     --form-field-gap: var(--space-12);
     --form-input-padding-x: var(--std-btn-padding-x);
@@ -226,6 +226,7 @@ const {
     border-color: var(--white);
     outline: none;
     box-shadow: none;
+    background: transparent;
   }
 
   .form__control:autofill,
@@ -245,4 +246,8 @@ const {
     color: var(--grey-500);
     margin-top: var(--space-8);
   }
+:global(.primary-btn.form__submit) {
+  --button-background: var(--white) !important;
+  --button-text-color: var(--navy) !important;
+}
 </style>

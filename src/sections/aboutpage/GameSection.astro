@@ -1,0 +1,598 @@
+---
+import Container from "@/components/global/Container.astro";
+
+interface Props {
+  eyebrow?: string;
+  heading?: string;
+  description?: string;
+  src?: string;
+  class?: string;
+}
+
+const {
+  eyebrow = "AVOCHOC — THE GAME",
+  heading = "PROGRESS, DONE PROPERLY.",
+  description = "Step into the office as Avo!",
+  src = "/game/index.html",
+  class: className,
+} = Astro.props;
+
+// Split the heading into words → letters so each letter can bob on its own phase.
+let letterIndex = 0;
+const words = heading.split(" ").map((word) =>
+  [...word].map((char) => ({ char, i: letterIndex++ }))
+);
+---
+
+<section
+  class:list={["game-section", className]}
+  aria-labelledby="game-section-heading"
+  data-game
+  data-state="idle"
+>
+  <Container>
+    <header class="game-section__header">
+      <span class="game-section__eyebrow">
+        <span class="game-section__pip" aria-hidden="true"></span>
+        {eyebrow}
+      </span>
+
+      <h2 id="game-section-heading" class="game-section__title" aria-label={heading}>
+        {
+          words.map((letters) => (
+            <span class="game-section__word" aria-hidden="true">
+              {letters.map(({ char, i }) => (
+                <span class="game-section__letter" style={`--i: ${i}`}>
+                  {char}
+                </span>
+              ))}
+            </span>
+          ))
+        }
+      </h2>
+
+      <p class="game-section__description">{description}</p>
+    </header>
+
+    <div class="game-section__toolbar">
+      <button type="button" class="game-section__exit" data-game-exit>
+        <span aria-hidden="true">✕</span> Exit game
+      </button>
+    </div>
+
+    <div class="game-section__frame">
+      <div class="game-section__screen">
+        <!-- Start screen: shown before the first play, and whenever the game is closed.
+             After the first play the game stays loaded (paused) behind it. -->
+        <div class="game-section__start" data-game-start>
+          <p class="game-section__kicker">
+            <span class="game-section__kicker--idle">Ready?</span>
+            <span class="game-section__kicker--exited">Game paused</span>
+          </p>
+
+          <button type="button" class="game-section__play" data-game-play>
+            <span class="game-section__play-icon" aria-hidden="true"></span>
+            <span class="game-section__play-label--idle">Press start</span>
+            <span class="game-section__play-label--exited">Continue</span>
+          </button>
+
+          <p class="game-section__note">
+            <span class="game-section__note--idle">Loads when you press start</span>
+            <span class="game-section__note--exited">Your progress is kept — pick up where you left off</span>
+          </p>
+        </div>
+
+        <iframe
+          class="game-section__iframe"
+          data-game-frame
+          data-src={src}
+          title="AvoChoc — the game"
+          allow="fullscreen 'none'; autoplay"
+          tabindex="-1"></iframe>
+      </div>
+    </div>
+  </Container>
+</section>
+
+<script>
+  /*
+   * Game ⇄ page protocol (plain string messages via postMessage):
+   *   game → page  "avochoc:ready"   game has loaded (it has its own EXIT from now on)
+   *   game → page  "avochoc:exit"    player clicked EXIT (game already paused + muted)
+   *   page → game  "avochoc:pause"   page is hiding the game itself: pause + mute
+   *   page → game  "avochoc:resume"  page is showing the game again: unmute
+   *
+   * States: idle (never opened) → playing ⇄ closing → exited (loaded, paused, hidden)
+   */
+  type GameState = "idle" | "playing" | "closing" | "exited";
+
+  // Keep in sync with --transition-duration-medium (the iframe fade-out).
+  const FADE_OUT_MS = 400;
+
+  document.querySelectorAll<HTMLElement>("[data-game]").forEach((section) => {
+    const frame = section.querySelector<HTMLIFrameElement>("[data-game-frame]");
+    const playBtn = section.querySelector<HTMLButtonElement>("[data-game-play]");
+    const exitBtn = section.querySelector<HTMLButtonElement>("[data-game-exit]");
+    const src = frame?.dataset.src;
+    if (!frame || !playBtn || !exitBtn || !src) return;
+
+    const gameOrigin = new URL(src, window.location.href).origin;
+    let loaded = false;
+
+    const state = () => section.dataset.state as GameState;
+    const setState = (next: GameState) => {
+      section.dataset.state = next;
+    };
+
+    const sendToGame = (message: "avochoc:pause" | "avochoc:resume") => {
+      frame.contentWindow?.postMessage(message, gameOrigin);
+    };
+
+    // Godot focuses its canvas on boot, which would scroll the page to the iframe.
+    const preventIframeJump = () => {
+      try {
+        const win = frame.contentWindow as unknown as typeof globalThis | null;
+        if (!win || win.location.href === "about:blank") return;
+
+        const originalFocus = win.HTMLElement.prototype.focus;
+        win.HTMLElement.prototype.focus = function (options?: FocusOptions) {
+          return originalFocus.call(this, { ...options, preventScroll: true });
+        };
+        win.Element.prototype.scrollIntoView = function () {};
+      } catch {
+        // Ignore if cross-origin
+      }
+    };
+    frame.addEventListener("load", preventIframeJump);
+
+    // First open lazy-loads the game (~20 MB); later opens just reveal it and unmute.
+    const openGame = () => {
+      if (state() === "playing") return;
+      setState("playing");
+      frame.tabIndex = 0;
+
+      if (!loaded) {
+        loaded = true;
+        frame.src = src;
+      } else {
+        // They land on the game's pause menu and click RESUME to carry on.
+        sendToGame("avochoc:resume");
+      }
+      frame.focus({ preventScroll: true });
+    };
+
+    // Hide the game but keep it loaded, so reopening is instant and progress is kept.
+    // `pauseGame` is for when the page closes it; on "avochoc:exit" the game already paused.
+    const closeGame = ({ pauseGame }: { pauseGame: boolean }) => {
+      if (state() !== "playing") return;
+      if (pauseGame) sendToGame("avochoc:pause");
+      setState("closing");
+
+      const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      window.setTimeout(
+        () => {
+          setState("exited");
+          frame.tabIndex = -1;
+          playBtn.focus({ preventScroll: true });
+        },
+        reduceMotion ? 0 : FADE_OUT_MS
+      );
+    };
+
+    playBtn.addEventListener("click", openGame);
+    // Site-side fallback close, only shown until the game reports it's ready.
+    exitBtn.addEventListener("click", () => closeGame({ pauseGame: true }));
+
+    window.addEventListener("message", (event) => {
+      // Only trust messages from our game's iframe.
+      if (event.source !== frame.contentWindow) return;
+
+      if (event.data === "avochoc:ready") {
+        section.dataset.ready = "";
+        if (state() === "playing") frame.focus({ preventScroll: true });
+      } else if (event.data === "avochoc:exit") {
+        closeGame({ pauseGame: false });
+      }
+    });
+  });
+</script>
+
+<style>
+  /* Animatable colour so the glow can cycle through the game's neon palette. */
+  @property --neon {
+    syntax: "<color>";
+    inherits: true;
+    initial-value: #53ba84;
+  }
+
+  .game-section {
+    --neon: var(--neon-green);
+
+    background-color: var(--navy);
+    color: var(--white);
+    font-family: var(--font-family-primary);
+    padding-block: var(--space-100);
+    animation: neon-cycle 18s linear infinite;
+  }
+
+  /* Pink → Purple → Cyan → Avo Green → Lime → Gold → back to Pink */
+  @keyframes neon-cycle {
+    0%,
+    100% { --neon: var(--neon-pink); }
+    16.66% { --neon: var(--neon-purple); }
+    33.33% { --neon: var(--neon-cyan); }
+    50% { --neon: var(--neon-green); }
+    66.66% { --neon: var(--neon-lime); }
+    83.33% { --neon: var(--neon-gold); }
+  }
+
+  /* ---------- Header ---------- */
+
+  .game-section__header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-24);
+    text-align: center;
+    margin-bottom: var(--space-48);
+  }
+
+  .game-section__eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-12);
+    padding: var(--space-8) var(--space-16);
+    background-color: var(--lime);
+    color: var(--navy);
+    font-size: var(--font-size-14);
+    font-weight: var(--font-weight-extrabold);
+    letter-spacing: 0.08em;
+    border: 3px solid var(--charcoal);
+    box-shadow: 3px 3px 0 var(--charcoal);
+  }
+
+  .game-section__pip {
+    width: 0.5rem;
+    height: 0.5rem;
+    background-color: var(--navy);
+    animation: blink 1.2s steps(2, jump-none) infinite;
+  }
+
+  @keyframes blink {
+    50% { opacity: 0; }
+  }
+
+  .game-section__title {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    column-gap: 0.3em;
+    row-gap: 0.1em;
+    margin: 0;
+    font-size: var(--font-size-72);
+    font-weight: var(--font-weight-extrabold);
+    line-height: 1;
+    letter-spacing: -0.01em;
+    text-transform: uppercase;
+    color: var(--white);
+  }
+
+  .game-section__word {
+    display: inline-flex;
+    white-space: nowrap;
+  }
+
+  .game-section__letter {
+    display: inline-block;
+    text-shadow: 3px 3px 0 var(--neon);
+    animation: letter-bob 1.6s ease-in-out infinite;
+    animation-delay: calc(var(--i) * -0.09s);
+  }
+
+  /* ease-in-out between two extremes ≈ a sine wave; the per-letter delay makes it ripple. */
+  @keyframes letter-bob {
+    0%,
+    100% { transform: translateY(0.05em); }
+    50% { transform: translateY(-0.05em); }
+  }
+
+  .game-section__description {
+    max-width: 36rem;
+    margin: 0;
+    color: var(--grey);
+    font-size: var(--font-size-18);
+    font-weight: var(--font-weight-bold);
+    line-height: 1.5;
+  }
+
+  /* ---------- Toolbar (exit button, only while playing) ---------- */
+
+  .game-section__toolbar {
+    display: flex;
+    justify-content: flex-end;
+    max-width: 80rem;
+    min-height: 2.5rem;
+    margin: 0 auto var(--space-20);
+  }
+
+  .game-section__exit {
+    display: none;
+    align-items: center;
+    gap: var(--space-8);
+    padding: var(--space-8) var(--space-16);
+    background-color: var(--charcoal);
+    color: var(--white);
+    font-family: inherit;
+    font-size: var(--font-size-14);
+    font-weight: var(--font-weight-extrabold);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    border: 3px solid var(--grey);
+    box-shadow: 3px 3px 0 var(--neon-pink);
+    cursor: pointer;
+    transition: transform var(--transition-duration-fast) var(--transition-easing),
+      box-shadow var(--transition-duration-fast) var(--transition-easing);
+  }
+
+  .game-section[data-state="playing"] .game-section__exit {
+    display: inline-flex;
+  }
+
+  /* Once the game says it's ready, its own EXIT takes over. */
+  .game-section[data-ready] .game-section__exit {
+    display: none;
+  }
+
+  .game-section__exit:hover {
+    transform: translate(-1px, -1px);
+    box-shadow: 4px 4px 0 var(--neon-pink);
+  }
+
+  .game-section__exit:active {
+    transform: translate(3px, 3px);
+    box-shadow: 0 0 0 var(--neon-pink);
+  }
+
+  /* ---------- Game frame ---------- */
+
+  .game-section__frame {
+    position: relative;
+    max-width: 80rem;
+    margin-inline: auto;
+    padding: var(--space-8);
+    background-color: var(--navy);
+    border: 3px solid var(--neon);
+    box-shadow:
+      0 0 0.75rem color-mix(in srgb, var(--neon) 60%, transparent),
+      inset 0 0 0.75rem color-mix(in srgb, var(--neon) 35%, transparent);
+  }
+
+  /* Chunky pixel corner brackets */
+  .game-section__frame::before,
+  .game-section__frame::after {
+    content: "";
+    position: absolute;
+    width: 1.25rem;
+    height: 1.25rem;
+    border: 0 solid var(--lime);
+    pointer-events: none;
+  }
+
+  .game-section__frame::before {
+    top: -0.75rem;
+    left: -0.75rem;
+    border-top-width: 4px;
+    border-left-width: 4px;
+  }
+
+  .game-section__frame::after {
+    bottom: -0.75rem;
+    right: -0.75rem;
+    border-bottom-width: 4px;
+    border-right-width: 4px;
+  }
+
+  .game-section__screen {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    max-height: 80vh;
+    /* Matches the game's clear colour so the canvas blends in before/while loading. */
+    background-color: var(--navy);
+  }
+
+  .game-section__iframe {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    border: 0;
+    background-color: var(--navy);
+    visibility: hidden;
+    opacity: 1;
+    transition: opacity var(--transition-duration-medium) var(--transition-easing);
+  }
+
+  .game-section[data-state="playing"] .game-section__iframe,
+  .game-section[data-state="closing"] .game-section__iframe {
+    visibility: visible;
+  }
+
+  /* Fade the game out before it's unloaded, so exiting never just freezes or cuts. */
+  .game-section[data-state="closing"] .game-section__iframe {
+    opacity: 0;
+  }
+
+  .game-section[data-state="closing"] .game-section__exit {
+    display: none;
+  }
+
+  /* ---------- Start screen ---------- */
+
+  .game-section__start {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-32);
+    padding: var(--space-24);
+    text-align: center;
+    /* Faint pixel grid — flat dots, no gradient wash */
+    background-image: radial-gradient(var(--white-10) 1px, transparent 1.5px);
+    background-size: 1.5rem 1.5rem;
+  }
+
+  .game-section[data-state="playing"] .game-section__start,
+  .game-section[data-state="closing"] .game-section__start {
+    display: none;
+  }
+
+  .game-section[data-state="exited"] .game-section__start {
+    animation: start-in var(--transition-duration-slow) var(--transition-easing) both;
+  }
+
+  @keyframes start-in {
+    from {
+      opacity: 0;
+      transform: translateY(0.75rem);
+    }
+  }
+
+  .game-section__kicker {
+    margin: 0;
+    font-size: var(--font-size-36);
+    font-weight: var(--font-weight-extrabold);
+    line-height: 1.1;
+    text-transform: uppercase;
+    color: var(--white);
+    text-shadow: 3px 3px 0 var(--charcoal);
+  }
+
+  .game-section__play {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-16);
+    padding: var(--space-20) var(--space-40);
+    background-color: var(--lime);
+    color: var(--navy);
+    font-family: inherit;
+    font-size: var(--font-size-24);
+    font-weight: var(--font-weight-extrabold);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    border: 4px solid var(--navy);
+    outline: 3px solid var(--lime);
+    box-shadow: 6px 6px 0 var(--neon);
+    cursor: pointer;
+    transition: transform var(--transition-duration-fast) var(--transition-easing),
+      box-shadow var(--transition-duration-fast) var(--transition-easing);
+    animation: play-pulse 1.6s ease-in-out infinite;
+  }
+
+  .game-section__play:hover {
+    transform: translate(-2px, -2px);
+    box-shadow: 8px 8px 0 var(--neon);
+  }
+
+  .game-section__play:active {
+    transform: translate(4px, 4px);
+    box-shadow: 2px 2px 0 var(--neon);
+  }
+
+  .game-section__play:focus-visible {
+    outline-color: var(--white);
+    outline-offset: 4px;
+  }
+
+  @keyframes play-pulse {
+    50% { scale: 1.04; }
+  }
+
+  /* Pixel "play" triangle built from a clip-path so it stays crisp */
+  .game-section__play-icon {
+    width: 0.9em;
+    height: 1em;
+    background-color: var(--navy);
+    clip-path: polygon(0 0, 100% 50%, 0 100%);
+  }
+
+  .game-section__note {
+    margin: 0;
+    color: var(--grey-400);
+    font-size: var(--font-size-14);
+    font-weight: var(--font-weight-bold);
+    letter-spacing: 0.04em;
+  }
+
+  /* Idle vs. exited copy */
+  .game-section__kicker--exited,
+  .game-section__play-label--exited,
+  .game-section__note--exited,
+  .game-section[data-state="exited"] .game-section__kicker--idle,
+  .game-section[data-state="exited"] .game-section__play-label--idle,
+  .game-section[data-state="exited"] .game-section__note--idle {
+    display: none;
+  }
+
+  .game-section[data-state="exited"] .game-section__kicker--exited,
+  .game-section[data-state="exited"] .game-section__play-label--exited,
+  .game-section[data-state="exited"] .game-section__note--exited {
+    display: inline;
+  }
+
+  /* ---------- Responsive ---------- */
+
+  @media (max-width: 799px) {
+    .game-section {
+      padding-block: var(--space-64);
+    }
+
+    .game-section :global(.container) {
+      padding-inline: var(--space-16);
+    }
+
+    .game-section__header {
+      margin-bottom: var(--space-32);
+    }
+
+    .game-section__title {
+      font-size: var(--font-size-36);
+    }
+
+    .game-section__description {
+      font-size: var(--font-size-16);
+    }
+
+    .game-section__frame {
+      padding: var(--space-4);
+    }
+
+    .game-section__screen {
+      aspect-ratio: 4 / 3;
+    }
+
+    .game-section__start {
+      gap: var(--space-20);
+    }
+
+    .game-section__kicker {
+      font-size: var(--font-size-24);
+    }
+
+    .game-section__play {
+      padding: var(--space-16) var(--space-24);
+      font-size: var(--font-size-18);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .game-section,
+    .game-section__letter,
+    .game-section__pip,
+    .game-section__play {
+      animation: none;
+    }
+  }
+</style>

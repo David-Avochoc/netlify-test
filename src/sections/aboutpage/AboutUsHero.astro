@@ -1,0 +1,119 @@
+---
+import Hero from "@/sections/shared-sections/Hero.astro";
+import Container from "@/components/global/Container.astro";
+---
+
+<section class="about-hero-section" id="about-hero-section">
+    <div id="hero-content">
+        <Hero backgroundImage="/images/backgrounds/hero/hero_image2.webp">
+            <Container>
+                <div class="AboutUsHero-heading-container">
+                    <h1>
+                        <span class="halfAvo">Half Avo.</span> <span class="halfChoc">Half Choc.</span> <span class="genuis">All Genius.</span>
+                    </h1>
+                    <h2>
+                        Two things that probably shouldn't work together.
+                    </h2>
+                    <p>A bit like:</p>
+                    <div class="AboutUsHero-heading-container__pills">
+                        <div class="technical-pill pill">
+                            <img src="/icons/file.svg" alt="" aria-hidden="true" />
+                            <span>Technical specs + empathy</span>
+                        </div>
+                        <div class="progress-pill pill">
+                            <img src="/icons/arrow-progress.svg" alt="" aria-hidden="true" />
+                            <span>Progress + not breaking everything</span>
+                        </div>
+                        <div class="systems-pill pill">
+                            <img src="/icons/computer.svg" alt="" aria-hidden="true" />
+                            <span>Serious system + actual personality</span>
+                        </div>
+                    </div>
+                </div>
+            </Container>
+        </Hero>
+    </div>
+</section>
+
+<style>
+    .AboutUsHero-heading-container {
+        display: flex;
+        flex-direction: column;
+        felx-wrap: wrap;
+        gap: var(--space-16);
+        justify-content: center;
+        align-items: center;
+        color: var(--white);
+        line-height: 1.25;
+    }
+    .AboutUsHero-heading-container h1 {
+        display: flex;
+        gap: var(--space-16);
+        font-size: var(--font-size-72);
+        font-weight: var(--font-weight-semibold);
+        letter-spacing: -0.09rem;
+    }
+    .AboutUsHero-heading-container h2 {
+        font-size: var(--font-size-30);
+        font-weight: var(--font-weight-medium);
+    }
+    .AboutUsHero-heading-container p {
+        margin-top: var(--space-8);
+        font-size: var(--font-size-24);
+        font-weight: var(--font-weight-regular);
+    }
+    .AboutUsHero-heading-container__pills {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: 100%;
+    }
+    .AboutUsHero-heading-container__pills .pill {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: var(--space-16);
+        padding: var(--space-12) var(--space-26);
+        border-radius: 100px;
+        font-size: var(--font-size-20);
+        color: var(--navy);
+        width: fit-content;
+        min-height: 4.187rem;
+        box-sizing: border-box;
+    }
+    .technical-pill {
+        background: var(--white-60);
+        backdrop-filter: blur(22px);
+        -webkit-backdrop-filter: blur(22px);
+        max-width: 20.125rem;
+    }
+    .progress-pill {
+        background: var(--white-30);
+        backdrop-filter: blur(22px);
+        -webkit-backdrop-filter: blur(22px);
+        max-width: 25rem;
+        margin-top: -0.625rem;
+    }
+    .systems-pill {
+        background: var(--gradient-lime-blue);
+        box-shadow: 0 -12px 20px 0 rgba(16, 24, 40, 0.33);
+        max-width: 25.812rem;
+        margin-top: -0.625rem;
+        z-index: 2;
+    }
+
+@media screen and (max-width: 799px) {
+    .AboutUsHero-heading-container {
+        flex-direction: container;
+    }
+    .AboutUsHero-heading-container h1 {
+        flex-direction: column;
+        font-size: var(--font-size-60);
+    }
+    .AboutUsHero-heading-container h2 {
+        font-size: var(--font-size-24);
+        text-align: center;
+        margin-bottom: var(--space-80);
+    }
+    }
+</style>

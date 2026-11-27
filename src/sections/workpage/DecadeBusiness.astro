@@ -1,0 +1,72 @@
+---
+import Container from "@/components/global/Container.astro";
+import Columns from "@/components/global/Columns.astro";
+import SectionTitle from "@/components/ui/SectionTitle.astro";
+---
+
+<section class="decadeBusiness-section">
+  <Container>
+    <SectionTitle
+      title="A decade in business"
+      fontSize="var(--font-size-36)"
+      mobileFontSize="var(--font-size-30)"
+      fontWeight="var(--font-weight-regular)"
+      color="var(--navy)"
+      textTransform="sentencase"
+      class="decadeBusiness-section__title"
+    />
+    <Columns
+      layout="33-33-33"
+      gap="var(--space-20)"
+      align="center"
+      class="decadeBusiness-section-columns"
+    >
+      <div class="avo-stats">
+        <h4>50+</h4>
+        <p>engineers, designers and AI specialists</p>
+      </div>
+      <div class="avo-stats">
+        <h4>200+</h4>
+        <p>Projects</p>
+      </div>
+      <div class="avo-stats">
+        <h4>ISO 27001</h4>
+        <p>certified</p>
+      </div>
+    </Columns>
+  </Container>
+</section>
+
+<style>
+  :global(.decadeBusiness-section__title h2),
+  :global(.columns.columns--stack.decadeBusiness-section-columns) {
+    margin-bottom: var(--space-64);
+  }
+  .avo-stats h4 {
+    font-size: var(--font-size-72);
+    font-weight: var(--font-weight-bold);
+    color: var(--blue);
+    letter-spacing: -0.09rem;
+  }
+  .avo-stats p {
+    font-size: var(--font-size-18);
+    font-weight: var(--font-weight-bold);
+    color: var(--navy);
+  }
+ @media only screen and (max-width: 799px) {
+    :global(.decadeBusiness-section__title h2),
+    :global(.columns.columns--stack.decadeBusiness-section-columns) {
+        margin-bottom: var(--space-32);
+    }
+    .avo-stats h4 {
+    font-size: var(--font-size-60);
+    font-weight: var(--font-weight-bold);
+    color: var(--blue);
+    letter-spacing: -0.09rem;
+  }
+  .avo-stats p {
+    font-size: var(--font-size-16);
+    font-weight: var(--font-weight-bold);
+    color: var(--navy);
+  }
+</style>

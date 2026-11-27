@@ -1,0 +1,961 @@
+---
+import ourWork from "@/data/ourWork.js";
+import PreviewHoverList from "@/components/ui/PreviewHoverList.astro";
+import Container from "@/components/global/Container.astro";
+
+const categories = [
+  ...new Map(
+    ourWork
+      .map((project) => project.category?.trim())
+      .filter(Boolean)
+      .map((category) => [category.toLowerCase(), category]),
+  ).values(),
+].sort((a, b) => a.localeCompare(b));
+---
+
+<Container>
+<section class="our-work-section" data-our-work>
+  <div class="our-work-section-outer__toolbar">
+    <div class="our-work-section__toolbar">
+      <div class="our-work-section__filter">
+        <button
+          class="our-work-section__filter-toggle"
+          type="button"
+          aria-expanded="false"
+          aria-controls="work-filter-options"
+          aria-label="Open filters"
+          data-filter-toggle
+        >
+          <span class="our-work-section__filter-label">
+            <span data-filter-toggle-label>Filter</span>
+          </span>
+
+          <span
+            class="our-work-section__filter-icon"
+            aria-hidden="true"
+          >
+            <img
+              src="/icons/filter_icon.svg"
+              alt=""
+              data-filter-icon
+            />
+            <img
+              src="/icons/close_icon.svg"
+              alt=""
+              data-filter-close-icon
+            />
+          </span>
+        </button>
+      </div>
+
+      <div
+        class="our-work-section__filter-options"
+        id="work-filter-options"
+        data-filter-options
+        hidden
+      >
+        <button
+          class="our-work-section__pill is-active"
+          type="button"
+          data-category-filter="all"
+          aria-pressed="true"
+        >
+          All
+        </button>
+
+        {categories.map((category) => (
+          <button
+            class="our-work-section__pill"
+            type="button"
+            data-category-filter={category}
+            aria-pressed="false"
+          >
+            {category}
+          </button>
+        ))}
+      </div>
+    </div>
+
+    <div
+      class="our-work-section__view-toggle"
+      role="group"
+      aria-label="Project display"
+    >
+      <button
+        type="button"
+        class="our-work-section__view-button is-active"
+        data-view-toggle="grid"
+        aria-label="Tile view"
+        aria-pressed="true"
+      >
+        <img src="/icons/grid_icon.svg" alt="grid_icon" />
+      </button>
+
+      <button
+        type="button"
+        class="our-work-section__view-button"
+        data-view-toggle="list"
+        aria-label="List view"
+        aria-pressed="false"
+      >
+        <img src="/icons/tiles_icon.svg" alt="tiles_icon" />
+      </button>
+    </div>
+  </div>
+
+  <!-- Tile view -->
+  <div data-view-panel="grid">
+    <div class="our-work-section__results" data-work-results>
+      {ourWork.map((project) => {
+        const cardContent = (
+          <>
+            {/* Project image */}
+            <div class="work-project-card__visual">
+            {project.cardVisual === "brand" ? (
+                project.logo && (
+                <img
+                    class="work-project-card__logo-image"
+                    src={project.logo}
+                    alt={`${project.title} logo`}
+                    loading="lazy"
+                />
+                )
+            ) : (
+                project.featuredImage && (
+                <img
+                    class="work-project-card__image"
+                    src={project.featuredImage}
+                    alt={project.imageAlt ?? ""}
+                    loading="lazy"
+                />
+                )
+            )}
+            </div>
+
+            {/* Project information */}
+            <div class="work-project-card__content">
+              <div class="work-project-card__meta">
+                {project.category && (
+                  <span class="work-project-card__category">
+                    {project.category}
+                  </span>
+                )}
+
+                {(project.tags ?? []).map((tag) => (
+                  <span class="work-project-card__tag">
+                    {tag}
+                  </span>
+                ))}
+              </div>
+
+              <div class="work-project-card__text">
+                <div class="work-project-card__logo">
+                {project.logo ? (
+                    <img
+                    src={project.logo}
+                    alt={project.title}
+                    loading="lazy"
+                    />
+                ) : (
+                    <h3 class="work-project-card__title">
+                    {project.title}
+                    </h3>
+                )}
+                </div>
+
+                {project.description && (
+                  <p class="work-project-card__description">
+                    {project.description}
+                  </p>
+                )}
+
+                {project.status && (
+                  <span class="work-project-card__status">
+                    {project.status}
+                  </span>
+                )}
+              </div>
+            </div>
+          </>
+        );
+
+        return (
+          <article
+            class="work-project-card"
+            style={`--project-brand-color: ${project.brandColor || "var(--navy)"}`}
+            data-work-card
+            data-category={project.category ?? ""}
+            data-status={project.status ?? ""}
+          >
+            {project.status === "coming-soon" ? (
+              <button
+                type="button"
+                class="work-project-card__link"
+                data-panel-open="contact-panel"
+                aria-label={`Contact us about ${project.title}`}
+              >
+                {cardContent}
+              </button>
+            ) : (
+              <a
+                class="work-project-card__link"
+                href={`/work/${project.slug}/`}
+                aria-label={`View ${project.title} case study`}
+              >
+                {cardContent}
+              </a>
+            )}
+          </article>
+        );
+      })}
+    </div>
+  </div>
+
+  <!-- List view -->
+  <div data-view-panel="list" hidden>
+    <PreviewHoverList
+      projects={ourWork}
+      thirdColumnLabel="Tags"
+      useTags={true}
+      class="our-work-section__preview-list"
+    />
+  </div>
+
+  <p class="our-work-section__empty" data-work-empty hidden>
+    No projects found in this category.
+  </p>
+</section>
+</Container>
+
+
+
+<style is:global>
+.our-work-section {
+    width: 100%;
+  }
+
+  .our-work-section-outer__toolbar {
+    display: flex;
+    justify-content: space-between;
+    height: 2rem;
+    margin-bottom: var(--space-48);
+  }
+
+  .our-work-section__toolbar {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+  }
+
+.our-work-section__filter-toggle {
+  position: relative;
+  display: flex;
+  align-items: stretch;
+  gap: 0;
+  padding: 0;
+  border: 0;
+  overflow: hidden;
+  background: var(--lime);
+  color: var(--navy);
+  cursor: pointer;
+}
+
+.our-work-section__filter-label {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-8) var(--space-16);
+  font-size: var(--font-size-16);
+  font-weight: var(--font-weight-regular);
+  text-transform: uppercase;
+  background: var(--lime);
+  white-space: nowrap;
+  overflow: hidden;
+  max-width: 8rem;
+  height: 2rem;
+  opacity: 1;
+  transition:
+    max-width var(--transition-duration-standard) ease,
+    padding var(--transition-duration-standard) ease,
+    opacity var(--transition-duration-fast) ease;
+}
+
+.our-work-section__filter-icon {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.562rem;
+  height: 2rem;
+  background: var(--grey);
+  transition:
+    transform var(--transition-duration-standard) ease,
+    background-color var(--transition-duration-standard) ease;
+}
+
+.our-work-section__filter-icon img {
+  position: absolute;
+  width: 1rem;
+  height: 1rem;
+  object-fit: contain;
+  transition:
+    opacity var(--transition-duration-standard) ease,
+    transform var(--transition-duration-standard) ease;
+}
+
+.our-work-section__filter-icon [data-filter-close-icon] {
+  opacity: 0;
+  transform: rotate(-90deg);
+}
+
+.our-work-section__filter-toggle[aria-expanded="true"]
+  .our-work-section__filter-label {
+  max-width: 0;
+  padding-inline: 0;
+  opacity: 0;
+}
+
+.our-work-section__filter-toggle[aria-expanded="true"]
+  .our-work-section__filter-icon {
+  transform: translateX(-0%);
+  background: var(--lime);
+}
+
+.our-work-section__filter-toggle[aria-expanded="true"]
+  [data-filter-icon] {
+  opacity: 0;
+  transform: rotate(90deg);
+}
+
+.our-work-section__filter-toggle[aria-expanded="true"]
+  [data-filter-close-icon] {
+  opacity: 1;
+  transform: rotate(0);
+}
+
+  .our-work-section__filter-icon[hidden] {
+    display: none;
+  }
+
+  .our-work-section__filter-options {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--space-8);
+    padding-inline: var(--space-8);
+  }
+
+  .our-work-section__filter-options[hidden] {
+    display: none;
+  }
+
+  .our-work-section__pill {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid var(--grey-400);
+    border-radius: var(--border-radius-large);
+    padding: var(--space-8) var(--space-24);
+    background: transparent;
+    color: var(--grey-400);
+    font-size: var(--font-size-14);
+    cursor: pointer;
+    transition:
+      background-color var(--transition-duration-fast) ease,
+      border-color var(--transition-duration-fast) ease,
+      color var(--transition-duration-fast) ease;
+  }
+
+  .our-work-section__pill:hover,
+  .our-work-section__pill.is-active {
+    color: var(--navy);
+    background: var(--grey-300);
+    border: 1px solid var(--grey-300);
+  }
+
+  .our-work-section__filter-toggle:focus-visible,
+  .our-work-section__pill:focus-visible {
+    outline: 2px solid var(--navy);
+    outline-offset: 3px;
+  }
+
+.our-work-section__view-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-8);
+  flex-shrink: 0;
+}
+
+.our-work-section__view-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-8) var(--space-16);
+  border: 1px solid transparent;
+  border-radius: 0;
+  background: transparent;
+  cursor: pointer;
+  transition:
+    border: var(--transition-duration-fast) ease;
+}
+
+.our-work-section__view-button img {
+  width: 1rem;
+  height: 1rem;
+}
+
+.our-work-section__view-button:hover, 
+.our-work-section__view-button.is-active {
+  border: 1px solid var(--navy);
+}
+
+.our-work-section__view-button:focus-visible {
+  outline: 2px solid var(--navy);
+  outline-offset: 3px;
+}
+
+.our-work-section [data-view-panel][hidden] {
+  display: none !important;
+}
+
+.our-work-section__list-view,
+.our-work-section__preview-list {
+  width: 100%;
+}
+
+  .our-work-section__results {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-48);
+  }
+
+  .our-work-section__group {
+    display: grid;
+    gap: var(--space-48);
+    min-width: 0;
+  }
+
+.work-project-card__link {
+  display: block;
+  width: 100%;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  text-align: left;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+  .work-project-card__visual {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 0;
+    overflow: hidden;
+    background-color: var(--project-brand-color, var(--navy));
+  }
+
+  .work-project-card__image {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .work-project-card__content {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    gap: var(--space-22);
+    padding-top: var(--space-24);
+  }
+
+  .work-project-card__meta {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--space-8);
+    color: var(--navy);
+    font-size: var(--font-size-12);
+    text-transform: uppercase;
+    min-height: 3.75rem;
+  }
+
+  .work-project-card__category,
+  .work-project-card__tag {
+    font-size: var(--font-size-12);
+    font-weight: var(--font-weight-medium);
+    display: inline-flex;
+    align-items: center;
+    border: 1px solid var(--navy);
+    border-radius: var(--border-radius-xxlarge);
+    padding: var(--space-4) var(--space-16);
+    align-self: flex-start;
+  }
+
+  .work-project-card__tag {
+    border: 1px solid transparent;
+    border-radius: var(--border-radius-xsmall);
+  }
+
+  .work-project-card__tag::before {
+    content: "•";
+    margin-right: var(--space-8);
+  }
+
+  .work-project-card.is-featured .work-project-card__link {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  }
+
+  .work-project-card.is-featured .work-project-card__visual {
+    min-height: 43.75rem;
+    aspect-ratio: auto;
+    background: var(--grey);
+  }
+
+  .work-project-card.is-featured .work-project-card__image {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .work-project-card.is-featured .work-project-card__content {
+    padding-block: var(--space-48);
+    padding-inline: var(--space-36);
+    justify-content: space-between;
+    background-color: var(--project-brand-color, var(--navy));
+  }
+
+  .work-project-card.is-featured .work-project-card__tag {
+    background: var(--white);
+  }
+
+  .work-project-card.is-featured .work-project-card__text {
+    margin-top: auto;
+  }
+
+  .work-project-card__logo {
+  display: flex;
+  align-items: center;
+  max-width: 100%;
+  }
+
+.work-project-card__logo img {
+  display: block;
+  width: auto;
+  max-width: 100%;
+  max-height: 4rem;
+  object-fit: contain;
+  object-position: left center;
+}
+
+
+  .work-project-card.is-featured .work-project-card__title {
+    font-size: var(--font-size-36);
+    font-weight: var(--font-weight-medium);
+    margin-bottom: var(--space-24);
+    line-height: 1.2;
+  }
+
+  .work-project-card.is-featured .work-project-card__description {
+    font-size: var(--font-size-48);
+    letter-spacing: -0.06rem;
+    max-width: 32.75rem;
+  }
+
+  .our-work-section__cards {
+    display: grid;
+    grid-template-columns:
+      minmax(0, 1fr)
+      minmax(0, 1fr)
+      minmax(0, 2fr);
+    gap: var(--space-20);
+    align-items: stretch;
+  }
+
+  .our-work-section__cards .work-project-card__visual {
+    aspect-ratio: 1 / 0.85;
+    width: 100%;
+    max-height: 16.875rem;
+  }
+
+  .our-work-section__cards .work-project-card__content {
+    gap: var(--space-24);
+  }
+
+  .our-work-section__cards .work-project-card__description {
+    font-size: var(--font-size-24);
+    font-weight: var(--font-weight-medium);
+    line-height: 1.3;
+    margin-bottom: var(--space-24);
+  }
+
+  .our-work-section__cards .work-project-card__status {
+    background: var(--grey-300);
+    border-radius: var(--border-radius-xxlarge);
+    padding: var(--space-4) var(--space-16);
+    color: var(--grey-500);
+    font-size: var(--font-size-12);
+    font-weight: var(--font-weight-medium);
+    text-transform: capitalize;
+  }
+
+  .work-project-card.is-standard .work-project-card__logo {
+    display: none;
+  }
+
+  .our-work-section__empty[hidden] {
+    display: none;
+  }
+
+  .our-work-section__empty {
+    padding-block: 3rem;
+    color: var(--navy);
+    text-align: center;
+  }
+
+
+  @media (max-width: 799px) {
+    .our-work-section__results,
+    .our-work-section__group {
+      gap: var(--space-24, 1.5rem);
+    }
+
+    .work-project-card.is-featured .work-project-card__link {
+      grid-template-columns: minmax(0, 1fr);
+    }
+
+    .work-project-card.is-featured .work-project-card__visual {
+      min-height: 0;
+      aspect-ratio: 1 / 0.8;
+    }
+
+    .work-project-card.is-featured .work-project-card__content {
+      min-height: 280px;
+      padding: 1.5rem;
+    }
+
+    .work-project-card.is-featured .work-project-card__title {
+      font-size: var(--font-size-28, 1.75rem);
+    }
+
+    .our-work-section__cards {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 1.5rem 1rem;
+    }
+
+    .our-work-section__cards
+      .work-project-card:last-child:nth-child(odd) {
+      grid-column: 1 / -1;
+    }
+
+    .our-work-section__cards .work-project-card__title {
+      font-size: var(--font-size-16, 1rem);
+    }
+  }
+
+  @media (max-width: 600px) {
+    .our-work-section__toolbar {
+      flex-direction: column;
+    }
+
+    .our-work-section__filter-options {
+      flex-basis: 100%;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .our-work-section__cards {
+      grid-template-columns: minmax(0, 1fr);
+    }
+
+    .our-work-section__cards
+      .work-project-card:last-child:nth-child(odd) {
+      grid-column: auto;
+    }
+  }
+
+</style>
+
+<script>
+  const initOurWorkSections = (): void => {
+    document
+      .querySelectorAll<HTMLElement>("[data-our-work]")
+      .forEach((section) => {
+        if (section.dataset.initialized === "true") return;
+
+        const toggle = section.querySelector<HTMLButtonElement>(
+          "[data-filter-toggle]",
+        );
+
+        const toggleLabel = section.querySelector<HTMLElement>(
+          "[data-filter-toggle-label]",
+        );
+
+        const filterIcon = section.querySelector<HTMLElement>(
+          "[data-filter-icon]",
+        );
+
+        const closeIcon = section.querySelector<HTMLElement>(
+          "[data-filter-close-icon]",
+        );
+
+        const options = section.querySelector<HTMLElement>(
+          "[data-filter-options]",
+        );
+
+        const viewButtons = Array.from(
+          section.querySelectorAll<HTMLButtonElement>(
+            "[data-view-toggle]",
+          ),
+        );
+
+        const viewPanels = Array.from(
+          section.querySelectorAll<HTMLElement>(
+            "[data-view-panel]",
+          ),
+        );
+
+        const results = section.querySelector<HTMLElement>(
+          "[data-work-results]",
+        );
+
+        const emptyMessage = section.querySelector<HTMLElement>(
+          "[data-work-empty]",
+        );
+
+        if (
+          !toggle ||
+          !toggleLabel ||
+          !options ||
+          !results ||
+          !emptyMessage ||
+          viewButtons.length === 0 ||
+          viewPanels.length === 0
+        ) {
+          return;
+        }
+
+        section.dataset.initialized = "true";
+
+        const allCards = Array.from(
+          results.querySelectorAll<HTMLElement>(
+            "[data-work-card]",
+          ),
+        );
+
+        const listItems = Array.from(
+          section.querySelectorAll<HTMLElement>(
+            "[data-preview-list-item]",
+          ),
+        );
+
+        const pills = Array.from(
+          options.querySelectorAll<HTMLButtonElement>(
+            "[data-category-filter]",
+          ),
+        );
+
+        const selectedCategories = new Set<string>();
+
+        const normalise = (value: unknown): string =>
+          String(value ?? "").trim().toLowerCase();
+
+        const setView = (view: "grid" | "list"): void => {
+          section.dataset.view = view;
+
+          viewButtons.forEach((button) => {
+            const isActive =
+              button.dataset.viewToggle === view;
+
+            button.classList.toggle("is-active", isActive);
+            button.setAttribute(
+              "aria-pressed",
+              String(isActive),
+            );
+          });
+
+          viewPanels.forEach((panel) => {
+            panel.hidden = panel.dataset.viewPanel !== view;
+          });
+        };
+
+        viewButtons.forEach((button) => {
+          button.addEventListener("click", () => {
+            const view = button.dataset.viewToggle;
+
+            if (view === "grid" || view === "list") {
+              setView(view);
+            }
+          });
+        });
+
+        const setFilterPanelOpen = (isOpen: boolean): void => {
+          toggle.setAttribute(
+            "aria-expanded",
+            String(isOpen),
+          );
+
+          toggle.setAttribute(
+            "aria-label",
+            isOpen ? "Close filters" : "Open filters",
+          );
+
+          toggleLabel.textContent = isOpen ? "" : "Filter";
+
+          if (filterIcon) {
+            filterIcon.hidden = isOpen;
+          }
+
+          if (closeIcon) {
+            closeIcon.hidden = isOpen;
+          }
+
+          options.hidden = !isOpen;
+        };
+
+        toggle.addEventListener("click", () => {
+          const isExpanded =
+            toggle.getAttribute("aria-expanded") === "true";
+
+          setFilterPanelOpen(!isExpanded);
+        });
+
+        const renderProjects = (): void => {
+          const filteredCards = allCards.filter((card) => {
+            const category = normalise(card.dataset.category);
+
+            return (
+              selectedCategories.size === 0 ||
+              selectedCategories.has(category)
+            );
+          });
+
+          listItems.forEach((item) => {
+            const category = normalise(item.dataset.category);
+
+            const isVisible =
+              selectedCategories.size === 0 ||
+              selectedCategories.has(category);
+
+            item.hidden = !isVisible;
+          });
+
+          pills.forEach((pill) => {
+            const category = normalise(
+              pill.dataset.categoryFilter,
+            );
+
+            const isAll = category === "all";
+
+            const isActive = isAll
+              ? selectedCategories.size === 0
+              : selectedCategories.has(category);
+
+            pill.classList.toggle("is-active", isActive);
+
+            pill.setAttribute(
+              "aria-pressed",
+              String(isActive),
+            );
+          });
+
+results.replaceChildren();
+
+const isFiltered = selectedCategories.size > 0;
+const groupSize = isFiltered ? 3 : 4;
+
+for (let i = 0; i < filteredCards.length; i += groupSize) {
+  const group = document.createElement("div");
+  group.className = "our-work-section__group";
+
+  const projects = filteredCards.slice(i, i + groupSize);
+
+  if (isFiltered) {
+    // Filtered view: every project uses the smaller card layout.
+    const cardsRow = document.createElement("div");
+    cardsRow.className = "our-work-section__cards";
+
+    projects.forEach((card) => {
+      card.classList.remove("is-featured");
+      card.classList.add("is-standard");
+      cardsRow.appendChild(card);
+    });
+
+    group.appendChild(cardsRow);
+  } else {
+    // All projects view: retain the original featured layout.
+    const [featured, ...supporting] = projects;
+
+    if (!featured) continue;
+
+    featured.classList.add("is-featured");
+    featured.classList.remove("is-standard");
+
+    group.appendChild(featured);
+
+    if (supporting.length > 0) {
+      const cardsRow = document.createElement("div");
+      cardsRow.className = "our-work-section__cards";
+
+      supporting.forEach((card) => {
+        card.classList.remove("is-featured");
+        card.classList.add("is-standard");
+
+        cardsRow.appendChild(card);
+      });
+
+      group.appendChild(cardsRow);
+    }
+  }
+
+  results.appendChild(group);
+}
+
+          emptyMessage.hidden = filteredCards.length > 0;
+
+          section.classList.toggle(
+            "has-active-filter",
+            selectedCategories.size > 0,
+          );
+        };
+
+        pills.forEach((pill) => {
+          pill.addEventListener("click", () => {
+            const category = normalise(
+              pill.dataset.categoryFilter,
+            );
+
+            if (category === "all") {
+              selectedCategories.clear();
+            } else if (selectedCategories.has(category)) {
+              selectedCategories.delete(category);
+            } else {
+              selectedCategories.add(category);
+            }
+
+            renderProjects();
+          });
+        });
+
+        setFilterPanelOpen(false);
+        setView("grid");
+        renderProjects();
+      });
+  };
+
+  if (document.readyState === "loading") {
+    document.addEventListener(
+      "DOMContentLoaded",
+      initOurWorkSections,
+      { once: true },
+    );
+  } else {
+    initOurWorkSections();
+  }
+</script>

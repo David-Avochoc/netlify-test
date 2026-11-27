@@ -2,20 +2,28 @@
 interface Project {
   slug: string;
   title: string;
-  category: string;
-  services: string[];
+  category?: string;
+  services?: string[];
+  tags?: string[];
   featuredImage?: string | null;
   hoverImage?: string | null;
-  imageAlt?: string;
-  status?: "coming-soon";
+  imageAlt?: string | null;
+  status?: string;
 }
 
 interface Props {
   projects: Project[];
   class?: string;
+  thirdColumnLabel?: string;
+  useTags?: boolean;
 }
 
-const { projects, class: className = "" } = Astro.props;
+const {
+  projects,
+  class: className = "",
+  thirdColumnLabel = "Service",
+  useTags = false,
+} = Astro.props;
 ---
 
 <section
@@ -25,7 +33,7 @@ const { projects, class: className = "" } = Astro.props;
   <div class="preview-hover-list__header" aria-hidden="true">
     <span>Client</span>
     <span>Industry</span>
-    <span>Service</span>
+    <span>{thirdColumnLabel}</span>
   </div>
 
   <ol class="preview-hover-list__rows">
@@ -41,13 +49,19 @@ const { projects, class: className = "" } = Astro.props;
       </span>
 
       <span class="preview-hover-list__services">
-        {project.services.join(", ")}
+        {useTags
+          ? (project.tags ?? []).join(", ")
+          : (project.services ?? []).join(", ")}
       </span>
     </>
   );
 
   return (
-    <li class="preview-hover-list__item">
+    <li
+      class="preview-hover-list__item"
+      data-preview-list-item
+      data-category={project.category ?? ""}
+    >
       {project.status === "coming-soon" ? (
         <button
           type="button"

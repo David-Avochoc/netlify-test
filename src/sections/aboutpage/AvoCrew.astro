@@ -1,0 +1,559 @@
+---
+import Container from "@/components/global/Container.astro";
+import SectionTitle from "@/components/ui/SectionTitle.astro";
+
+const teamMembers = [
+  {
+    id: "designers",
+    category: "Designers",
+    image: "/images/backgrounds/cards/ShapeShifters.webp",
+  },
+  {
+    id: "engineers",
+    category: "Software Engineers",
+    image: "/images/backgrounds/cards/TheBuilders.webp",
+  },
+  {
+    id: "pm",
+    category: "Project Managers",
+    image: "/images/backgrounds/cards/TrafficControllers.webp",
+  },
+  {
+    id: "qa",
+    category: "QA",
+    image: "/images/backgrounds/cards/TheSceptics.webp",
+  },
+  {
+    id: "ba",
+    category: "Business Analysts",
+    image: "/images/backgrounds/cards/TheTranslators.webp",
+  },
+  {
+    id: "specialist",
+    category: "Specialist Engineers",
+    image: "/images/backgrounds/cards/DeepDivers.webp",
+  },
+  {
+    id: "marketing",
+    category: "Marketing",
+    image: "/images/backgrounds/cards/NoiseMakers.webp",
+  },
+];
+---
+
+<section class="pickYour-wrapper" id="pickYour-section">
+  <div class="pickYour-sticky">
+    <Container class="pickYour-container">
+      <div class="pickYour-header">
+        <SectionTitle
+            title="Who's who in the avo crew."
+            fontSize="var(--font-size-36)"
+            fontWeight="var(--font-weight-regular)"
+            color="var(--navy)"
+            textTransform="capatilize"
+            class="pickYour-header__title"
+        />
+        <p class="pickYour-subtitle">
+          40+ people. Seven teams. One way of doing things: properly.
+        </p>
+
+        <nav class="pickYour-nav" aria-label="Specialist Categories">
+          <div class="pickYour-nav-track">
+            {teamMembers.map((member, idx) => (
+              <button
+                class={`pickYour-nav-pill ${idx === 0 ? "active" : ""}`}
+                data-index={idx}
+                type="button"
+              >
+                {member.category}
+              </button>
+            ))}
+          </div>
+        </nav>
+      </div>
+
+      <div class="pickYour-carousel-stage">
+        <div class="pickYour-carousel" id="pickYour-carousel">
+          {teamMembers.map((member, idx) => (
+            <article
+              class={`pickYour-card ${idx === 0 ? "is-active" : ""}`}
+              data-index={idx}
+            >
+              <div
+                class="pickYour-card-inner"
+                style={`background-image: url('${member.image}');`}
+              >
+              </div>
+            </article>
+          ))}
+        </div>
+      </div>
+
+    </Container>
+  </div>
+</section>
+
+<style>
+:global(.pickYour-wrapper .container.pickYour-container) {
+  padding-block: var(--space-80);
+}
+  :global(.pickYour-container) {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    height: 100%;
+  }
+
+.pickYour-wrapper {
+    position: relative;
+    width: 100%;
+    height: 250vh;
+  }
+  .pickYour-sticky {
+    position: sticky;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  .pickYour-header {
+    text-align: center;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-24);
+  }
+
+  .pickYour-subtitle {
+    font-size: var(--font-size-20);
+    font-weight: var(--font-weight-regular);
+    color: var(--grey-600);
+    margin-bottom: var(--space-24);
+  }
+
+  .pickYour-nav {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+  }
+
+  .pickYour-nav-track {
+    display: inline-flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    gap: var(--space-16);
+    padding: var(--space-8);
+    background-color: var(--grey);
+    border-radius: var(--border-radius-xxlarge);
+    max-width: 100%;
+    margin: 0 auto;
+  }
+
+  .pickYour-nav-pill {
+    font-size: var(--font-size-18);
+    font-weight: var(--font-weight-medium);
+    color: var(--black);
+    background: var(--grey-100);
+    padding: var(--space-8) var(--space-16);
+    border-radius: var(--border-radius-xxlarge);
+    cursor: pointer;
+    white-space: nowrap;
+    flex-shrink: 0;
+    transition: all var(--transition-duration-standard) var(--transition-easing);
+  }
+
+  .pickYour-nav-pill:hover,
+  .pickYour-nav-pill.active {
+    font-weight: var(--font-weight-medium);
+    background: var(--white);
+    box-shadow: 0 0 4px 0 rgba(0, 0, 0, 0.25);
+  }
+
+  .pickYour-carousel-stage {
+    position: relative;
+    width: 100%;
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    perspective: 1200px;
+    margin-top: var(--space-64);
+    overflow: visible;
+  }
+
+  .pickYour-carousel {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transform-style: preserve-3d;
+  }
+
+  .pickYour-card {
+    position: absolute;
+    width: 340px;
+    height: 352px;
+    border-radius: var(--border-radius-small);
+    cursor: pointer;
+    will-change: transform, opacity;
+    transform-origin: center center;
+    transition: box-shadow 0.3s ease;
+  }
+
+  .pickYour-card-inner {
+    width: 100%;
+    height: 100%;
+    border-radius: inherit;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    position: relative;
+    overflow: hidden;
+    border: 1px solid rgba(0, 0, 0, 0.08);
+    box-shadow: 0 16px 36px rgba(29, 34, 71, 0.12), 0 4px 12px rgba(0, 0, 0, 0.06);
+    transition: box-shadow 0.3s ease;
+  }
+
+  .pickYour-card.is-active .pickYour-card-inner {
+    box-shadow: 0 24px 50px rgba(29, 34, 71, 0.2), 0 6px 16px rgba(0, 0, 0, 0.08);
+  }
+
+  @media screen and (max-width: 768px) {
+:global(.pickYour-wrapper .container.pickYour-container) {
+  padding-block: 0;
+  padding-inline: 0;
+}
+
+    .pickYour-wrapper {
+      height: auto;
+      overflow-x: hidden;
+    }
+
+    .pickYour-sticky {
+      position: relative;
+      height: auto;
+      overflow: visible;
+    }
+
+    .pickYour-header {
+        margin-top: var(--space-36);
+        padding-inline: var(--space-16);
+    }
+
+    .pickYour-nav-track {
+      flex-wrap: nowrap;
+      justify-content: flex-start;
+      overflow-x: auto;
+      max-width: 100%;
+      border-radius: 999px;
+      scrollbar-width: none;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    .pickYour-nav-track::-webkit-scrollbar {
+      display: none;
+    }
+
+    .pickYour-carousel-stage {
+      perspective: none;
+      margin-top: var(--space-24);
+      width: 100vw;
+      margin-left: calc(50% - 50vw);
+    }
+
+    .pickYour-carousel {
+      justify-content: flex-start;
+      gap: var(--space-16);
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+      scroll-behavior: smooth;
+      transform-style: flat;
+      padding: var(--space-8) var(--space-24) var(--space-32);
+      scrollbar-width: none;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    .pickYour-carousel::-webkit-scrollbar {
+      display: none;
+    }
+
+    .pickYour-card {
+      position: relative;
+      flex: 0 0 auto;
+      width: clamp(250px, 76vw, 320px);
+      height: clamp(310px, 92vw, 380px);
+      scroll-snap-align: center;
+      transform: none !important;
+      opacity: 1 !important;
+      visibility: visible !important;
+      pointer-events: auto !important;
+    }
+
+    .pickYour-card-inner {
+      box-shadow: 0 10px 24px rgba(29, 34, 71, 0.12), 0 2px 8px rgba(0, 0, 0, 0.06);
+    }
+
+    .pickYour-card.is-active .pickYour-card-inner {
+      box-shadow: 0 14px 30px rgba(29, 34, 71, 0.18), 0 4px 12px rgba(0, 0, 0, 0.08);
+    }
+  }
+</style>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const wrapper = document.getElementById('pickYour-section');
+    const carousel = document.getElementById('pickYour-carousel');
+    const cards = document.querySelectorAll<HTMLElement>('.pickYour-card');
+    const navPills = document.querySelectorAll<HTMLElement>('.pickYour-nav-pill');
+    const navTrack = document.querySelector<HTMLElement>('.pickYour-nav-track');
+
+    if (!wrapper || !carousel || cards.length === 0) return;
+
+    const TOTAL_CARDS = cards.length;
+    const ANGLE_STEP = 0.31;
+    const WRAP_SPAN = TOTAL_CARDS * ANGLE_STEP;
+    const TOTAL_STEPS = TOTAL_CARDS - 1;
+    const TOTAL_ANGLE = TOTAL_STEPS * ANGLE_STEP;
+
+    const isMobile = () => window.innerWidth <= 768;
+
+    const getRadius = () => {
+      if (window.innerWidth < 1024) return 1350;
+      return 1650;
+    };
+
+    let radius = getRadius();
+    let currentAngle = 0;
+    let targetAngle = 0;
+    let lastActiveIndex = -1;
+
+    const setActiveUI = (activeIndex: number) => {
+      if (activeIndex === lastActiveIndex) return;
+      lastActiveIndex = activeIndex;
+
+      navPills.forEach((pill, idx) => {
+        if (idx === activeIndex) {
+          pill.classList.add('active');
+
+          if (navTrack && navTrack.scrollWidth > navTrack.clientWidth) {
+            const pillLeft = pill.offsetLeft;
+            const pillWidth = pill.offsetWidth;
+            const trackWidth = navTrack.clientWidth;
+            navTrack.scrollTo({
+              left: pillLeft - (trackWidth / 2) + (pillWidth / 2),
+              behavior: 'smooth'
+            });
+          }
+        } else {
+          pill.classList.remove('active');
+        }
+      });
+
+      cards.forEach((card, idx) => {
+        if (idx === activeIndex) {
+          card.classList.add('is-active');
+        } else {
+          card.classList.remove('is-active');
+        }
+      });
+    };
+
+    const scrollMobileToCard = (cardIdx: number) => {
+      const targetCard = cards[cardIdx];
+      if (!targetCard) return;
+
+      const cardCenter = targetCard.offsetLeft + targetCard.offsetWidth / 2;
+      const scrollLeft = cardCenter - carousel.clientWidth / 2;
+
+      carousel.scrollTo({
+        left: scrollLeft,
+        behavior: 'smooth'
+      });
+    };
+
+    const handleMobileCarouselScroll = () => {
+      if (!isMobile()) return;
+
+      const carouselCenter = carousel.scrollLeft + carousel.clientWidth / 2;
+      let closestIdx = 0;
+      let minDistance = Infinity;
+
+      cards.forEach((card, idx) => {
+        const cardCenter = card.offsetLeft + card.offsetWidth / 2;
+        const distance = Math.abs(carouselCenter - cardCenter);
+        if (distance < minDistance) {
+          minDistance = distance;
+          closestIdx = idx;
+        }
+      });
+
+      setActiveUI(closestIdx);
+    };
+
+    carousel.addEventListener('scroll', handleMobileCarouselScroll, { passive: true });
+
+    const handleScroll = () => {
+      if (isMobile()) return;
+
+      const rect = wrapper.getBoundingClientRect();
+      const scrollableDistance = rect.height - window.innerHeight;
+
+      if (scrollableDistance <= 0) return;
+
+      let progress = -rect.top / scrollableDistance;
+      progress = Math.max(0, Math.min(1, progress));
+
+      targetAngle = progress * TOTAL_ANGLE;
+    };
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    window.addEventListener('resize', () => {
+      radius = getRadius();
+      if (isMobile()) {
+        cards.forEach((card) => {
+          card.style.transform = '';
+          card.style.opacity = '';
+          card.style.visibility = '';
+          card.style.pointerEvents = '';
+          card.style.zIndex = '';
+        });
+        handleMobileCarouselScroll();
+      } else {
+        handleScroll();
+      }
+    });
+
+    const getTargetStep = (currentStep: number, targetCardIdx: number) => {
+      const currentCardIdx = ((currentStep % TOTAL_CARDS) + TOTAL_CARDS) % TOTAL_CARDS;
+      let delta = targetCardIdx - currentCardIdx;
+
+      if (delta > TOTAL_CARDS / 2) delta -= TOTAL_CARDS;
+      if (delta < -TOTAL_CARDS / 2) delta += TOTAL_CARDS;
+
+      let targetStep = currentStep + delta;
+
+      if (targetStep < 0) {
+        targetStep += TOTAL_CARDS;
+      } else if (targetStep > TOTAL_STEPS) {
+        targetStep -= TOTAL_CARDS;
+      }
+
+      return targetStep;
+    };
+
+    const scrollToStep = (step: number) => {
+      const wrapperTop = wrapper.getBoundingClientRect().top + window.scrollY;
+      const scrollableDistance = wrapper.offsetHeight - window.innerHeight;
+      const targetProgress = Math.max(0, Math.min(1, (step * ANGLE_STEP) / TOTAL_ANGLE));
+      const targetScrollTop = wrapperTop + targetProgress * scrollableDistance;
+
+      window.scrollTo({
+        top: targetScrollTop,
+        behavior: 'smooth'
+      });
+    };
+
+    navPills.forEach((pill) => {
+      pill.addEventListener('click', () => {
+        const targetCardIdx = parseInt(pill.getAttribute('data-index') || '0', 10);
+
+        if (isMobile()) {
+          scrollMobileToCard(targetCardIdx);
+          return;
+        }
+
+        const currentStep = Math.round(targetAngle / ANGLE_STEP);
+        const nextStep = getTargetStep(currentStep, targetCardIdx);
+        scrollToStep(nextStep);
+      });
+    });
+
+    cards.forEach((card) => {
+      card.addEventListener('click', () => {
+        const cardIdx = parseInt(card.getAttribute('data-index') || '0', 10);
+
+        if (isMobile()) {
+          scrollMobileToCard(cardIdx);
+          return;
+        }
+
+        const rawDiff = cardIdx * ANGLE_STEP - currentAngle;
+        let theta = ((rawDiff % WRAP_SPAN) + WRAP_SPAN) % WRAP_SPAN;
+        if (theta > WRAP_SPAN / 2) theta -= WRAP_SPAN;
+
+        const stepDelta = Math.round(theta / ANGLE_STEP);
+        const currentStep = Math.round(targetAngle / ANGLE_STEP);
+        scrollToStep(currentStep + stepDelta);
+      });
+    });
+
+    const render = () => {
+      if (!isMobile()) {
+        currentAngle += (targetAngle - currentAngle) * 0.085;
+
+        const rawStep = Math.round(currentAngle / ANGLE_STEP);
+        const activeIndex = ((rawStep % TOTAL_CARDS) + TOTAL_CARDS) % TOTAL_CARDS;
+
+        setActiveUI(activeIndex);
+
+        cards.forEach((card, idx) => {
+          const rawDiff = idx * ANGLE_STEP - currentAngle;
+          let theta = ((rawDiff % WRAP_SPAN) + WRAP_SPAN) % WRAP_SPAN;
+          if (theta > WRAP_SPAN / 2) {
+            theta -= WRAP_SPAN;
+          }
+
+          const absTheta = Math.abs(theta);
+          const distFromCenter = absTheta / ANGLE_STEP;
+
+          const x = Math.sin(theta) * radius;
+          const y = (1 - Math.cos(theta)) * 1350;
+          const z = -absTheta * 150;
+
+          const rotZ = theta * (180 / Math.PI) * 0.65;
+          const rotY = -theta * (180 / Math.PI) * 0.32;
+
+          const scale = Math.max(0.75, 1.05 - (absTheta * 0.25));
+
+          let opacity = 0;
+          if (distFromCenter <= 1.0) {
+            opacity = 1 - (distFromCenter * 0.2);
+          } else if (distFromCenter < 1.35) {
+            opacity = Math.max(0, 0.8 * (1 - (distFromCenter - 1.0) / 0.35));
+          } else {
+            opacity = 0;
+          }
+
+          card.style.transform = `translate3d(${x.toFixed(1)}px, ${y.toFixed(1)}px, ${z.toFixed(1)}px) rotateZ(${rotZ.toFixed(2)}deg) rotateY(${rotY.toFixed(2)}deg) scale(${scale.toFixed(3)})`;
+          card.style.opacity = opacity.toFixed(3);
+          card.style.visibility = opacity <= 0.01 ? 'hidden' : 'visible';
+          card.style.pointerEvents = opacity <= 0.1 ? 'none' : 'auto';
+
+          const zIndex = Math.round(50 - absTheta * 20);
+          card.style.zIndex = String(Math.max(1, zIndex));
+        });
+      }
+
+      requestAnimationFrame(render);
+    };
+
+    if (isMobile()) {
+      setActiveUI(0);
+    } else {
+      handleScroll();
+    }
+
+    render();
+  });
+</script>

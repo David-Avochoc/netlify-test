@@ -1,8 +1,78 @@
 ---
 import Container from "@/components/global/Container.astro";
+import Columns from "@/components/global/Columns.astro";
+import TextScollCarousel from "@/components/ui/Carousels/TextScrollCarousel.astro";
 ---
 
 <footer class="footer">
+  <TextScollCarousel />
+  <Container>
+    <Columns layout="50-50" gap="var(--space-32)" class="footer-columns">
+      <div class="footer-columns-left">
+        <div class="footer-columns-left__inner">
+          <span>
+            <h4>Office Hours: 08:00 - 17:00 (SAST)</h4>
+          </span>
+          <span class="avo-location">
+            <img src="/icons/location_marker_drk.svg" />
+            <h4>Based in south africa.</h4>
+            <img src="/icons/globe.svg" />
+            <h4>Working Globally</h4>
+          </span>
+          <span class="avo-legal">
+            <a href="/privacy-policy">
+              <h4>Privacy Policy</h4>
+            </a>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="0.25rem"
+              height="0.25rem"
+              viewBox="0 0 4 4"
+              fill="none"
+            >
+              <circle cx="2" cy="2" r="2" fill="#1D2247" />
+            </svg>
+            <a href="/privacy-policy#Cookies">
+              <h4>Cookie Policy</h4>
+            </a>
+          </span>
+        </div>
+      </div>
+      <div class="footer-columns-right">
+        <div class="footer-columns-right__inner">
+          <span>
+            <h4>Sign ups or any other marketing?</h4>
+          </span>
+          <span class="avo-social">
+            <h4>Follow us on</h4>
+            <a
+              href="https://www.instagram.com/avochoc/"
+              class="social-icon"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Follow AvoChoc on Instagram"
+            >
+              <img src="/icons/instagram.svg" alt="" />
+            </a>
+            <a
+              href="https://www.linkedin.com/company/avochoc/"
+              class="social-icon"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Follow AvoChoc on LinkedIn"
+            >
+              <img src="/icons/linkedin.svg" alt="" />
+            </a>
+          </span>
+          <span>
+            <a href="mailto:hello@avochoc.com">
+              <h4>hello@avochoc.com</h4>
+            </a>
+          </span>
+        </div>
+      </div>
+    </Columns>
+  </Container>
   <div class="footer__content">
     <img src="/images/logos/AVOCHOC.svg" />
   </div>
@@ -16,16 +86,56 @@ import Container from "@/components/global/Container.astro";
     background-size: cover;
     padding-block: var(--space-100);
   }
+  .footer :global(.columns.columns--stack).footer-columns {
+    padding-block: var(--space-64) var(--space-100);
+  }
+  .footer h4 {
+    font-size: var(--font-size-16);
+    font-weight: var(--font-weight-regular);
+    color: var(--navy);
+    text-transform: uppercase;
+  }
+  .footer-columns-left__inner,
+  .footer-columns-right__inner {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-8);
+  }
+
+  .avo-location,
+  .avo-legal,
+  .avo-social {
+    display: flex;
+    align-items: center;
+    gap: var(--space-8);
+  }
+  .footer-columns-right__inner {
+    text-align: right;
+  }
+  .footer-columns-right__inner .avo-social {
+    justify-content: flex-end;
+  }
+  .avo-social .social-icon {
+    border: 1px solid var(--navy);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    width: 1.437rem;
+    height: 1.437rem;
+    text-decoration: none;
+  }
+
+  .avo-location img,
+  .avo-social .social-icon img {
+    display: block;
+    width: 1rem;
+    height: 1rem;
+    object-fit: contain;
+  }
+
   .footer__content img {
     width: 100%;
     margin: 0 auto;
-  }
-  .footer__text {
-    color: var(--white);
-    font-size: var(--font-size-294);
-    font-weight: var(--font-weight-extrabold);
-    letter-spacing: -5.88px;
-    text-align: center;
-    text-transform: uppercase;
   }
 </style>

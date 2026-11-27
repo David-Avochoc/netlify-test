@@ -1,0 +1,102 @@
+---
+interface Props {
+  items?: string[];
+  duration?: number;
+  separator?: string;
+}
+
+const {
+  items = [
+    "Something interesting",
+    "Something interesting",
+    "Something interesting",
+    "Something interesting",
+  ],
+  duration = 100,
+  separator = "globe",
+} = Astro.props;
+
+const repetition = 6;
+---
+
+<div
+  class="text-scroll"
+  role="region"
+  aria-label="Scrolling announcements"
+  style={`--scroll-duration: ${duration}s;`}
+>
+  <div class="text-scroll__track">
+    {Array.from({ length: repetition }).map((_, groupIndex) => (
+      <div
+        class="text-scroll__group"
+        aria-hidden={groupIndex === 1 ? "true" : undefined}
+      >
+        {items.map((item) => (
+          <div class="text-scroll__item">
+            {separator === "globe" && (
+              <img
+                class="text-scroll__icon"
+                src="/icons/globe.svg"
+                alt=""
+                aria-hidden="true"
+              />
+            )}
+
+            <span>{item}</span>
+          </div>
+        ))}
+      </div>
+    ))}
+  </div>
+</div>
+
+<style>
+  .text-scroll {
+    width: 100%;
+    overflow: hidden;
+  }
+
+  .text-scroll__track {
+    display: flex;
+    width: max-content;
+    animation: text-scroll-loop var(--scroll-duration) linear infinite;
+    will-change: transform;
+  }
+
+  .text-scroll__group {
+    display: flex;
+    flex-shrink: 0;
+    align-items: center;
+    gap: var(--space-32);
+    padding-right: var(--space-32);
+  }
+
+  .text-scroll__item {
+    display: flex;
+    flex-shrink: 0;
+    align-items: center;
+    gap: 0.4rem;
+    white-space: nowrap;
+    color: var(--navy);
+    font-size: var(--font-size-16);
+    font-weight: 400;
+    line-height: 1;
+    text-transform: uppercase;
+  }
+
+  .text-scroll__icon {
+    width: 1rem;
+    height: 1rem;
+    flex-shrink: 0;
+  }
+
+  @keyframes text-scroll-loop {
+    from {
+      transform: translateX(0);
+    }
+
+    to {
+      transform: translateX(-50%);
+    }
+  }
+</style>

@@ -1,0 +1,168 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import Container from "@/components/global/Container.astro";
+import Columns from "@/components/global/Columns.astro";
+import SectionTitle from "@/components/ui/SectionTitle.astro";
+import Form from "@/components/forms/Form.astro";
+import { formFieldConfig } from "@/components/forms/formFields.js";
+
+const fields = [
+  { ...formFieldConfig.fullName, width: "half" as const },
+  { ...formFieldConfig.email, width: "half" as const },
+  { ...formFieldConfig.company, width: "full" as const },
+  { ...formFieldConfig.message, width: "full" as const },
+];
+---
+
+<BaseLayout title="Become an Avo" description="Progress Done Properly">
+  <section class="apply-section">
+    <Container>
+      <Columns
+        layout="50-50"
+        gap="var(--space-64)"
+        class="apply-section-columns"
+      >
+        <div class="apply-left-col">
+          <SectionTitle
+            title="Apply Today"
+            fontSize="var(--font-size-48)"
+            fontWeight="var(--font-weight-semibold)"
+            color="var(--white)"
+            textTransform="none"
+            class="contact-us__title"
+          />
+          <p class="title-subtxt">
+            Want to join our inspiring community of software development
+            professionals at AvoChoc? Submit your CV below to stay on our radar
+            and be notified when positions become available.
+          </p>
+        </div>
+
+        <div class="apply-right-col">
+          <div class="glass-section contact-form-section">
+            <h2>Tell us a little about you.</h2>
+            <Form
+              fields={fields}
+              submitLabel="Submit"
+              layout="grid"
+              class="contact-section__form"
+            />
+          </div>
+        </div>
+      </Columns>
+    </Container>
+  </section>
+</BaseLayout>
+
+<style>
+  .apply-section {
+    background: url("/images/backgrounds/hero/hero_image5.webp");
+    background-position: center top;
+    background-repeat: no-repeat;
+    background-size: cover;
+    padding-top: 200px;
+    padding-bottom: var(--space-100);
+  }
+  .apply-left-col :global(.contact-us__title h2) {
+    line-height: 1.25;
+    margin-bottom: var(--space-16);
+  }
+  .title-subtxt {
+    font-size: var(--font-size-24);
+    font-weight: var(--font-weight-medium);
+    line-height: 1.3;
+    color: var(--white);
+  }
+  .apply-right-col {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-8);
+  }
+  .apply-right-col .glass-section {
+    background: var(--white-50);
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+    width: 100%;
+    border-radius: 1rem;
+  }
+  .CTA-section {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-8);
+    padding: var(--space-24);
+  }
+  .CTA-section h2,
+  .apply-form-section h2 {
+    font-size: var(--font-size-24);
+    font-weight: var(--font-weight-semibold);
+    line-height: 1.3;
+    color: var(--navy);
+    text-transform: uppercase;
+    margin-bottom: var(--space-16);
+  }
+  .contact-form-section h2 {
+    margin-bottom: var(--space-32);
+  }
+  .serious-tech-section h2 {
+    margin-bottom: 0;
+  }
+  .CTA-section__new-project,
+  .CTA-section__existing-client,
+  .CTA-section__careers {
+    display: flex;
+    gap: var(--space-16);
+    border: 1px solid var(--white);
+    padding-block: var(--space-8);
+    padding-inline: var(--space-16);
+  }
+  .CTA-icon {
+    margin: auto 0;
+  }
+  .new-project-content__heading {
+    font-size: var(--font-size-18);
+    font-weight: var(--font-weight-regular);
+    line-height: 1.5;
+    color: var(--navy);
+  }
+  .new-project-content__body {
+    font-size: var(--font-size-14);
+    font-weight: var(--font-weight-regular);
+    line-height: 1.5;
+    color: var(--grey-600);
+  }
+  .contact-form-section {
+    padding-block: var(--space-48) var(--space-12);
+    padding-inline: var(--space-24);
+  }
+  :global(.form__control::placeholder) {
+    color: var(--navy) !important;
+  }
+  :global(.form__control) {
+    border: 1px solid var(--navy) !important;
+    background: transparent !important;
+  }
+  :global(.footer) {
+    padding-top: var(--space-44) !important;
+  }
+
+  @media screen and (max-width: 799px) {
+    :global(.primary-btn.form__submit),
+    :global(.call-btn),
+    .serious-tech-section-location_1 {
+      width: 100%;
+    }
+    .avo-talk-inner {
+      gap: var(--space-16);
+    }
+    .avo-talk {
+      flex-wrap: wrap;
+    }
+    .serious-tech-section-location {
+      flex-wrap: wrap;
+    }
+    .avo-contact {
+      margin-top: var(--space-24);
+      padding-block: var(--space-64);
+    }
+  }
+</style>

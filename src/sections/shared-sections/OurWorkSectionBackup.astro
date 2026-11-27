@@ -1,0 +1,857 @@
+---
+import ourWork from "@/data/ourWork.js";
+
+const categories = [
+  ...new Map(
+    ourWork
+      .map((project) => project.category?.trim())
+      .filter(Boolean)
+      .map((category) => [category.toLowerCase(), category]),
+  ).values(),
+].sort((a, b) => a.localeCompare(b));
+---
+
+<section class="our-work-section" data-our-work>
+  <!-- Filter toolbar -->
+  <div class="our-work-section__toolbar">
+    <div class="our-work-section__filter">
+      <!-- The same button opens and closes the filters -->
+      <button
+        class="our-work-section__filter-toggle"
+        type="button"
+        aria-expanded="false"
+        aria-controls="work-filter-options"
+        aria-label="Open filters"
+        data-filter-toggle
+      >
+        <span data-filter-toggle-label>Filter</span>
+
+        <span class="our-work-section__filter-icon" aria-hidden="true">
+          <svg viewBox="0 0 16 16" fill="none">
+            <path
+              d="M3 4h10M5 8h6M7 12h2"
+              stroke="currentColor"
+              stroke-width="1.5"
+              stroke-linecap="round"
+            />
+          </svg>
+        </span>
+      </button>
+
+      <!-- Category pills -->
+<div
+  class="our-work-section__filter-options"
+  id="work-filter-options"
+  data-filter-options
+  hidden
+>
+  <button
+    class="our-work-section__pill is-active"
+    type="button"
+    data-category-filter="all"
+    aria-pressed="true"
+  >
+    All
+  </button>
+
+  {categories.map((category) => (
+    <button
+      class="our-work-section__pill"
+      type="button"
+      data-category-filter={category}
+      aria-pressed="false"
+    >
+      {category}
+    </button>
+  ))}
+</div>
+    </div>
+
+    <span
+      class="our-work-section__count"
+      data-work-count
+      aria-live="polite"
+    >
+      {ourWork.length} projects
+    </span>
+  </div>
+
+  <!-- Projects are grouped dynamically -->
+
+<div class="our-work-section__results" data-work-results>
+  {ourWork.map((project) => {
+    const cardContent = (
+      <>
+        {/* Project image */}
+        <div class="work-project-card__visual">
+          {project.featuredImage && (
+            <img
+              class="work-project-card__image"
+              src={project.featuredImage}
+              alt={project.imageAlt ?? ""}
+              loading="lazy"
+            />
+          )}
+        </div>
+
+        {/* Project information */}
+        <div class="work-project-card__content">
+          <div class="work-project-card__meta">
+            {project.category && (
+              <span class="work-project-card__category">
+                {project.category}
+              </span>
+            )}
+
+            {(project.tags ?? []).map((tag) => (
+              <span class="work-project-card__tag">
+                {tag}
+              </span>
+            ))}
+          </div>
+
+          <div class="work-project-card__text">
+            <h3 class="work-project-card__title">
+              {project.title}
+            </h3>
+
+            {project.description && (
+              <p class="work-project-card__description">
+                {project.description}
+              </p>
+            )}
+
+            {project.status && (
+              <span class="work-project-card__status">
+                {project.status}
+              </span>
+            )}
+          </div>
+        </div>
+      </>
+    );
+
+    return (
+      <article
+        class="work-project-card"
+        style={`--project-brand-color: ${project.brandColor || "var(--navy)"}`}
+        data-work-card
+        data-category={project.category ?? ""}
+        data-status={project.status ?? ""}
+      >
+        {project.status === "coming-soon" ? (
+          <button
+            type="button"
+            class="work-project-card__link"
+            data-panel-open="contact-panel"
+            aria-label={`Contact us about ${project.title}`}
+          >
+            {cardContent}
+          </button>
+        ) : (
+          <a
+            class="work-project-card__link"
+            href={`/work/${project.slug}/`}
+            aria-label={`View ${project.title} case study`}
+          >
+            {cardContent}
+          </a>
+        )}
+      </article>
+    );
+  })}
+</div>
+
+
+  <!-- Empty state -->
+  <p class="our-work-section__empty" data-work-empty hidden>
+    No projects found in this category.
+  </p>
+</section>
+
+
+<script>
+  const initOurWorkSections = (): void => {
+    document
+      .querySelectorAll<HTMLElement>("[data-our-work]")
+      .forEach((section) => {
+        // Prevent duplicate initialisation.
+        if (section.dataset.initialized === "true") return;
+
+        const toggle = section.querySelector<HTMLButtonElement>(
+          "[data-filter-toggle]",
+        );
+
+        const toggleLabel = section.querySelector<HTMLElement>(
+          "[data-filter-toggle-label]",
+        );
+
+        const filterIcon = section.querySelector<HTMLElement>(
+          ".our-work-section__filter-icon",
+        );
+
+        const options = section.querySelector<HTMLElement>(
+          "[data-filter-options]",
+        );
+
+        const count = section.querySelector<HTMLElement>(
+          "[data-work-count]",
+        );
+
+        const results = section.querySelector<HTMLElement>(
+          "[data-work-results]",
+        );
+
+        const emptyMessage = section.querySelector<HTMLElement>(
+          "[data-work-empty]",
+        );
+
+        if (
+          !toggle ||
+          !toggleLabel ||
+          !options ||
+          !results ||
+          !count ||
+          !emptyMessage
+        ) {
+          return;
+        }
+
+        section.dataset.initialized = "true";
+
+        // Store references to the original project cards.
+        const allCards = Array.from(
+          results.querySelectorAll<HTMLElement>("[data-work-card]"),
+        );
+
+        const pills = Array.from(
+          options.querySelectorAll<HTMLButtonElement>(
+            "[data-category-filter]",
+          ),
+        );
+
+        // An empty Set means all categories are selected.
+        const selectedCategories = new Set<string>();
+
+        const normalise = (value: unknown): string =>
+          String(value ?? "").trim().toLowerCase();
+
+        // ----------------------------------------
+        // CONTACT PANEL
+        // ----------------------------------------
+
+        const panelOpenButton =
+          document.querySelector<HTMLButtonElement>(
+            "[data-panel-open]",
+          );
+
+        // Coming-soon projects open the existing contact panel.
+        allCards.forEach((card) => {
+          const link = card.querySelector<HTMLAnchorElement>(
+            ".work-project-card__link",
+          );
+
+          if (!link) return;
+
+          link.addEventListener("click", (event) => {
+            const status = normalise(card.dataset.status);
+
+            if (status !== "coming-soon") return;
+
+            event.preventDefault();
+
+            // Use the existing contact-panel open trigger.
+            if (panelOpenButton) {
+              panelOpenButton.click();
+            }
+          });
+        });
+
+        // ----------------------------------------
+        // FILTER PANEL TOGGLE
+        // ----------------------------------------
+
+        const setFilterPanelOpen = (isOpen: boolean): void => {
+          toggle.setAttribute("aria-expanded", String(isOpen));
+
+          toggle.setAttribute(
+            "aria-label",
+            isOpen ? "Close filters" : "Open filters",
+          );
+
+          toggleLabel.textContent = isOpen ? "×" : "Filter";
+
+          if (filterIcon) {
+            filterIcon.hidden = isOpen;
+          }
+
+          options.hidden = !isOpen;
+        };
+
+        toggle.addEventListener("click", () => {
+          const isExpanded =
+            toggle.getAttribute("aria-expanded") === "true";
+
+          setFilterPanelOpen(!isExpanded);
+        });
+
+        // ----------------------------------------
+        // RENDER FILTERED PROJECTS
+        // ----------------------------------------
+
+        const renderProjects = (): void => {
+          // Multiple selected categories use OR logic.
+          const filteredCards = allCards.filter((card) => {
+            const category = normalise(card.dataset.category);
+
+            return (
+              selectedCategories.size === 0 ||
+              selectedCategories.has(category)
+            );
+          });
+
+          // Update active pill states.
+          pills.forEach((pill) => {
+            const category = normalise(
+              pill.dataset.categoryFilter,
+            );
+
+            const isAll = category === "all";
+
+            const isActive = isAll
+              ? selectedCategories.size === 0
+              : selectedCategories.has(category);
+
+            pill.classList.toggle("is-active", isActive);
+            pill.setAttribute("aria-pressed", String(isActive));
+          });
+
+          // Rebuild the layout from the filtered collection.
+          results.replaceChildren();
+
+          for (let i = 0; i < filteredCards.length; i += 4) {
+            const group = document.createElement("div");
+            group.className = "our-work-section__group";
+
+            const projects = filteredCards.slice(i, i + 4);
+            const [featured, ...supporting] = projects;
+
+            if (!featured) continue;
+
+            // First project in each group is featured.
+            featured.classList.add("is-featured");
+            featured.classList.remove("is-standard");
+
+            group.appendChild(featured);
+
+            // Remaining projects appear in the supporting row.
+            if (supporting.length > 0) {
+              const cardsRow = document.createElement("div");
+              cardsRow.className = "our-work-section__cards";
+
+              supporting.forEach((card) => {
+                card.classList.remove("is-featured");
+                card.classList.add("is-standard");
+
+                cardsRow.appendChild(card);
+              });
+
+              group.appendChild(cardsRow);
+            }
+
+            results.appendChild(group);
+          }
+
+          // Update project count.
+          count.textContent = `${filteredCards.length} ${
+            filteredCards.length === 1 ? "project" : "projects"
+          }`;
+
+          // Show an empty state when there are no matches.
+          emptyMessage.hidden = filteredCards.length > 0;
+
+          // Update the active-filter state.
+          section.classList.toggle(
+            "has-active-filter",
+            selectedCategories.size > 0,
+          );
+        };
+
+        // ----------------------------------------
+        // CATEGORY PILL INTERACTIONS
+        // ----------------------------------------
+
+        pills.forEach((pill) => {
+          pill.addEventListener("click", () => {
+            const category = normalise(
+              pill.dataset.categoryFilter,
+            );
+
+            if (category === "all") {
+              // All clears every individual selection.
+              selectedCategories.clear();
+            } else if (selectedCategories.has(category)) {
+              // Clicking an active category deselects it.
+              selectedCategories.delete(category);
+            } else {
+              // Clicking an inactive category selects it.
+              selectedCategories.add(category);
+            }
+
+            // An empty Set automatically restores All.
+            renderProjects();
+          });
+        });
+
+        // ----------------------------------------
+        // INITIAL RENDER
+        // ----------------------------------------
+
+        setFilterPanelOpen(false);
+        renderProjects();
+      });
+  };
+
+  // Initialise when the document is ready.
+  if (document.readyState === "loading") {
+    document.addEventListener(
+      "DOMContentLoaded",
+      initOurWorkSections,
+      { once: true },
+    );
+  } else {
+    initOurWorkSections();
+  }
+</script>
+
+
+<style is:global>
+  /* ========================================
+     SECTION AND FILTER TOOLBAR
+  ======================================== */
+
+  .our-work-section {
+    width: 100%;
+  }
+
+  .our-work-section__toolbar {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-bottom: var(--space-32, 2rem);
+  }
+
+  .our-work-section__filter {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.5rem;
+    min-width: 0;
+  }
+
+  /* Filter / close button */
+
+  .our-work-section__filter-toggle {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    min-width: 48px;
+    min-height: 30px;
+    padding: 0.5rem 0.75rem;
+    border: 0;
+    border-radius: 0;
+    background: var(--lime, #c4f32d);
+    color: var(--navy, #172044);
+    font: inherit;
+    font-size: var(--font-size-12, 0.75rem);
+    text-transform: uppercase;
+    cursor: pointer;
+  }
+
+  .our-work-section__filter-toggle[aria-expanded="true"] {
+    min-width: 30px;
+    padding-inline: 0.5rem;
+    font-size: 1rem;
+  }
+
+  .our-work-section__filter-icon {
+    display: inline-flex;
+    width: 14px;
+    height: 14px;
+  }
+
+  .our-work-section__filter-icon svg {
+    display: block;
+    width: 100%;
+    height: 100%;
+  }
+
+  .our-work-section__filter-icon[hidden] {
+    display: none;
+  }
+
+  /* ========================================
+     CATEGORY PILLS
+  ======================================== */
+
+  .our-work-section__filter-options {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .our-work-section__filter-options[hidden] {
+    display: none;
+  }
+
+  .our-work-section__pill {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 30px;
+    border: 1px solid #c6ccda;
+    border-radius: 100px;
+    padding: 0.4rem 0.85rem;
+    background: transparent;
+    color: var(--navy, #172044);
+    font: inherit;
+    font-size: var(--font-size-10, 0.625rem);
+    line-height: 1.2;
+    cursor: pointer;
+    transition:
+      background-color var(--transition-duration-fast, 200ms) ease,
+      border-color var(--transition-duration-fast, 200ms) ease,
+      color var(--transition-duration-fast, 200ms) ease;
+  }
+
+  .our-work-section__pill:hover {
+    border-color: var(--navy, #172044);
+  }
+
+  .our-work-section__pill.is-active {
+    border-color: #d9dde5;
+    background: #d9dde5;
+    color: var(--navy, #172044);
+  }
+
+  .our-work-section__count {
+    padding-top: 0.5rem;
+    color: var(--navy, #172044);
+    font-size: var(--font-size-12, 0.75rem);
+  }
+
+  .our-work-section__filter-toggle:focus-visible,
+  .our-work-section__pill:focus-visible {
+    outline: 2px solid var(--navy, #172044);
+    outline-offset: 3px;
+  }
+
+  /* ========================================
+     REPEATING PROJECT GROUPS
+
+     These wrappers are created dynamically
+     by JavaScript, so their styles are global.
+  ======================================== */
+
+  .our-work-section__results {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-32, 2rem);
+  }
+
+  .our-work-section__group {
+    display: grid;
+    gap: var(--space-32, 2rem);
+    min-width: 0;
+  }
+
+  /* ========================================
+     SHARED PROJECT CARD STYLES
+  ======================================== */
+
+  .work-project-card {
+    min-width: 0;
+    overflow: hidden;
+    border-radius: 5px;
+    background: var(--white, #fff);
+  }
+/*
+  .work-project-card__link {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    color: inherit;
+    text-decoration: none;
+  }
+*/
+
+.work-project-card__link {
+  display: block;
+  width: 100%;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  text-align: left;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+  .work-project-card__visual {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 0;
+    overflow: hidden;
+    aspect-ratio: 1 / 0.85;
+    background-color: var(--project-brand-color, var(--navy));
+  }
+
+  .work-project-card__image {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .work-project-card__content {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    gap: var(--space-20, 1.25rem);
+    padding-top: var(--space-16, 1rem);
+  }
+
+  .work-project-card__meta {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.4rem;
+    color: var(--navy, #172044);
+    font-size: var(--font-size-10, 0.625rem);
+    line-height: 1.4;
+    text-transform: uppercase;
+  }
+
+  .work-project-card__category {
+    display: inline-flex;
+    align-items: center;
+    border: 1px solid var(--navy, #172044);
+    border-radius: 100px;
+    padding: 0.25rem 0.55rem;
+  }
+
+  .work-project-card__tag {
+    display: inline-flex;
+    align-items: center;
+  }
+
+  .work-project-card__tag::before {
+    content: "•";
+    margin-right: 0.4rem;
+  }
+
+  .work-project-card__title {
+    margin: 0;
+    color: var(--navy, #172044);
+    font-size: var(--font-size-18, 1.125rem);
+    line-height: 1.35;
+  }
+
+  .work-project-card__description {
+    margin: 0.75rem 0 0;
+    color: var(--navy, #172044);
+    font-size: var(--font-size-14, 0.875rem);
+    line-height: 1.5;
+  }
+
+  .work-project-card__status {
+    display: inline-block;
+    width: fit-content;
+    margin-top: 0.75rem;
+    border-radius: 100px;
+    padding: 0.4rem 0.75rem;
+    background: #e2e5eb;
+    color: #626b7c;
+    font-size: var(--font-size-10, 0.625rem);
+  }
+
+  /* ========================================
+     FEATURED PROJECT
+  ======================================== */
+
+  .work-project-card.is-featured .work-project-card__link {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  }
+
+  .work-project-card.is-featured .work-project-card__visual {
+    min-height: 43.75rem;
+    aspect-ratio: auto;
+    background: var(--grey);
+  }
+
+  .work-project-card.is-featured .work-project-card__image {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .work-project-card.is-featured .work-project-card__content {
+    justify-content: space-between;
+    min-height: 380px;
+    padding: var(--space-32, 2rem);
+    background-color: var(--project-brand-color, var(--navy));
+  }
+
+  .work-project-card.is-featured .work-project-card__text {
+    margin-top: auto;
+  }
+
+  .work-project-card.is-featured .work-project-card__title {
+    font-size: var(--font-size-36, 2.25rem);
+    font-weight: var(--font-weight-medium, 500);
+    line-height: 1.2;
+  }
+
+  .work-project-card.is-featured .work-project-card__description {
+    font-size: var(--font-size-16, 1rem);
+  }
+
+  /* ========================================
+     THREE SUPPORTING PROJECTS
+  ======================================== */
+
+  .our-work-section__cards {
+    display: grid;
+    grid-template-columns:
+      minmax(0, 1fr)
+      minmax(0, 1fr)
+      minmax(0, 2fr);
+    gap: var(--space-16, 1rem);
+    align-items: stretch;
+  }
+
+  .our-work-section__cards .work-project-card__visual {
+    aspect-ratio: 1 / 0.85;
+    width: 100%;
+    max-height: 16.875rem;
+  }
+
+  .our-work-section__cards .work-project-card__content {
+    gap: var(--space-16, 1rem);
+  }
+
+
+
+  .our-work-section__cards .work-project-card__title {
+    font-size: var(--font-size-18, 1.125rem);
+  }
+
+  /* ========================================
+     EMPTY STATE
+  ======================================== */
+
+  .our-work-section__empty[hidden] {
+    display: none;
+  }
+
+  .our-work-section__empty {
+    padding-block: 3rem;
+    color: var(--navy, #172044);
+    text-align: center;
+  }
+
+  /* ========================================
+     RESPONSIVE LAYOUT
+  ======================================== */
+
+  @media (max-width: 799px) {
+    .our-work-section__results,
+    .our-work-section__group {
+      gap: var(--space-24, 1.5rem);
+    }
+
+    .work-project-card.is-featured .work-project-card__link {
+      grid-template-columns: minmax(0, 1fr);
+    }
+
+    .work-project-card.is-featured .work-project-card__visual {
+      min-height: 0;
+      aspect-ratio: 1 / 0.8;
+    }
+
+    .work-project-card.is-featured .work-project-card__content {
+      min-height: 280px;
+      padding: 1.5rem;
+    }
+
+    .work-project-card.is-featured .work-project-card__title {
+      font-size: var(--font-size-28, 1.75rem);
+    }
+
+    .our-work-section__cards {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 1.5rem 1rem;
+    }
+
+    .our-work-section__cards
+      .work-project-card:last-child:nth-child(odd) {
+      grid-column: 1 / -1;
+    }
+
+    .our-work-section__cards .work-project-card__title {
+      font-size: var(--font-size-16, 1rem);
+    }
+  }
+
+  @media (max-width: 600px) {
+    .our-work-section__toolbar {
+      flex-direction: column;
+    }
+
+    .our-work-section__filter-options {
+      flex-basis: 100%;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .our-work-section__cards {
+      grid-template-columns: minmax(0, 1fr);
+    }
+
+    .our-work-section__cards
+      .work-project-card:last-child:nth-child(odd) {
+      grid-column: auto;
+    }
+  }
+
+  /* ========================================
+     HOVER AND REDUCED MOTION
+  ======================================== */
+
+  @media (hover: hover) and (prefers-reduced-motion: no-preference) {
+    .work-project-card__image {
+      transition:
+        transform var(--transition-duration-medium, 400ms)
+        var(--transition-easing, ease);
+    }
+
+    .work-project-card__link:hover .work-project-card__image {
+      transform: scale(1.025);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .our-work-section__pill {
+      transition: none;
+    }
+  }
+</style>

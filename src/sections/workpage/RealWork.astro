@@ -1,0 +1,65 @@
+---
+import Container from "@/components/global/Container.astro";
+import SectionTitle from "@/components/ui/SectionTitle.astro";
+import OurWorkSection from "@/sections/shared-sections/OurWorkSection.astro";
+---
+
+<section class="RealWork-section">
+    <Container>
+        <div class="RealWork-section-inner">
+            <h3>Real Work. Real Clients. Real Impact.</h3>
+            <SectionTitle
+                title="Different industries. Same kind of problem: systems too important to get wrong. Here's how we've solved it."
+                fontSize="var(--font-size-36)"
+                mobileFontSize="var(--font-size-30)"
+                color="var(--navy)"
+                textTransform="capitalise"
+                fontWeight="var(--font-weight-regular)"
+                lineHeight="1.2"
+                class="RealWork-section-inner__title"
+            />
+            <p>What's below is only part of it. Every project here started with a single problem to solve, and most didn't stop there. Scope grew. New phases followed. We stayed on to modernise, to keep foundations steady, and to keep building, as one team with the client, not a vendor who finished and left</p>
+        </div>
+    </Container>
+    <OurWorkSection />
+</section>
+
+<style>
+    .RealWork-section {
+        padding-block: var(--space-80);
+    }
+    .RealWork-section-inner {
+        border-top: 1px solid var(--navy);
+        padding-block: var(--space-48);
+        display: flex;
+        flex-direction: column;
+        gap: var(--space-24);
+    }
+    :global(.section-title.RealWork-section-inner__title),
+    .RealWork-section-inner p {
+        max-width: 55rem;
+    }
+    .RealWork-section-inner h3 {
+        font-size: var(--font-size-24);
+        font-weight: var(--font-weight-semibold);
+        line-height: 1.3;
+        color: var(--navy);
+        text-transform: uppercase;
+    }
+    .RealWork-section-inner p {
+        font-size: var(--font-size-20);
+        color: var(--grey-600);
+    }
+
+@media only screen and (max-width: 799px) {
+    .RealWork-section {
+        padding-block: var(--space-60);
+    }
+    .RealWork-section-inner h3 {
+      font-size: var(--font-size-20);
+    }
+    .RealWork-section-inner p {
+      font-size: var(--font-size-18);
+    }
+}
+</style>

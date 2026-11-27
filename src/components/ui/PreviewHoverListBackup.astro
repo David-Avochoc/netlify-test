@@ -1,0 +1,695 @@
+---
+interface Project {
+  slug: string;
+  title: string;
+  category: string;
+  services: string[];
+  featuredImage?: string | null;
+  hoverImage?: string | null;
+  imageAlt?: string;
+  status?: "coming-soon";
+}
+
+interface Props {
+  projects: Project[];
+  class?: string;
+}
+
+const { projects, class: className = "" } = Astro.props;
+---
+
+<section
+  class:list={["preview-hover-list", className]}
+  data-preview-hover-list
+>
+  <div class="preview-hover-list__header" aria-hidden="true">
+    <span>Client</span>
+    <span>Industry</span>
+    <span>Service</span>
+  </div>
+
+  <ol class="preview-hover-list__rows">
+{projects.map((project) => {
+  const rowContent = (
+    <>
+      <span class="preview-hover-list__title">
+        {project.title}
+      </span>
+
+      <span class="preview-hover-list__category">
+        {project.category}
+      </span>
+
+      <span class="preview-hover-list__services">
+        {project.services.join(", ")}
+      </span>
+    </>
+  );
+
+  return (
+    <li class="preview-hover-list__item">
+      {project.status === "coming-soon" ? (
+        <button
+          type="button"
+          class="preview-hover-list__row"
+          data-preview-row
+          data-slug={project.slug}
+          data-photo={project.hoverImage ?? project.featuredImage ?? ""}
+          data-panel-open="contact-panel"
+        >
+          {rowContent}
+        </button>
+      ) : (
+        <a
+          class="preview-hover-list__row"
+          data-preview-row
+          data-slug={project.slug}
+          data-photo={project.hoverImage ?? project.featuredImage ?? ""}
+          href={`/work/${project.slug}/`}
+        >
+          {rowContent}
+        </a>
+      )}
+    </li>
+  );
+})}
+  </ol>
+
+  <div class="preview-hover-list__preview" aria-hidden="true">
+    <img
+      class="preview-hover-list__image"
+      alt=""
+      draggable="false"
+    />
+    <img
+      class="preview-hover-list__image"
+      alt=""
+      draggable="false"
+    />
+  </div>
+</section>
+
+
+<style>
+.preview-hover-list {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 100%;
+  padding: 0;
+  color: var(--navy);
+}
+
+.preview-hover-list__header,
+.preview-hover-list__row {
+  display: grid;
+  grid-template-columns: 38% 31% 31%;
+  align-items: center;
+  column-gap: 0;
+  min-height: 6.5rem;
+}
+
+.preview-hover-list__header {
+  padding: var(--space-16);
+  font-size: var(--font-size-18);
+  font-weight: var(--font-weight-bold);
+  color: var(--grey-400);
+  text-transform: uppercase;
+}
+
+.preview-hover-list__rows {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.preview-hover-list__item {
+  margin: 0;
+  padding: 0;
+}
+
+.preview-hover-list__row {
+  width: 100%;
+  padding: var(--space-16);
+  border: 0;
+  border-top: 1px solid var(--navy);
+  border-radius: 0;
+  background: transparent;
+  text-align: left;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.preview-hover-list__item:last-child .preview-hover-list__row {
+  border-bottom: 1px solid var(--navy);
+}
+
+.preview-hover-list__title {
+  color: var(--navy);
+  font-size: var(--font-size-36);
+  font-weight: var(--font-weight-regular);
+  letter-spacing: -0.045rem;
+}
+
+.preview-hover-list__category,
+.preview-hover-list__services {
+    color: var(--navy);
+    font-size: var(--font-size-18);
+    font-weight: var(--font-weight-bold);
+    text-transform: uppercase;
+}
+
+.preview-hover-list__preview {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 100;
+  width: clamp(180px, 24vw, 550px);
+  aspect-ratio: 4 / 5;
+  overflow: hidden;
+  border-radius: var(--border-radius-small);
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition: opacity var(--transition-duration-standard) ease;
+  will-change: transform, opacity;
+}
+
+.preview-hover-list__preview.is-visible {
+  opacity: 1;
+  visibility: visible;
+}
+
+.preview-hover-list__image {
+  position: absolute;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+  border-radius: inherit;
+  object-fit: cover;
+  opacity: 0;
+  transform: scale(1);
+}
+
+.preview-hover-list__image.is-current {
+  opacity: 1;
+  z-index: 2;
+}
+
+@media (max-width: 700px) {
+  .preview-hover-list__header,
+  .preview-hover-list__row {
+    grid-template-columns: 40% 25% 35%;
+  }
+
+  .preview-hover-list__category,
+  .preview-hover-list__services {
+    font-size: 8px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .preview-hover-list__row {
+    transition: none;
+  }
+
+  .preview-hover-list__preview {
+    top: 50%;
+    right: 16px;
+    left: auto;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-50%);
+    transition: none;
+  }
+
+  .preview-hover-list__preview.is-visible {
+    opacity: 1;
+    visibility: visible;
+  }
+}
+</style>
+
+<script>
+  const sections = document.querySelectorAll<HTMLElement>(
+    "[data-preview-hover-list]"
+  );
+
+  sections.forEach((section) => {
+    const rows = Array.from(
+      section.querySelectorAll<HTMLElement>("[data-preview-row]")
+    );
+
+const previewElement = section.querySelector<HTMLElement>(
+  ".preview-hover-list__preview"
+);
+
+const images = Array.from(
+  section.querySelectorAll<HTMLImageElement>(
+    ".preview-hover-list__image"
+  )
+);
+
+if (!previewElement || images.length !== 2 || rows.length === 0) {
+  return;
+}
+
+const preview: HTMLElement = previewElement;
+
+    const reducedMotion = window.matchMedia(
+      "(prefers-reduced-motion: reduce)"
+    );
+
+    const touchDevice = window.matchMedia(
+      "(hover: none), (pointer: coarse)"
+    );
+
+    let currentIndex = -1;
+    let frontLayer = 0;
+    let swapAnimation: Animation | undefined;
+    let hideTimer = 0;
+    let frame = 0;
+    let scrollFrame = 0;
+
+    let targetX = 0;
+    let targetY = 0;
+    let currentX = 0;
+    let currentY = 0;
+    let previousTime = 0;
+    let positionInitialised = false;
+
+    let lastPointerX = 0;
+    let lastPointerY = 0;
+    let hasPointerPosition = false;
+
+    // Preload all available preview images.
+    rows.forEach((row) => {
+      const src = row.dataset.photo;
+
+      if (src) {
+        const image = new Image();
+        image.src = src;
+      }
+    });
+
+    function setActiveRow(index: number) {
+      rows.forEach((row, rowIndex) => {
+        row.classList.toggle("is-active", rowIndex === index);
+      });
+    }
+
+    function setPosition(x: number, y: number) {
+      targetX = x;
+      targetY = y;
+
+      if (!positionInitialised) {
+        currentX = x;
+        currentY = y;
+        positionInitialised = true;
+
+        preview.style.transform =
+          `translate3d(${x}px, ${y}px, 0)`;
+      }
+
+      if (reducedMotion.matches || touchDevice.matches) {
+        currentX = x;
+        currentY = y;
+
+        if (!reducedMotion.matches) {
+          preview.style.transform =
+            `translate3d(${x}px, ${y}px, 0)`;
+        }
+
+        return;
+      }
+
+      if (!frame) {
+        previousTime = 0;
+        frame = requestAnimationFrame(followPointer);
+      }
+    }
+
+    function followPointer(time: number) {
+      const delta = previousTime
+        ? Math.min(time - previousTime, 50)
+        : 16.67;
+
+      previousTime = time;
+
+      const factor = 1 - Math.exp(-delta / 160);
+
+      currentX += (targetX - currentX) * factor;
+      currentY += (targetY - currentY) * factor;
+
+      preview.style.transform =
+        `translate3d(${currentX}px, ${currentY}px, 0)`;
+
+      const distance = Math.hypot(
+        targetX - currentX,
+        targetY - currentY
+      );
+
+      if (distance > 0.15) {
+        frame = requestAnimationFrame(followPointer);
+      } else {
+        currentX = targetX;
+        currentY = targetY;
+
+        preview.style.transform =
+          `translate3d(${currentX}px, ${currentY}px, 0)`;
+
+        frame = 0;
+        previousTime = 0;
+      }
+    }
+
+    function showProject(index: number) {
+      const row = rows[index];
+
+      if (!row) return;
+
+      const src = row.dataset.photo;
+
+      // Don't leave a previous project's image visible
+      // when the current project has no preview image.
+      if (!src) {
+        hidePreview();
+        return;
+      }
+
+      window.clearTimeout(hideTimer);
+
+      // Important: restore visibility after hidePreview()
+      // has set an inline visibility:hidden style.
+      preview.style.visibility = "visible";
+      preview.classList.add("is-visible");
+
+      setActiveRow(index);
+
+      if (index === currentIndex) return;
+
+      currentIndex = index;
+
+      // Cancel any unfinished image swap.
+      images.forEach((image) => {
+        image.getAnimations().forEach((animation) => {
+          animation.cancel();
+        });
+      });
+
+      swapAnimation = undefined;
+
+      const nextLayer = 1 - frontLayer;
+      const incoming = images[nextLayer];
+      const outgoing = images[frontLayer];
+
+      incoming.src = src;
+
+      // Reset the layers before starting the next transition.
+      outgoing.style.opacity = "1";
+      outgoing.style.transform = "scale(1)";
+      outgoing.style.zIndex = "1";
+
+      incoming.classList.remove("is-current");
+      incoming.style.opacity = "0";
+      incoming.style.transform = "scale(0.8)";
+      incoming.style.zIndex = "2";
+
+      if (reducedMotion.matches) {
+        outgoing.classList.remove("is-current");
+        outgoing.style.opacity = "0";
+
+        incoming.classList.add("is-current");
+        incoming.style.opacity = "1";
+        incoming.style.transform = "scale(1)";
+
+        frontLayer = nextLayer;
+        return;
+      }
+
+      const animation = incoming.animate(
+        [
+          { opacity: 0, transform: "scale(0.8)" },
+          { opacity: 1, transform: "scale(1)" },
+        ],
+        {
+          duration: 450,
+          easing: "cubic-bezier(0.215, 0.61, 0.355, 1)",
+          fill: "forwards",
+        }
+      );
+
+      swapAnimation = animation;
+
+      animation.onfinish = () => {
+        if (
+          swapAnimation !== animation ||
+          currentIndex !== index
+        ) {
+          return;
+        }
+
+        incoming.classList.add("is-current");
+        incoming.style.opacity = "1";
+        incoming.style.transform = "scale(1)";
+
+        outgoing.classList.remove("is-current");
+        outgoing.style.opacity = "0";
+        outgoing.style.transform = "scale(1)";
+
+        animation.cancel();
+
+        swapAnimation = undefined;
+        frontLayer = nextLayer;
+      };
+    }
+
+    function hidePreview() {
+      window.clearTimeout(hideTimer);
+
+      // Reset the index so the same project can be activated again.
+      currentIndex = -1;
+
+      setActiveRow(-1);
+      preview.classList.remove("is-visible");
+
+      // Allow the opacity transition to finish before hiding visibility.
+      hideTimer = window.setTimeout(() => {
+        if (!preview.classList.contains("is-visible")) {
+          preview.style.visibility = "hidden";
+        }
+      }, 300);
+    }
+
+    // Set up the static first-project preview for reduced motion.
+    function showReducedMotionPreview() {
+      const firstPhoto = rows[0]?.dataset.photo;
+
+      if (!firstPhoto) {
+        preview.classList.remove("is-visible");
+        preview.style.visibility = "hidden";
+        setActiveRow(-1);
+        return;
+      }
+
+      window.clearTimeout(hideTimer);
+
+      images.forEach((image) => {
+        image.getAnimations().forEach((animation) => {
+          animation.cancel();
+        });
+
+        image.classList.remove("is-current");
+        image.style.opacity = "0";
+        image.style.transform = "scale(1)";
+      });
+
+      images[0].src = firstPhoto;
+      images[0].classList.add("is-current");
+      images[0].style.opacity = "1";
+      images[0].style.zIndex = "2";
+
+      frontLayer = 0;
+      currentIndex = 0;
+
+      setActiveRow(0);
+
+      preview.style.visibility = "visible";
+      preview.classList.add("is-visible");
+    }
+
+    if (reducedMotion.matches) {
+      showReducedMotionPreview();
+    }
+
+    // Track pointer position for smooth movement and scroll recovery.
+    document.addEventListener(
+      "pointermove",
+      (event) => {
+        if (reducedMotion.matches || touchDevice.matches) return;
+
+        lastPointerX = event.clientX;
+        lastPointerY = event.clientY;
+        hasPointerPosition = true;
+
+        setPosition(
+          event.clientX + 40,
+          event.clientY - 120
+        );
+      },
+      { passive: true }
+    );
+
+    // Attach row interactions.
+    rows.forEach((row, index) => {
+      row.addEventListener("pointerenter", () => {
+        if (touchDevice.matches) return;
+
+        showProject(index);
+      });
+
+      row.addEventListener("focus", () => {
+        showProject(index);
+      });
+
+      row.addEventListener("click", () => {
+        if (!touchDevice.matches) return;
+
+        const photo = row.dataset.photo;
+
+        if (!photo) {
+          hidePreview();
+          return;
+        }
+
+        const rect = row.getBoundingClientRect();
+        const width = preview.getBoundingClientRect().width;
+        const height = preview.getBoundingClientRect().height;
+
+        const x = Math.max(
+          16,
+          Math.min(
+            rect.right - 40,
+            window.innerWidth - width - 16
+          )
+        );
+
+        const y = Math.max(
+          16,
+          Math.min(
+            rect.top + rect.height / 2 - height / 2,
+            window.innerHeight - height - 16
+          )
+        );
+
+        setPosition(x, y);
+        showProject(index);
+      });
+    });
+
+    // Hide when the pointer actually leaves the list section.
+section.addEventListener("pointerleave", () => {
+  if (touchDevice.matches) return;
+
+  hidePreview();
+});
+
+    // Re-evaluate the row underneath a stationary pointer after scrolling.
+    function syncHoverAfterScroll() {
+      if (
+        reducedMotion.matches ||
+        touchDevice.matches ||
+        !hasPointerPosition
+      ) {
+        return;
+      }
+
+      const sectionRect = section.getBoundingClientRect();
+
+      // The list is no longer under the pointer.
+      if (
+        lastPointerX < sectionRect.left ||
+        lastPointerX > sectionRect.right ||
+        lastPointerY < sectionRect.top ||
+        lastPointerY > sectionRect.bottom
+      ) {
+        hidePreview();
+        return;
+      }
+
+      const element = document.elementFromPoint(
+        lastPointerX,
+        lastPointerY
+      );
+
+      const row = element?.closest<HTMLElement>(
+        "[data-preview-row]"
+      );
+
+      const index = row ? rows.indexOf(row) : -1;
+
+      if (row && index !== -1 && section.contains(row)) {
+        showProject(index);
+      } else {
+        hidePreview();
+      }
+    }
+
+    // Throttle scroll checks to one per animation frame.
+    window.addEventListener(
+      "scroll",
+      () => {
+        if (reducedMotion.matches || touchDevice.matches) return;
+        if (scrollFrame) return;
+
+        scrollFrame = requestAnimationFrame(() => {
+          scrollFrame = 0;
+          syncHoverAfterScroll();
+        });
+      },
+      { passive: true }
+    );
+
+    // Also re-check when the browser viewport changes size.
+    window.addEventListener(
+      "resize",
+      () => {
+        if (reducedMotion.matches || touchDevice.matches) return;
+
+        syncHoverAfterScroll();
+      },
+      { passive: true }
+    );
+
+    // Hide the preview when the section scrolls out of view.
+    const sectionObserver = new IntersectionObserver(([entry]) => {
+      if (!entry.isIntersecting && !reducedMotion.matches) {
+        hidePreview();
+      }
+    }, { threshold: 0 });
+
+    sectionObserver.observe(section);
+
+    // Respond if the user changes their reduced-motion preference.
+    reducedMotion.addEventListener("change", (event) => {
+      if (event.matches) {
+        if (frame) cancelAnimationFrame(frame);
+        frame = 0;
+
+        if (scrollFrame) cancelAnimationFrame(scrollFrame);
+        scrollFrame = 0;
+
+        showReducedMotionPreview();
+      } else {
+        hidePreview();
+
+        // Reset cursor tracking so the next pointer movement
+        // establishes a fresh position.
+        hasPointerPosition = false;
+        positionInitialised = false;
+      }
+    });
+  });
+</script>

@@ -1,0 +1,149 @@
+---
+import Container from "@/components/global/Container.astro";
+import Columns from "@/components/global/Columns.astro";
+import SectionTitle from "@/components/ui/SectionTitle.astro";
+
+const items = [
+    "AI because AI.",
+    "Developers treated like ticket machines.",
+    "Design arriving at the end.",
+    "Building for the demo instead of the real world",
+]
+---
+
+<section class="WhatWeDontDo-section">
+    <Container>
+        <SectionTitle
+            title="What We Don't Do"
+            fontSize="var(--font-size-24)"
+            fontWeight="var(--font-weight-regular)"
+            color="var(--navy)"
+            textTransform="capatilize"
+            class="WhatWeDontDo-section__title"
+            />
+        <Columns
+            class="WhatWeDontDo-section__columns"
+            layout="50-50"
+            gap="0"
+        >
+        <div class="WhatWeDontDo-left">
+            <h3 class="WhatWeDontDo-left__title">
+                Keep this nonsense out of the guac.
+            </h3>
+        </div>
+        <div class="WhatWeDontDo-right">
+            <div class="WhatWeDontDo-right-content">
+            <ul class="WhatWeDontDo-right__list" role="list">
+                {items.map((item) => (
+                    <li class="WhatWeDontDo-list__item">
+                        <span class="WhatWeDontDo-icon" aria-hidden="true">
+                            <svg width="1rem" height="1rem" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M11 3L3 11M3 3L11 11" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+                            </svg>
+                        </span>
+                        <p>{item}</p>
+                    </li>
+                ))}
+            </ul>
+            </div>
+            <div class="WhatWeDontDo-callout">
+                <img src="/images/AvoChoc-misc.webp" />
+                <div class="WhatWeDontDo-callout__content">
+                    <h4>Breaking what matters in the name of progress.</h4>
+                    <p>That's not progress. That's an incident.</p>
+                </div>
+            </div>
+        </div>
+        </Columns>
+    </Container>
+</section>
+
+<style>
+    .WhatWeDontDo-section {
+        padding-block: var(--space-80);
+        background-image: url('/images/backgrounds/section/backgroundOrbs4.webp');
+        background-size: cover;
+        background-repeat: no-repeat;
+    }
+    :global(.WhatWeDontDo-section__title) {
+        margin-bottom: var(--space-16);
+    }
+    .WhatWeDontDo-left {
+        padding-right: var(--space-32);
+    }
+    .WhatWeDontDo-right {
+        padding-left: var(--space-32);
+        border-left: 1px solid #667085;
+        min-height: 27.75rem;
+    }
+    .WhatWeDontDo-left__title {
+        font-size: var(--font-size-36);
+        font-weight: var(--font-weight-semibold);
+        color: var(--navy);
+        line-height: 1.2;
+        letter-spacing: -0.045rem;
+    }
+    .WhatWeDontDo-right {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+    }
+    .WhatWeDontDo-right__list {
+        display: flex;
+        flex-direction: column;
+        gap: var(--space-8);
+        list-style: none;
+    }
+    .WhatWeDontDo-list__item {
+        display: flex;
+        align-items: center;
+        gap: var(--space-8);
+        background-color: var(--charcoal);
+        font-size: var(--font-size-16);
+        color: var(--white);
+        padding: var(--space-8);
+    }
+    .WhatWeDontDo-icon  {
+        background-color: var(--grey-500);
+        width: 2rem;
+        height: 2rem;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: var(--border-radius-xsmall);
+    }
+    .WhatWeDontDo-callout {
+        display: flex;
+        flex-direction: row;
+        gap: var(--space-12);
+    }
+    .WhatWeDontDo-callout img {
+        height: 7.125rem;
+    }
+    .WhatWeDontDo-callout__content {
+        display: flex;
+        flex-direction: column;
+        gap: var(--space-12);
+        justify-content: center;
+    }
+    .WhatWeDontDo-callout__content h4 {
+        font-size: var(--font-size-30);
+        font-weight: var(--font-weight-semibold);
+    }
+   .WhatWeDontDo-callout__content p {
+        font-size: var(--font-size-16);
+   } 
+
+  @media screen and (max-width: 799px) {
+    .WhatWeDontDo-left {
+        padding-right: 0;
+        padding-bottom: 13rem;
+        border-bottom: 1px solid #667085;
+    }
+    .WhatWeDontDo-right {
+        padding-left: 0;
+        padding-top: var(--space-32);
+        border-left: 0px solid transparent;
+    }
+}
+</style>

@@ -1,0 +1,201 @@
+---
+import Container from "@/components/global/Container.astro";
+import Columns from "@/components/global/Columns.astro";
+import SectionTitle from "@/components/ui/SectionTitle.astro";
+
+const matters = [
+  {
+    number: "01",
+    title: "You matter more than the ticket.",
+    tag: "People-first",
+    description: "Kindness isn't a value we print. It's how we actually treat each other, and you.",
+  },
+  {
+    number: "02",
+    title: "Do what you said you'd do.",
+    tag: "Integrity & Accountability",
+    description: "Own the work. Own the outcome.",
+  },
+  {
+    number: "03",
+    title: "Mix your brains.",
+    tag: "Collaborative by Nature",
+    description: "We build together, or we can't build it right.",
+  },
+  {
+    number: "04",
+    title: "Find a way.",
+    tag: "Resilient & Resourceful",
+    description: "Messy systems surprise you. We keep going.",
+  },
+  {
+    number: "05",
+    title: "Build it for a reason.",
+    tag: "Purposeful Innovation",
+    description: "Innovation is a tool, not a gimmick.",
+  },
+  {
+    number: "06",
+    title: "Bring the energy.",
+    tag: "Energy that Elevates",
+    description: "We build together, or we don't build it right.",
+  },
+  {
+    number: "07",
+    title: "We build people too.",
+    tag: "Empowerment & Growth",
+    description: "Nobody leaves the way they came in.",
+  },
+];
+---
+
+<section class="WhatMattersTo-section">
+    <Container>
+        <Columns
+            class="WhatMattersTo-columns"
+            layout="40-60"
+            gap="var(--space-20)"
+        >
+        <div class="WhatMattersTo-left">
+            <SectionTitle
+                title="What Matters To Us"
+                fontSize="var(--font-size-24)"
+                fontWeight="var(--font-weight-regular)"
+                color="var(--navy)"
+                textTransform="uppercase"
+                class="WhatMattersTo-left__title"
+            />
+        </div>
+        <div class="WhatMattersTo-right">
+        <div class="WhatMattersTo-right__list">
+                {matters.map((item) => (
+            <div class="WhatMattersTo-item">
+              <div class="WhatMattersTo-item-top">
+                <div class="WhatMattersTo-pill-composite">
+                  <span class="WhatMattersTo-pill-number">{item.number}</span>
+                  <span class="WhatMattersTo-pill-text">{item.title}</span>
+                </div>
+                <span class="WhatMattersTo-tag">{item.tag}</span>
+              </div>
+              <p class="WhatMattersTo-item-description">{item.description}</p>
+            </div>
+          ))}
+        </div>
+        </div>
+        </Columns>
+    </Container>
+</section>
+
+<style>
+.WhatMattersTo-section {
+    padding-block: var(--space-80);
+}
+.WhatMattersTo-right {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-12);
+    background-image: url('/images/backgrounds/section/avo-matters-background.webp');
+    background-size: cover;
+    background-position: top-left;
+    background-repeat: no-repeat;
+    border-radius: var(--border-radius-small);
+    padding: var(--space-24);
+}
+.WhatMattersTo-right__list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-20);
+    align-self: stretch;
+    padding: var(--space-8) 0;
+}
+.WhatMattersTo-right__list:first-child {
+    padding-top: 0;
+}
+.WhatMattersTo-right__list:last-child {
+    padding-bottom: 0;
+}
+.WhatMattersTo-item {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-24);
+    padding-bottom: var(--space-20);
+    border-bottom: 1px solid var(--white-25);
+}
+.WhatMattersTo-item:last-child {
+    border-bottom: none;
+    padding-bottom: 0;
+}
+.WhatMattersTo-item-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+}
+.WhatMattersTo-pill-composite {
+    display: inline-flex;
+    align-items: center;
+}
+.WhatMattersTo-pill-number {
+   display: flex;
+   align-items: center;
+   justify-content: center;
+   width: 2.25rem;
+   height: 2.25rem;
+   background-color: var(--lime);
+   border-radius:  4.687rem;
+   padding: var(--space-8) var(--space-12);
+   font-size: var(--font-size-14);
+   font-weight: var(--font-weight-medium);
+   color: var(--navy);
+}
+.WhatMattersTo-pill-text {
+    display: flex;
+    flex-direction: column;
+    padding: var(--space-8) var(--space-24);
+    border-radius: 2.377rem;
+    background: var(--navy-50);
+    font-size: var(--font-size-16);
+    font-weight: var(--font-weight-semibold);
+    line-height: 1.5;
+    color: var(--white);
+}
+.WhatMattersTo-tag {
+    display: flex;
+    flex-direction: column;
+    padding: var(--space-8) var(--space-24);
+    border-radius: 2.377rem;
+    background: var(--white-10);
+    font-size: var(--font-size-14);
+    color: var(--white);
+}
+.WhatMattersTo-item-description {
+    font-size: var(--font-size-20);
+    font-weight: var(--font-weight-medium);
+    color: var(--white);
+}
+
+@media (max-width: 799px) {
+  .WhatMattersTo-item {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--space-24);
+  }
+
+  .WhatMattersTo-item-top {
+    display: contents;
+  }
+
+  .WhatMattersTo-pill-composite {
+    grid-row: 1;
+  }
+
+  .WhatMattersTo-item-description {
+    grid-row: 2;
+  }
+
+  .WhatMattersTo-tag {
+    grid-row: 3;
+    justify-self: start;
+  }
+}
+</style>
